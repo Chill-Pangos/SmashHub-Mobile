@@ -7,9 +7,12 @@ import {
   Bell,
   Users,
   Award,
+  Wrench,
 } from "lucide-react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen: React.FC = () => {
+  const navigation = useNavigation();
   const quickActions = [
     { id: 1, icon: Trophy, label: "Tournaments", color: "bg-blue-500" },
     { id: 2, icon: Calendar, label: "Schedule", color: "bg-green-500" },
@@ -148,7 +151,7 @@ const HomeScreen: React.FC = () => {
       </View>
 
       {/* Stats Cards */}
-      <View className="px-6 mb-8">
+      <View className="px-6 mb-6">
         <View className="flex-row justify-between">
           <View
             className="bg-white rounded-xl p-4 shadow-sm"
@@ -167,6 +170,31 @@ const HomeScreen: React.FC = () => {
             <Text className="text-gray-600 text-xs mt-1">Athletes</Text>
           </View>
         </View>
+      </View>
+
+      {/* Debug Navigator Button */}
+      <View className="px-6 mb-8">
+        <TouchableOpacity
+          className="bg-gray-800 rounded-2xl p-5 flex-row items-center justify-between shadow-lg border-2 border-yellow-400"
+          onPress={() => (navigation as any).navigate("DebugNavigator")}
+        >
+          <View className="flex-row items-center">
+            <View className="bg-yellow-400 rounded-xl p-3 mr-4">
+              <Wrench color="#000000" size={24} />
+            </View>
+            <View>
+              <Text className="text-white text-lg font-bold">
+                🛠️ Debug Navigator
+              </Text>
+              <Text className="text-gray-300 text-sm mt-1">
+                Access all screens for development
+              </Text>
+            </View>
+          </View>
+          <View className="bg-white/20 rounded-full p-2">
+            <Text className="text-white text-xl">→</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

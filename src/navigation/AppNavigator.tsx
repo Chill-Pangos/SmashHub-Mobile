@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -47,6 +48,10 @@ import DelegationScheduleScreen from "../screens/TeamLeader/DelegationScheduleSc
 import AddAthletesScreen from "../screens/TeamLeader/AddAthletesScreen";
 import TeamManagementScreen from "../screens/TeamLeader/TeamManagementScreen";
 import ComplaintReviewScreen from "../screens/TeamLeader/ComplaintReviewScreen";
+
+// Debug Screen
+import DebugNavigatorScreen from "../screens/Debug/DebugNavigatorScreen";
+import DebugButton from "../components/DebugButton";
 
 import { useAuth } from "../contexts/AuthContext";
 
@@ -227,7 +232,8 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!isAuthenticated ? (
+        {/* TEMPORARY: Auth disabled for development - Enable later when implementing authentication */}
+        {false && !isAuthenticated ? (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
@@ -295,9 +301,23 @@ const AppNavigator = () => {
               name="ComplaintReview"
               component={ComplaintReviewScreen}
             />
+
+            {/* Auth Screens - Added here for Debug Navigator access */}
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
           </>
         )}
+
+        {/* Debug Screen - Always accessible for development */}
+        <Stack.Screen
+          name="DebugNavigator"
+          component={DebugNavigatorScreen}
+          options={{ title: "🛠️ Debug Navigator" }}
+        />
       </Stack.Navigator>
+
+      {/* Floating Debug Button - Only visible in development */}
+      <DebugButton />
     </NavigationContainer>
   );
 };
