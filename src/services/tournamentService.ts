@@ -1,5 +1,5 @@
 import apiClient from "./api";
-import { Tournament, Match, Schedule } from "../types";
+import { Tournament, Match } from "../types";
 
 export const tournamentService = {
   getAllTournaments: async () => {
