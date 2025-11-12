@@ -51,6 +51,13 @@ import ComplaintReviewScreen from "../screens/TeamLeader/ComplaintReviewScreen";
 
 // Debug Screen
 import DebugNavigatorScreen from "../screens/Debug/DebugNavigatorScreen";
+import StateComponentsScreen from "../screens/Debug/StateComponentsScreen";
+import InputComponentsScreen from "../screens/Debug/InputComponentsScreen";
+import BadgeComponentsScreen from "../screens/Debug/BadgeComponentsScreen";
+import CardComponentsScreen from "../screens/Debug/CardComponentsScreen";
+import ListComponentsScreen from "../screens/Debug/ListComponentsScreen";
+import NavigationComponentsScreen from "../screens/Debug/NavigationComponentsScreen";
+import ActionComponentsScreen from "../screens/Debug/ActionComponentsScreen";
 import DebugButton from "../components/DebugButton";
 
 import { useAuth } from "../contexts/AuthContext";
@@ -313,6 +320,41 @@ const AppNavigator = () => {
           name="DebugNavigator"
           component={DebugNavigatorScreen}
           options={{ title: "🛠️ Debug Navigator" }}
+        />
+        <Stack.Screen
+          name="StateComponents"
+          component={StateComponentsScreen}
+          options={{ title: "State Components" }}
+        />
+        <Stack.Screen
+          name="InputComponents"
+          component={InputComponentsScreen}
+          options={{ title: "Input Components" }}
+        />
+        <Stack.Screen
+          name="BadgeComponents"
+          component={BadgeComponentsScreen}
+          options={{ title: "Badge Components" }}
+        />
+        <Stack.Screen
+          name="CardComponents"
+          component={CardComponentsScreen}
+          options={{ title: "Card Components" }}
+        />
+        <Stack.Screen
+          name="ListComponents"
+          component={ListComponentsScreen}
+          options={{ title: "List Components" }}
+        />
+        <Stack.Screen
+          name="NavigationComponents"
+          component={NavigationComponentsScreen}
+          options={{ title: "Navigation Components" }}
+        />
+        <Stack.Screen
+          name="ActionComponents"
+          component={ActionComponentsScreen}
+          options={{ title: "Action Components" }}
         />
       </Stack.Navigator>
 

@@ -30,6 +30,48 @@ const DebugNavigatorScreen: React.FC = () => {
 
   const screenCategories: ScreenCategory[] = [
     {
+      category: "UI Components",
+      icon: "🎨",
+      color: "bg-purple-500",
+      screens: [
+        {
+          name: "State Components",
+          route: "StateComponents",
+          description: "Loading, Empty & Skeleton States (3)",
+        },
+        {
+          name: "Input Components",
+          route: "InputComponents",
+          description: "Form Inputs & Filters (5)",
+        },
+        {
+          name: "Badge Components",
+          route: "BadgeComponents",
+          description: "Status, Score & Unread Badges (3)",
+        },
+        {
+          name: "Card Components",
+          route: "CardComponents",
+          description: "Tournament, Match & Athlete Cards (3)",
+        },
+        {
+          name: "List Components",
+          route: "ListComponents",
+          description: "Match List, Rankings & Notifications (3)",
+        },
+        {
+          name: "Navigation Components",
+          route: "NavigationComponents",
+          description: "Headers & Tab Bars (2)",
+        },
+        {
+          name: "Action Components",
+          route: "ActionComponents",
+          description: "FAB & Action Sheet (2)",
+        },
+      ],
+    },
+    {
       category: "Authentication",
       icon: "🔐",
       color: "bg-purple-500",
