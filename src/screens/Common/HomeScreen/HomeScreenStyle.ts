@@ -1,0 +1,210 @@
+﻿import { StyleSheet } from "react-native";
+import { colors } from "../../../constants/design-tokens";
+
+export const homeScreenStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f9fafb",
+  },
+  header: {
+    backgroundColor: colors.primary[600],
+    paddingHorizontal: 24,
+    paddingTop: 48,
+    paddingBottom: 32,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  headerTitle: {
+    color: "#ffffff",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  headerSubtitle: {
+    color: colors.primary[100],
+    fontSize: 16,
+    marginTop: 4,
+  },
+  headerIcon: {
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    borderRadius: 999,
+    padding: 12,
+  },
+  quickActionsContainer: {
+    paddingHorizontal: 24,
+    marginTop: -24,
+  },
+  quickActionsCard: {
+    backgroundColor: colors.background,
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+    padding: 16,
+  },
+  quickActionsTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1f2937",
+    marginBottom: 16,
+  },
+  quickActionsRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  quickActionItem: {
+    alignItems: "center",
+    marginBottom: 16,
+    width: "22%",
+  },
+  quickActionLabel: {
+    fontSize: 12,
+    color: "#4b5563",
+    textAlign: "center",
+  },
+  section: {
+    paddingHorizontal: 24,
+    marginTop: 24,
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1f2937",
+  },
+  viewAllButton: {
+    color: colors.primary[600],
+    fontWeight: "600",
+  },
+  matchCard: {
+    backgroundColor: colors.background,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+    borderWidth: 1,
+    borderColor: "#f3f4f6",
+  },
+  matchRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  matchDate: {
+    fontSize: 14,
+    color: "#6b7280",
+    marginBottom: 4,
+  },
+  matchTeams: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  matchTeamName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#1f2937",
+  },
+  matchVs: {
+    color: "#9ca3af",
+    marginHorizontal: 8,
+  },
+  matchTime: {
+    backgroundColor: colors.primary[50],
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  matchTimeText: {
+    color: colors.primary[600],
+    fontWeight: "600",
+  },
+  statsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  statCard: {
+    backgroundColor: colors.background,
+    borderRadius: 12,
+    padding: 16,
+    width: "48%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  statLabel: {
+    fontSize: 14,
+    color: "#6b7280",
+    marginBottom: 4,
+  },
+  statValue: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  statDescription: {
+    fontSize: 12,
+    color: "#4b5563",
+    marginTop: 4,
+  },
+  debugButton: {
+    backgroundColor: "#1f2937",
+    borderRadius: 16,
+    padding: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+    borderWidth: 2,
+    borderColor: "#facc15",
+  },
+  debugButtonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  debugButtonIcon: {
+    backgroundColor: "#facc15",
+    borderRadius: 12,
+    padding: 12,
+    marginRight: 16,
+  },
+  debugButtonTitle: {
+    color: "#ffffff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  debugButtonSubtitle: {
+    color: "#d1d5db",
+    fontSize: 14,
+    marginTop: 4,
+  },
+  debugButtonArrow: {
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    borderRadius: 999,
+    padding: 8,
+  },
+  debugButtonArrowText: {
+    color: "#ffffff",
+    fontSize: 20,
+  },
+});
