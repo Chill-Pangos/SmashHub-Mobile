@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { TouchableOpacity, View, Text, Animated } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { Wrench } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
+import { colors } from "../constants/design-tokens";
+import { debugButtonStyles } from "./DebugButtonStyle";
 
 const DebugButton: React.FC = () => {
   const navigation = useNavigation();
@@ -19,29 +21,18 @@ const DebugButton: React.FC = () => {
   };
 
   return (
-    <TouchableOpacity
-      onPress={handlePress}
-      style={{
-        position: "absolute",
-        bottom: 100,
-        right: 20,
-        width: 56,
-        height: 56,
-        borderRadius: 28,
-        backgroundColor: pressed ? "#3b82f6" : "#6366f1",
-        justifyContent: "center",
-        alignItems: "center",
-        elevation: 8,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        zIndex: 9999,
-      }}
-      activeOpacity={0.8}
-    >
-      <Wrench color="#ffffff" size={24} />
-    </TouchableOpacity>
+    <View style={debugButtonStyles.container}>
+      <TouchableOpacity
+        onPress={handlePress}
+        style={[
+          debugButtonStyles.button,
+          pressed && debugButtonStyles.button_pressed,
+        ]}
+        activeOpacity={0.7}
+      >
+        <Wrench color={colors.primary.foreground} size={24} />
+      </TouchableOpacity>
+    </View>
   );
 };
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import Button from "./Button";
+import { emptyStateStyles } from "./EmptyStateStyle";
 
 interface EmptyStateProps {
   title: string;
@@ -16,9 +17,9 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   onAction,
 }) => {
   return (
-    <View className="flex-1 justify-center items-center px-6">
-      <Text className="text-2xl font-bold text-gray-800 mb-2">{title}</Text>
-      <Text className="text-gray-600 text-center mb-6">{message}</Text>
+    <View style={emptyStateStyles.container}>
+      <Text style={emptyStateStyles.title}>{title}</Text>
+      <Text style={emptyStateStyles.message}>{message}</Text>
       {actionLabel && onAction && (
         <Button title={actionLabel} onPress={onAction} />
       )}

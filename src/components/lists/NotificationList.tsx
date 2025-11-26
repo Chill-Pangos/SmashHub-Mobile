@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
+  ViewStyle,
 } from "react-native";
 import {
   Bell,
@@ -14,12 +15,16 @@ import {
   X,
   Dumbbell,
   Star,
+  Activity,
+  Settings,
 } from "lucide-react-native";
 import { Notification } from "../../types";
 import { formatRelativeTime } from "../../utils/format";
 import { EmptyState } from "../states/EmptyState";
 import { LoadingSpinner } from "../states/LoadingSpinner";
-import { colors, iconSizes } from "../../constants/design-tokens";
+import { iconSizes } from "../../constants/design-tokens";
+import { iconColors } from "../../styles/iconColors";
+import { notificationListStyles } from "./NotificationListStyle";
 import { Swipeable } from "react-native-gesture-handler";
 
 /**
@@ -46,8 +51,8 @@ export interface NotificationListProps {
   onEndReached?: () => void;
   /** Show swipe actions */
   showSwipeActions?: boolean;
-  /** Custom className */
-  className?: string;
+  /** Custom style */
+  style?: ViewStyle;
 }
 
 /**
@@ -87,28 +92,40 @@ export const NotificationList: React.FC<NotificationListProps> = ({
   onRefresh,
   onEndReached,
   showSwipeActions = true,
-  className = "",
+  style,
 }) => {
   /**
    * Get icon for notification type
    */
   const getNotificationIcon = (type: Notification["type"]) => {
-    switch (type) {
-      case "match":
-        return <Trophy size={iconSizes.md} color={colors.primary[500]} />;
-      case "tournament":
-        return <Trophy size={iconSizes.md} color={colors.warning[500]} />;
-      case "complaint":
-        return <AlertCircle size={iconSizes.md} color={colors.error[500]} />;
-      case "announcement":
-        return <Megaphone size={iconSizes.md} color={colors.info[500]} />;
-      case "training":
-        return <Dumbbell size={iconSizes.md} color={colors.success[500]} />;
-      case "evaluation":
-        return <Star size={iconSizes.md} color={colors.accent[500]} />;
-      default:
-        return <Bell size={iconSizes.md} color={colors.gray[500]} />;
-    }
+    const iconColor = {
+      match: iconColors.primary,
+      tournament: iconColors.warning,
+      complaint: iconColors.error,
+      announcement: iconColors.info,
+      training: iconColors.success,
+      evaluation: iconColors.warning,
+      general: iconColors.muted,
+      system: iconColors.muted,
+      default: iconColors.muted,
+    };
+
+    const IconComponent = {
+      match: Trophy,
+      tournament: Trophy,
+      complaint: AlertCircle,
+      announcement: Megaphone,
+      training: Dumbbell,
+      evaluation: Star,
+      general: Bell,
+      system: Settings,
+      default: Bell,
+    };
+
+    const Icon = IconComponent[type] || IconComponent.default;
+    const color = iconColor[type] || iconColor.default;
+
+    return <Icon size={iconSizes.md} color={color} />;
   };
 
   /**
@@ -172,25 +189,31 @@ export const NotificationList: React.FC<NotificationListProps> = ({
    * Render swipe actions
    */
   const renderRightActions = (notification: Notification) => (
-    <View className="flex-row">
+    <View style={notificationListStyles.swipeActionsContainer}>
       {!notification.isRead && onMarkAsRead && (
         <TouchableOpacity
           onPress={() => onMarkAsRead(notification.id)}
-          className="bg-primary-500 justify-center px-6"
+          style={[
+            notificationListStyles.swipeAction,
+            notificationListStyles.swipeAction_read,
+          ]}
           activeOpacity={0.7}
         >
           <Bell size={iconSizes.md} color="#fff" />
-          <Text className="text-white text-xs mt-1">Đã đọc</Text>
+          <Text style={notificationListStyles.swipeActionText}>Đã đọc</Text>
         </TouchableOpacity>
       )}
       {onDelete && (
         <TouchableOpacity
           onPress={() => onDelete(notification.id)}
-          className="bg-red-500 justify-center px-6"
+          style={[
+            notificationListStyles.swipeAction,
+            notificationListStyles.swipeAction_delete,
+          ]}
           activeOpacity={0.7}
         >
           <X size={iconSizes.md} color="#fff" />
-          <Text className="text-white text-xs mt-1">Xóa</Text>
+          <Text style={notificationListStyles.swipeActionText}>Xóa</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -201,48 +224,45 @@ export const NotificationList: React.FC<NotificationListProps> = ({
    */
   const renderNotification = (notification: Notification) => {
     const content = (
-      <TouchableOpacity
-        onPress={() => onNotificationPress?.(notification)}
-        className={`flex-row p-4 border-b border-gray-200 dark:border-gray-700 ${
-          !notification.isRead
-            ? "bg-primary-50 dark:bg-primary-900/20"
-            : "bg-white dark:bg-gray-800"
-        }`}
-        activeOpacity={0.7}
-      >
-        {/* Icon */}
-        <View className="mr-3">{getNotificationIcon(notification.type)}</View>
-
-        {/* Content */}
-        <View className="flex-1">
-          <Text
-            className={`text-base mb-1 ${
-              !notification.isRead
-                ? "font-semibold text-gray-900 dark:text-white"
-                : "text-gray-700 dark:text-gray-300"
-            }`}
-            numberOfLines={2}
+      <View style={notificationListStyles.itemContainer}>
+        <TouchableOpacity
+          onPress={() => onNotificationPress?.(notification)}
+          style={[
+            notificationListStyles.itemPressable,
+            !notification.isRead && notificationListStyles.itemPressable_unread,
+          ]}
+          activeOpacity={0.7}
+        >
+          {/* Icon */}
+          <View
+            style={[
+              notificationListStyles.iconContainer,
+              notificationListStyles[`iconContainer_${notification.type}`] ||
+                notificationListStyles.iconContainer_default,
+            ]}
           >
-            {notification.title}
-          </Text>
-          <Text
-            className="text-sm text-gray-600 dark:text-gray-400 mb-2"
-            numberOfLines={2}
-          >
-            {notification.message}
-          </Text>
-          <Text className="text-xs text-gray-500 dark:text-gray-500">
-            {formatRelativeTime(notification.createdAt)}
-          </Text>
-        </View>
-
-        {/* Unread Badge */}
-        {!notification.isRead && (
-          <View className="ml-2">
-            <View className="w-2 h-2 bg-primary-500 rounded-full" />
+            {getNotificationIcon(notification.type)}
           </View>
-        )}
-      </TouchableOpacity>
+
+          {/* Content */}
+          <View style={notificationListStyles.contentContainer}>
+            <View style={notificationListStyles.titleRow}>
+              <Text style={notificationListStyles.title} numberOfLines={2}>
+                {notification.title}
+              </Text>
+              {!notification.isRead && (
+                <View style={notificationListStyles.unreadBadge} />
+              )}
+            </View>
+            <Text style={notificationListStyles.message} numberOfLines={2}>
+              {notification.message}
+            </Text>
+            <Text style={notificationListStyles.timeText}>
+              {formatRelativeTime(notification.createdAt)}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     );
 
     if (showSwipeActions && (onMarkAsRead || onDelete)) {
@@ -266,8 +286,8 @@ export const NotificationList: React.FC<NotificationListProps> = ({
   const renderGroup = ({ item: group }: { item: GroupedNotifications }) => (
     <View>
       {group.title && (
-        <View className="bg-gray-100 dark:bg-gray-900 px-4 py-2">
-          <Text className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+        <View style={notificationListStyles.groupHeader}>
+          <Text style={notificationListStyles.groupHeaderText}>
             {group.title}
           </Text>
         </View>
@@ -281,7 +301,7 @@ export const NotificationList: React.FC<NotificationListProps> = ({
   // Loading state
   if (loading && notifications.length === 0) {
     return (
-      <View className={`flex-1 ${className}`}>
+      <View style={[notificationListStyles.loadingContainer, style]}>
         <LoadingSpinner overlay={false} />
       </View>
     );
@@ -290,7 +310,7 @@ export const NotificationList: React.FC<NotificationListProps> = ({
   // Empty state
   if (!loading && notifications.length === 0) {
     return (
-      <View className={`flex-1 ${className}`}>
+      <View style={[notificationListStyles.emptyContainer, style]}>
         <EmptyState
           variant="no-data"
           icon={Bell}
@@ -306,13 +326,14 @@ export const NotificationList: React.FC<NotificationListProps> = ({
       data={groupedNotifications}
       renderItem={renderGroup}
       keyExtractor={(item, index) => `${item.title}-${index}`}
-      className={className}
+      style={[notificationListStyles.list, style]}
+      contentContainerStyle={notificationListStyles.listContent}
       refreshControl={
         onRefresh ? (
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor={colors.primary[500]}
+            tintColor={iconColors.primary}
           />
         ) : undefined
       }

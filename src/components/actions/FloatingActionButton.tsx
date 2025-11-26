@@ -1,7 +1,9 @@
 import React from "react";
-import { TouchableOpacity, Text, View } from "react-native";
+import { TouchableOpacity, Text, View, ViewStyle } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { Plus } from "lucide-react-native";
 import { colors, iconSizes, shadows } from "../../constants/design-tokens";
+import { floatingActionButtonStyles } from "./FloatingActionButtonStyle";
 
 /**
  * FloatingActionButton Props
@@ -21,8 +23,8 @@ export interface FloatingActionButtonProps {
   color?: string;
   /** Disabled state */
   disabled?: boolean;
-  /** Custom className */
-  className?: string;
+  /** Custom style */
+  style?: ViewStyle;
 }
 
 /**
@@ -49,7 +51,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   size = "medium",
   color = colors.primary[500],
   disabled = false,
-  className = "",
+  style,
 }) => {
   // Size configurations
   const sizeConfig = {
@@ -72,47 +74,62 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
 
   const config = sizeConfig[size];
 
-  // Position styles
-  const positionStyles = {
-    "bottom-right": "bottom-6 right-6",
-    "bottom-left": "bottom-6 left-6",
-    "bottom-center": "bottom-6 left-1/2 -translate-x-1/2",
+  // Position style mapping
+  const positionStyleMap = {
+    "bottom-right": floatingActionButtonStyles.position_bottomRight,
+    "bottom-left": floatingActionButtonStyles.position_bottomLeft,
+    "bottom-center": floatingActionButtonStyles.position_bottomCenter,
   };
+
+  const positionStyle = positionStyleMap[position];
 
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      className={`absolute ${positionStyles[position]} ${className}`}
-      style={{
-        ...shadows.lg,
-      }}
-      activeOpacity={0.8}
+      style={[
+        floatingActionButtonStyles.container,
+        positionStyle,
+        shadows.lg,
+        style,
+      ]}
+      activeOpacity={0.7}
     >
       {label ? (
         // Extended FAB with label
-        <View
-          className="flex-row items-center px-4 rounded-full"
-          style={{
-            height: config.height,
-            backgroundColor: disabled ? colors.gray[400] : color,
-          }}
+        <LinearGradient
+          colors={disabled ? ["#9ca3af", "#9ca3af"] : [color, color]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[
+            floatingActionButtonStyles.extended_container,
+            size === "small"
+              ? floatingActionButtonStyles.extended_height_small
+              : size === "large"
+              ? floatingActionButtonStyles.extended_height_large
+              : floatingActionButtonStyles.extended_height_medium,
+          ]}
         >
           {icon || <Plus size={config.iconSize} color="#fff" />}
-          <Text className="text-white font-semibold ml-2">{label}</Text>
-        </View>
+          <Text style={floatingActionButtonStyles.extended_label}>{label}</Text>
+        </LinearGradient>
       ) : (
         // Regular FAB (circular)
-        <View
-          className="items-center justify-center rounded-full"
-          style={{
-            width: config.width,
-            height: config.height,
-            backgroundColor: disabled ? colors.gray[400] : color,
-          }}
+        <LinearGradient
+          colors={disabled ? ["#9ca3af", "#9ca3af"] : [color, color]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={[
+            floatingActionButtonStyles.regular_container,
+            size === "small"
+              ? floatingActionButtonStyles.size_small
+              : size === "large"
+              ? floatingActionButtonStyles.size_large
+              : floatingActionButtonStyles.size_medium,
+          ]}
         >
           {icon || <Plus size={config.iconSize} color="#fff" />}
-        </View>
+        </LinearGradient>
       )}
     </TouchableOpacity>
   );

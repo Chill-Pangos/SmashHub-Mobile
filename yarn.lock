@@ -3687,6 +3687,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-linear-gradient@npm:^15.0.7":
+  version: 15.0.7
+  resolution: "expo-linear-gradient@npm:15.0.7"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/ee9984f4bc8985b3ad32f8a59138fd7336e16e782c1d2d10110f70b2e05b9c563382d2c16cfbe21e6463fa896f573dcc3d70d0afd32f8d435bccd9afadf8b006
+  languageName: node
+  linkType: hard
+
 "expo-modules-autolinking@npm:3.0.21":
   version: 3.0.21
   resolution: "expo-modules-autolinking@npm:3.0.21"
@@ -7119,6 +7130,7 @@ __metadata:
     axios: "npm:^1.13.2"
     date-fns: "npm:^4.1.0"
     expo: "npm:^54.0.23"
+    expo-linear-gradient: "npm:^15.0.7"
     expo-status-bar: "npm:~3.0.8"
     lucide-react-native: "npm:^0.552.0"
     metro-minify-terser: "npm:^0.83.3"

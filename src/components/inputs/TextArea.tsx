@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TextInputProps } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TextInputProps,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
+import { textAreaStyles } from "./TextAreaStyle";
 
 export interface TextAreaProps
   extends Omit<TextInputProps, "multiline" | "editable"> {
@@ -54,14 +62,14 @@ export interface TextAreaProps
   autoResize?: boolean;
 
   /**
-   * Additional container classes
+   * Additional container style
    */
-  containerClassName?: string;
+  containerStyle?: ViewStyle;
 
   /**
-   * Additional input classes
+   * Additional input style
    */
-  inputClassName?: string;
+  inputStyle?: TextStyle;
 }
 
 /**
@@ -110,8 +118,8 @@ export const TextArea: React.FC<TextAreaProps> = ({
   showCounter = false,
   rows = 4,
   autoResize = false,
-  containerClassName,
-  inputClassName,
+  containerStyle,
+  inputStyle,
   value,
   ...textInputProps
 }) => {
@@ -121,37 +129,42 @@ export const TextArea: React.FC<TextAreaProps> = ({
   // Calculate minimum height based on rows
   const minHeight = rows * 20 + 24; // 20px per row + padding
 
-  // Determine border color based on state
-  const getBorderColor = () => {
-    if (error) return "border-error-500";
-    if (isFocused) return "border-primary-500";
-    return "border-gray-300 dark:border-gray-700";
-  };
-
   // Character count
   const currentLength = value?.toString().length || 0;
   const isNearLimit = maxLength && currentLength >= maxLength * 0.9;
+  const isOverLimit = maxLength && currentLength >= maxLength;
+
+  // Get border style based on state
+  const getBorderStyle = () => {
+    if (error) return textAreaStyles.inputContainer_error;
+    if (isFocused) return textAreaStyles.inputContainer_focused;
+    return textAreaStyles.inputContainer_default;
+  };
+
+  // Get counter style
+  const getCounterStyle = () => {
+    if (isOverLimit) return textAreaStyles.counter_error;
+    if (isNearLimit) return textAreaStyles.counter_warning;
+    return textAreaStyles.counter_default;
+  };
 
   return (
-    <View className={`mb-4 ${containerClassName || ""}`}>
+    <View style={[textAreaStyles.container, containerStyle]}>
       {/* Label */}
       {label && (
-        <View className="flex-row items-center mb-2">
-          <Text className="text-sm font-medium text-gray-700 dark:text-gray-300">
-            {label}
-          </Text>
-          {required && <Text className="text-error-500 ml-1">*</Text>}
+        <View style={textAreaStyles.labelContainer}>
+          <Text style={textAreaStyles.label}>{label}</Text>
+          {required && <Text style={textAreaStyles.required}>*</Text>}
         </View>
       )}
 
       {/* TextInput Container */}
       <View
-        className={`
-          border-2 ${getBorderColor()}
-          rounded-xl
-          bg-white dark:bg-gray-800
-          ${disabled ? "opacity-50" : ""}
-        `.trim()}
+        style={[
+          textAreaStyles.inputContainer,
+          getBorderStyle(),
+          disabled && textAreaStyles.inputContainer_disabled,
+        ]}
       >
         <TextInput
           {...textInputProps}
@@ -176,48 +189,30 @@ export const TextArea: React.FC<TextAreaProps> = ({
                 }
               : textInputProps.onContentSizeChange
           }
-          style={
+          style={[
+            textAreaStyles.input,
+            inputStyle,
             autoResize
               ? { height: Math.max(minHeight, contentHeight) }
-              : { height: minHeight }
-          }
-          className={`
-            px-4 py-3
-            text-base
-            text-gray-900 dark:text-white
-            ${inputClassName || ""}
-          `.trim()}
-          placeholderTextColor="#9ca3af"
+              : { height: minHeight },
+          ]}
+          placeholderTextColor="#94a3b8"
         />
       </View>
 
       {/* Bottom Row: Error/Helper Text and Counter */}
-      <View className="flex-row justify-between items-start mt-1">
+      <View style={textAreaStyles.bottomRow}>
         {/* Error Message or Helper Text */}
-        <View className="flex-1">
-          {error && (
-            <Text className="text-xs text-error-500 ml-1">{error}</Text>
-          )}
+        <View style={textAreaStyles.messageContainer}>
+          {error && <Text style={textAreaStyles.errorText}>{error}</Text>}
           {helperText && !error && (
-            <Text className="text-xs text-gray-500 dark:text-gray-400 ml-1">
-              {helperText}
-            </Text>
+            <Text style={textAreaStyles.helperText}>{helperText}</Text>
           )}
         </View>
 
         {/* Character Counter */}
         {showCounter && maxLength && (
-          <Text
-            className={`
-              text-xs ml-2 mr-1
-              ${
-                isNearLimit
-                  ? "text-warning-600 dark:text-warning-400"
-                  : "text-gray-500 dark:text-gray-400"
-              }
-              ${currentLength >= maxLength ? "text-error-500" : ""}
-            `.trim()}
-          >
+          <Text style={[textAreaStyles.counter, getCounterStyle()]}>
             {currentLength}/{maxLength}
           </Text>
         )}

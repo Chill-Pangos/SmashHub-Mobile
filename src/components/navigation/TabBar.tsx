@@ -4,9 +4,10 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Animated,
+  ViewStyle,
 } from "react-native";
-import { colors } from "../../constants/design-tokens";
+import { colors } from "../../theme/colors";
+import { tabBarStyles } from "./TabBarStyle";
 
 /**
  * Tab Item
@@ -36,8 +37,6 @@ export interface TabBarProps {
   variant?: "segmented" | "pills" | "underline";
   /** Enable scrolling for many tabs */
   scrollable?: boolean;
-  /** Custom className */
-  className?: string;
 }
 
 /**
@@ -68,7 +67,6 @@ export const TabBar: React.FC<TabBarProps> = ({
   onTabChange,
   variant = "underline",
   scrollable = false,
-  className = "",
 }) => {
   /**
    * Render individual tab based on variant
@@ -80,41 +78,51 @@ export const TabBar: React.FC<TabBarProps> = ({
 
     // Segmented variant
     if (variant === "segmented") {
+      const segmentedStyle: ViewStyle = {
+        ...tabBarStyles.segmentedTab,
+        backgroundColor: isActive ? colors.primary.DEFAULT : colors.card,
+        borderColor: isActive ? colors.primary.DEFAULT : colors.border,
+        borderTopLeftRadius: isFirst ? 8 : 0,
+        borderBottomLeftRadius: isFirst ? 8 : 0,
+        borderTopRightRadius: isLast ? 8 : 0,
+        borderBottomRightRadius: isLast ? 8 : 0,
+        borderRightWidth: isLast ? 1 : 0,
+      };
+
       return (
         <TouchableOpacity
           key={tab.id}
           onPress={() => onTabChange(tab.id)}
-          className={`
-            flex-1 py-2 px-4 flex-row items-center justify-center
-            ${isActive ? "bg-primary-500" : "bg-white dark:bg-gray-800"}
-            ${isFirst ? "rounded-l-lg" : ""}
-            ${isLast ? "rounded-r-lg" : ""}
-            ${!isLast ? "border-r border-gray-300 dark:border-gray-600" : ""}
-          `}
-          style={{
-            borderWidth: 1,
-            borderColor: isActive ? colors.primary[500] : colors.gray[300],
-          }}
+          style={segmentedStyle}
           activeOpacity={0.7}
         >
-          {tab.icon && <View className="mr-2">{tab.icon}</View>}
+          {tab.icon && (
+            <View style={tabBarStyles.iconContainer}>{tab.icon}</View>
+          )}
           <Text
-            className={`text-sm font-medium ${
-              isActive ? "text-white" : "text-gray-700 dark:text-gray-300"
-            }`}
+            style={[
+              tabBarStyles.segmentedTabText,
+              { color: isActive ? "#ffffff" : colors.foreground },
+            ]}
           >
             {tab.label}
           </Text>
           {tab.badge !== undefined && tab.badge > 0 && (
             <View
-              className={`ml-2 px-2 py-0.5 rounded-full ${
-                isActive ? "bg-white/20" : "bg-gray-100 dark:bg-gray-700"
-              }`}
+              style={[
+                tabBarStyles.badge,
+                {
+                  backgroundColor: isActive
+                    ? "rgba(255, 255, 255, 0.2)"
+                    : colors.muted.DEFAULT,
+                },
+              ]}
             >
               <Text
-                className={`text-xs font-semibold ${
-                  isActive ? "text-white" : "text-gray-600 dark:text-gray-400"
-                }`}
+                style={[
+                  tabBarStyles.badgeText,
+                  { color: isActive ? "#ffffff" : colors.muted.foreground },
+                ]}
               >
                 {tab.badge > 99 ? "99+" : tab.badge}
               </Text>
@@ -130,30 +138,43 @@ export const TabBar: React.FC<TabBarProps> = ({
         <TouchableOpacity
           key={tab.id}
           onPress={() => onTabChange(tab.id)}
-          className={`
-            py-2 px-4 rounded-full mr-2 flex-row items-center
-            ${isActive ? "bg-primary-500" : "bg-gray-100 dark:bg-gray-700"}
-          `}
+          style={[
+            tabBarStyles.pillTab,
+            {
+              backgroundColor: isActive
+                ? colors.primary.DEFAULT
+                : colors.muted.DEFAULT,
+            },
+          ]}
           activeOpacity={0.7}
         >
-          {tab.icon && <View className="mr-2">{tab.icon}</View>}
+          {tab.icon && (
+            <View style={tabBarStyles.iconContainer}>{tab.icon}</View>
+          )}
           <Text
-            className={`text-sm font-medium ${
-              isActive ? "text-white" : "text-gray-700 dark:text-gray-300"
-            }`}
+            style={[
+              tabBarStyles.pillTabText,
+              { color: isActive ? "#ffffff" : colors.foreground },
+            ]}
           >
             {tab.label}
           </Text>
           {tab.badge !== undefined && tab.badge > 0 && (
             <View
-              className={`ml-2 px-2 py-0.5 rounded-full ${
-                isActive ? "bg-white/20" : "bg-gray-200 dark:bg-gray-600"
-              }`}
+              style={[
+                tabBarStyles.badge,
+                {
+                  backgroundColor: isActive
+                    ? "rgba(255, 255, 255, 0.2)"
+                    : colors.muted.foreground,
+                },
+              ]}
             >
               <Text
-                className={`text-xs font-semibold ${
-                  isActive ? "text-white" : "text-gray-600 dark:text-gray-400"
-                }`}
+                style={[
+                  tabBarStyles.badgeText,
+                  { color: isActive ? "#ffffff" : colors.card },
+                ]}
               >
                 {tab.badge > 99 ? "99+" : tab.badge}
               </Text>
@@ -168,40 +189,54 @@ export const TabBar: React.FC<TabBarProps> = ({
       <TouchableOpacity
         key={tab.id}
         onPress={() => onTabChange(tab.id)}
-        className={`
-          py-3 px-4 mr-4 flex-row items-center
-          ${!scrollable ? "flex-1" : ""}
-        `}
+        style={[tabBarStyles.underlineTab, !scrollable && { flex: 1 }]}
         activeOpacity={0.7}
       >
         <View
-          className={`${isActive ? "border-b-2 border-primary-500" : ""} pb-2`}
+          style={[
+            tabBarStyles.underlineTabInner,
+            isActive && {
+              borderBottomWidth: 2,
+              borderBottomColor: colors.primary.DEFAULT,
+            },
+          ]}
         >
-          <View className="flex-row items-center">
-            {tab.icon && <View className="mr-2">{tab.icon}</View>}
+          <View style={tabBarStyles.underlineTabContent}>
+            {tab.icon && (
+              <View style={tabBarStyles.iconContainer}>{tab.icon}</View>
+            )}
             <Text
-              className={`text-base font-medium ${
-                isActive
-                  ? "text-primary-600 dark:text-primary-400"
-                  : "text-gray-600 dark:text-gray-400"
-              }`}
+              style={[
+                tabBarStyles.underlineTabText,
+                {
+                  color: isActive
+                    ? colors.primary.DEFAULT
+                    : colors.muted.foreground,
+                },
+              ]}
             >
               {tab.label}
             </Text>
             {tab.badge !== undefined && tab.badge > 0 && (
               <View
-                className={`ml-2 px-2 py-0.5 rounded-full ${
-                  isActive
-                    ? "bg-primary-100 dark:bg-primary-900/30"
-                    : "bg-gray-100 dark:bg-gray-700"
-                }`}
+                style={[
+                  tabBarStyles.badge,
+                  {
+                    backgroundColor: isActive
+                      ? colors.primary.DEFAULT
+                      : colors.muted.DEFAULT,
+                  },
+                ]}
               >
                 <Text
-                  className={`text-xs font-semibold ${
-                    isActive
-                      ? "text-primary-700 dark:text-primary-400"
-                      : "text-gray-600 dark:text-gray-400"
-                  }`}
+                  style={[
+                    tabBarStyles.badgeText,
+                    {
+                      color: isActive
+                        ? colors.primary.foreground
+                        : colors.muted.foreground,
+                    },
+                  ]}
                 >
                   {tab.badge > 99 ? "99+" : tab.badge}
                 </Text>
@@ -214,23 +249,18 @@ export const TabBar: React.FC<TabBarProps> = ({
   };
 
   // Container for tabs
+  const getContainerStyle = (): ViewStyle => {
+    if (variant === "segmented") {
+      return tabBarStyles.segmentedContainer;
+    }
+    if (variant === "pills") {
+      return tabBarStyles.pillsContainer;
+    }
+    return tabBarStyles.underlineContainer;
+  };
+
   const tabsContainer = (
-    <View
-      className={`
-        ${
-          variant === "segmented"
-            ? "flex-row p-1 bg-gray-100 dark:bg-gray-700 rounded-lg"
-            : ""
-        }
-        ${variant === "pills" ? "flex-row" : ""}
-        ${
-          variant === "underline"
-            ? "flex-row border-b border-gray-200 dark:border-gray-700"
-            : ""
-        }
-        ${className}
-      `}
-    >
+    <View style={getContainerStyle()}>
       {tabs.map((tab, index) => renderTab(tab, index))}
     </View>
   );
@@ -244,16 +274,16 @@ export const TabBar: React.FC<TabBarProps> = ({
         contentContainerStyle={{
           paddingHorizontal: variant === "pills" ? 16 : 0,
         }}
-        className="flex-grow-0"
+        style={tabBarStyles.scrollContainer}
       >
         {tabsContainer}
       </ScrollView>
     );
   }
 
-  // Segmented variant should not scroll, wrap in container
+  // Segmented variant should not scroll
   if (variant === "segmented") {
-    return <View className={`px-4 ${className}`}>{tabsContainer}</View>;
+    return <View style={tabBarStyles.segmentedWrapper}>{tabsContainer}</View>;
   }
 
   return tabsContainer;

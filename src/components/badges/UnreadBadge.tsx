@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { colors } from "../../constants/design-tokens";
+import { View, Text, ViewStyle } from "react-native";
+import { unreadBadgeStyles } from "./UnreadBadgeStyle";
 
 /**
  * UnreadBadge Props
@@ -20,8 +20,8 @@ export interface UnreadBadgeProps {
   showZero?: boolean;
   /** Position (for absolute positioning) */
   position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
-  /** Custom className */
-  className?: string;
+  /** Custom style */
+  style?: ViewStyle;
 }
 
 /**
@@ -42,47 +42,26 @@ export const UnreadBadge: React.FC<UnreadBadgeProps> = ({
   count = 0,
   variant = "number",
   size = "medium",
-  color = "#ef4444", // red-500
+  color = "#dc2626", // destructive
   maxCount = 99,
   showZero = false,
   position,
-  className = "",
+  style,
 }) => {
   // Don't show if count is 0 and showZero is false
   if (count === 0 && !showZero) {
     return null;
   }
 
-  // Size configurations
-  const sizeConfig = {
-    small: {
-      dot: "w-2 h-2",
-      badge: "min-w-[16px] h-4 px-1",
-      text: "text-[10px]",
-    },
-    medium: {
-      dot: "w-2.5 h-2.5",
-      badge: "min-w-[20px] h-5 px-1.5",
-      text: "text-xs",
-    },
-    large: {
-      dot: "w-3 h-3",
-      badge: "min-w-[24px] h-6 px-2",
-      text: "text-sm",
-    },
+  // Position style mapping
+  const positionStyleMap: Record<string, ViewStyle> = {
+    "top-right": unreadBadgeStyles.position_topRight,
+    "top-left": unreadBadgeStyles.position_topLeft,
+    "bottom-right": unreadBadgeStyles.position_bottomRight,
+    "bottom-left": unreadBadgeStyles.position_bottomLeft,
   };
 
-  const config = sizeConfig[size];
-
-  // Position styles
-  const positionStyles = position
-    ? {
-        "top-right": "absolute -top-1 -right-1",
-        "top-left": "absolute -top-1 -left-1",
-        "bottom-right": "absolute -bottom-1 -right-1",
-        "bottom-left": "absolute -bottom-1 -left-1",
-      }[position]
-    : "";
+  const positionStyle = position ? positionStyleMap[position] : undefined;
 
   // Format count
   const displayCount = count > maxCount ? `${maxCount}+` : count.toString();
@@ -91,10 +70,16 @@ export const UnreadBadge: React.FC<UnreadBadgeProps> = ({
    * Render dot variant
    */
   if (variant === "dot") {
+    const dotStyle =
+      size === "small"
+        ? unreadBadgeStyles.dot_small
+        : size === "large"
+        ? unreadBadgeStyles.dot_large
+        : unreadBadgeStyles.dot_medium;
+
     return (
       <View
-        className={`${config.dot} rounded-full ${positionStyles} ${className}`}
-        style={{ backgroundColor: color }}
+        style={[dotStyle, positionStyle, { backgroundColor: color }, style]}
       />
     );
   }
@@ -102,14 +87,25 @@ export const UnreadBadge: React.FC<UnreadBadgeProps> = ({
   /**
    * Render number variant
    */
+  const badgeStyle =
+    size === "small"
+      ? unreadBadgeStyles.badge_small
+      : size === "large"
+      ? unreadBadgeStyles.badge_large
+      : unreadBadgeStyles.badge_medium;
+
+  const textStyle =
+    size === "small"
+      ? unreadBadgeStyles.text_small
+      : size === "large"
+      ? unreadBadgeStyles.text_large
+      : unreadBadgeStyles.text_medium;
+
   return (
     <View
-      className={`${config.badge} rounded-full items-center justify-center ${positionStyles} ${className}`}
-      style={{ backgroundColor: color }}
+      style={[badgeStyle, positionStyle, { backgroundColor: color }, style]}
     >
-      <Text className={`${config.text} font-bold text-white leading-none`}>
-        {displayCount}
-      </Text>
+      <Text style={textStyle}>{displayCount}</Text>
     </View>
   );
 };

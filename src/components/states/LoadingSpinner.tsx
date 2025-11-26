@@ -1,5 +1,7 @@
 import React from "react";
 import { View, ActivityIndicator, Modal, Text } from "react-native";
+import { iconColors } from "../../styles/iconColors";
+import { loadingSpinnerStyles } from "./LoadingSpinnerStyle";
 
 export interface LoadingSpinnerProps {
   /**
@@ -10,7 +12,7 @@ export interface LoadingSpinnerProps {
 
   /**
    * Color of the spinner
-   * @default '#0ea5e9' (primary-500)
+   * @default '#e89b3c'
    */
   color?: string;
 
@@ -24,11 +26,6 @@ export interface LoadingSpinnerProps {
    * Loading message to display below spinner (only shown with overlay)
    */
   message?: string;
-
-  /**
-   * Additional CSS classes for custom styling
-   */
-  className?: string;
 }
 
 /**
@@ -50,26 +47,28 @@ export interface LoadingSpinnerProps {
  */
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   size = "medium",
-  color = "#0ea5e9",
+  color = "#e89b3c",
   overlay = false,
   message,
-  className,
 }) => {
   // Map size to React Native ActivityIndicator size
   const activityIndicatorSize = size === "small" ? "small" : "large";
 
+  // Get padding based on size
+  const getPadding = () => {
+    if (size === "small") return 8;
+    if (size === "medium") return 16;
+    return 24;
+  };
+
   // Render inline spinner
   const renderSpinner = () => (
     <View
-      className={`items-center justify-center ${
-        size === "small" ? "p-2" : size === "medium" ? "p-4" : "p-6"
-      } ${className || ""}`}
+      style={[loadingSpinnerStyles.spinnerContainer, { padding: getPadding() }]}
     >
       <ActivityIndicator size={activityIndicatorSize} color={color} />
       {message && !overlay && (
-        <Text className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          {message}
-        </Text>
+        <Text style={loadingSpinnerStyles.inlineMessage}>{message}</Text>
       )}
     </View>
   );
@@ -83,13 +82,11 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
         visible={true}
         statusBarTranslucent
       >
-        <View className="flex-1 bg-black/50 items-center justify-center">
-          <View className="bg-white dark:bg-gray-800 rounded-2xl p-8 items-center shadow-xl min-w-[200px]">
+        <View style={loadingSpinnerStyles.overlayBackground}>
+          <View style={loadingSpinnerStyles.overlayCard}>
             <ActivityIndicator size="large" color={color} />
             {message && (
-              <Text className="mt-4 text-base text-gray-700 dark:text-gray-300 text-center font-medium">
-                {message}
-              </Text>
+              <Text style={loadingSpinnerStyles.overlayMessage}>{message}</Text>
             )}
           </View>
         </View>

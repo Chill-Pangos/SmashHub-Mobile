@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -8,6 +8,7 @@ import Animated, {
   withSequence,
 } from "react-native-reanimated";
 import { useEffect } from "react";
+import { skeletonLoaderStyles } from "./SkeletonLoaderStyle";
 
 /**
  * SkeletonLoader Props
@@ -17,18 +18,18 @@ export interface SkeletonLoaderProps {
   variant?: "card" | "list" | "table" | "profile" | "text";
   /** Number of skeleton items to show */
   count?: number;
-  /** Custom className */
-  className?: string;
+  /** Custom style */
+  style?: ViewStyle;
 }
 
 /**
  * Skeleton Item Component
  */
 const SkeletonItem: React.FC<{
-  width?: string;
-  height?: string;
-  className?: string;
-}> = ({ width = "w-full", height = "h-4", className = "" }) => {
+  width?: number | string;
+  height?: number | string;
+  style?: ViewStyle;
+}> = ({ width = "100%", height = 16, style }) => {
   const opacity = useSharedValue(0.3);
 
   useEffect(() => {
@@ -48,8 +49,12 @@ const SkeletonItem: React.FC<{
 
   return (
     <Animated.View
-      className={`${width} ${height} bg-gray-200 dark:bg-gray-700 rounded ${className}`}
-      style={animatedStyle}
+      style={[
+        skeletonLoaderStyles.skeletonItem,
+        { width, height } as ViewStyle,
+        style,
+        animatedStyle,
+      ]}
     />
   );
 };
@@ -68,24 +73,24 @@ const SkeletonItem: React.FC<{
 export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
   variant = "card",
   count = 3,
-  className = "",
+  style,
 }) => {
   /**
    * Render card skeleton
    */
   const renderCardSkeleton = () => (
-    <View className="bg-white dark:bg-gray-800 rounded-xl p-4 mb-4 border border-gray-200 dark:border-gray-700">
-      <View className="flex-row items-start">
-        <SkeletonItem width="w-16" height="h-16" className="rounded-lg mr-3" />
-        <View className="flex-1">
-          <SkeletonItem width="w-3/4" height="h-5" className="mb-2" />
-          <SkeletonItem width="w-full" height="h-4" className="mb-2" />
-          <SkeletonItem width="w-1/2" height="h-4" />
+    <View style={skeletonLoaderStyles.cardContainer}>
+      <View style={skeletonLoaderStyles.cardRow}>
+        <SkeletonItem style={skeletonLoaderStyles.cardImage} />
+        <View style={skeletonLoaderStyles.cardContent}>
+          <SkeletonItem style={skeletonLoaderStyles.cardTitle} />
+          <SkeletonItem style={skeletonLoaderStyles.cardLine} />
+          <SkeletonItem style={skeletonLoaderStyles.cardLineShort} />
         </View>
       </View>
-      <View className="flex-row mt-4 space-x-2">
-        <SkeletonItem width="w-20" height="h-6" className="rounded-full" />
-        <SkeletonItem width="w-24" height="h-6" className="rounded-full" />
+      <View style={skeletonLoaderStyles.cardTags}>
+        <SkeletonItem style={skeletonLoaderStyles.cardTag} />
+        <SkeletonItem style={skeletonLoaderStyles.cardTagWide} />
       </View>
     </View>
   );
@@ -94,13 +99,13 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
    * Render list item skeleton
    */
   const renderListSkeleton = () => (
-    <View className="bg-white dark:bg-gray-800 p-4 mb-2 flex-row items-center border-b border-gray-200 dark:border-gray-700">
-      <SkeletonItem width="w-12" height="h-12" className="rounded-full mr-3" />
-      <View className="flex-1">
-        <SkeletonItem width="w-2/3" height="h-4" className="mb-2" />
-        <SkeletonItem width="w-1/2" height="h-3" />
+    <View style={skeletonLoaderStyles.listContainer}>
+      <SkeletonItem style={skeletonLoaderStyles.listAvatar} />
+      <View style={skeletonLoaderStyles.listContent}>
+        <SkeletonItem style={skeletonLoaderStyles.listTitle} />
+        <SkeletonItem style={skeletonLoaderStyles.listSubtitle} />
       </View>
-      <SkeletonItem width="w-16" height="h-8" className="rounded" />
+      <SkeletonItem style={skeletonLoaderStyles.listAction} />
     </View>
   );
 
@@ -108,12 +113,37 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
    * Render table row skeleton
    */
   const renderTableSkeleton = () => (
-    <View className="bg-white dark:bg-gray-800 p-4 mb-1 flex-row items-center border-b border-gray-200 dark:border-gray-700">
-      <SkeletonItem width="w-8" height="h-4" className="mr-4" />
-      <SkeletonItem width="w-32" height="h-4" className="mr-4" />
-      <SkeletonItem width="w-12" height="h-4" className="mr-4" />
-      <SkeletonItem width="w-12" height="h-4" className="mr-4" />
-      <SkeletonItem width="w-16" height="h-4" />
+    <View style={skeletonLoaderStyles.tableContainer}>
+      <SkeletonItem
+        style={{
+          ...skeletonLoaderStyles.tableCell,
+          ...skeletonLoaderStyles.tableCellTiny,
+        }}
+      />
+      <SkeletonItem
+        style={{
+          ...skeletonLoaderStyles.tableCell,
+          ...skeletonLoaderStyles.tableCellMedium,
+        }}
+      />
+      <SkeletonItem
+        style={{
+          ...skeletonLoaderStyles.tableCell,
+          ...skeletonLoaderStyles.tableCellSmall,
+        }}
+      />
+      <SkeletonItem
+        style={{
+          ...skeletonLoaderStyles.tableCell,
+          ...skeletonLoaderStyles.tableCellSmall,
+        }}
+      />
+      <SkeletonItem
+        style={{
+          ...skeletonLoaderStyles.tableCell,
+          ...skeletonLoaderStyles.tableCellNormal,
+        }}
+      />
     </View>
   );
 
@@ -121,40 +151,32 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
    * Render profile skeleton
    */
   const renderProfileSkeleton = () => (
-    <View className="bg-white dark:bg-gray-800 rounded-xl p-6">
+    <View style={skeletonLoaderStyles.profileContainer}>
       {/* Header */}
-      <View className="items-center mb-6">
-        <SkeletonItem
-          width="w-24"
-          height="h-24"
-          className="rounded-full mb-4"
-        />
-        <SkeletonItem width="w-48" height="h-6" className="mb-2" />
-        <SkeletonItem width="w-32" height="h-4" />
+      <View style={skeletonLoaderStyles.profileHeader}>
+        <SkeletonItem style={skeletonLoaderStyles.profileAvatar} />
+        <SkeletonItem style={skeletonLoaderStyles.profileName} />
+        <SkeletonItem style={skeletonLoaderStyles.profileRole} />
       </View>
 
       {/* Stats */}
-      <View className="flex-row justify-around py-4 border-t border-b border-gray-200 dark:border-gray-700 mb-6">
+      <View style={skeletonLoaderStyles.profileStats}>
         {[1, 2, 3].map((i) => (
-          <View key={i} className="items-center">
-            <SkeletonItem width="w-12" height="h-6" className="mb-2" />
-            <SkeletonItem width="w-16" height="h-4" />
+          <View key={i} style={skeletonLoaderStyles.profileStatItem}>
+            <SkeletonItem style={skeletonLoaderStyles.profileStatValue} />
+            <SkeletonItem style={skeletonLoaderStyles.profileStatLabel} />
           </View>
         ))}
       </View>
 
       {/* Info rows */}
-      <View className="space-y-4">
+      <View style={skeletonLoaderStyles.profileInfo}>
         {[1, 2, 3, 4].map((i) => (
-          <View key={i} className="flex-row items-center">
-            <SkeletonItem
-              width="w-10"
-              height="h-10"
-              className="rounded-lg mr-3"
-            />
-            <View className="flex-1">
-              <SkeletonItem width="w-1/3" height="h-3" className="mb-2" />
-              <SkeletonItem width="w-2/3" height="h-4" />
+          <View key={i} style={skeletonLoaderStyles.profileInfoRow}>
+            <SkeletonItem style={skeletonLoaderStyles.profileInfoIcon} />
+            <View style={skeletonLoaderStyles.profileInfoContent}>
+              <SkeletonItem style={skeletonLoaderStyles.profileInfoLabel} />
+              <SkeletonItem style={skeletonLoaderStyles.profileInfoValue} />
             </View>
           </View>
         ))}
@@ -166,10 +188,10 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
    * Render text skeleton
    */
   const renderTextSkeleton = () => (
-    <View className="mb-4">
-      <SkeletonItem width="w-full" height="h-4" className="mb-2" />
-      <SkeletonItem width="w-5/6" height="h-4" className="mb-2" />
-      <SkeletonItem width="w-4/5" height="h-4" />
+    <View style={skeletonLoaderStyles.textContainer}>
+      <SkeletonItem style={skeletonLoaderStyles.textLineFull} />
+      <SkeletonItem style={skeletonLoaderStyles.textLineMost} />
+      <SkeletonItem style={skeletonLoaderStyles.textLineShort} />
     </View>
   );
 
@@ -194,7 +216,7 @@ export const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
   };
 
   return (
-    <View className={className}>
+    <View style={[skeletonLoaderStyles.container, style]}>
       {variant === "profile"
         ? renderSkeleton()
         : Array.from({ length: count }).map((_, index) => (

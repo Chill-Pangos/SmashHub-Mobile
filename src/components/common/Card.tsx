@@ -1,19 +1,21 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, ViewStyle } from "react-native";
+import { cardStyles } from "./CardStyle";
 
 interface CardProps {
   children: React.ReactNode;
   onPress?: () => void;
-  className?: string;
+  style?: ViewStyle;
 }
 
-const Card: React.FC<CardProps> = ({ children, onPress, className = "" }) => {
+const Card: React.FC<CardProps> = ({ children, onPress, style }) => {
   const Component = onPress ? TouchableOpacity : View;
 
   return (
     <Component
       onPress={onPress}
-      className={`bg-white rounded-lg shadow-sm p-4 ${className}`}
+      activeOpacity={onPress ? 0.7 : 1}
+      style={[cardStyles.card, style]}
     >
       {children}
     </Component>

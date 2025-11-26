@@ -5,8 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   TextInputProps,
+  ViewStyle,
+  TextStyle,
 } from "react-native";
 import { Eye, EyeOff, LucideIcon } from "lucide-react-native";
+import { colors } from "../../theme/colors";
+import { iconColors } from "../../styles/iconColors";
+import { formFieldStyles } from "./FormFieldStyle";
 
 export interface FormFieldProps extends Omit<TextInputProps, "editable"> {
   /**
@@ -57,14 +62,14 @@ export interface FormFieldProps extends Omit<TextInputProps, "editable"> {
   inputType?: "text" | "email" | "password" | "number" | "phone";
 
   /**
-   * Additional container classes
+   * Additional container style
    */
-  containerClassName?: string;
+  containerStyle?: ViewStyle;
 
   /**
-   * Additional input classes
+   * Additional input style
    */
-  inputClassName?: string;
+  inputStyle?: TextStyle;
 }
 
 /**
@@ -121,8 +126,8 @@ export const FormField: React.FC<FormFieldProps> = ({
   rightIcon: RightIcon,
   onRightIconPress,
   inputType = "text",
-  containerClassName,
-  inputClassName,
+  containerStyle,
+  inputStyle,
   ...textInputProps
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -141,40 +146,37 @@ export const FormField: React.FC<FormFieldProps> = ({
   // Determine if secure text entry
   const isSecureTextEntry = inputType === "password" && !showPassword;
 
-  // Determine border color based on state
-  const getBorderColor = () => {
-    if (error) return "border-error-500";
-    if (isFocused) return "border-primary-500";
-    return "border-gray-300 dark:border-gray-700";
+  // Get input container style with border color
+  const getInputContainerStyle = (): ViewStyle => {
+    let borderColor: string = colors.border;
+    if (error) borderColor = colors.destructive.DEFAULT;
+    else if (isFocused) borderColor = colors.primary.DEFAULT;
+
+    const opacity = disabled ? 0.5 : 1;
+    return { ...formFieldStyles.inputContainer, borderColor, opacity };
+  };
+
+  // Get icon color based on state
+  const getIconColor = () => {
+    if (error) return iconColors.error;
+    if (isFocused) return iconColors.primary;
+    return iconColors.muted;
   };
 
   return (
-    <View className={`mb-4 ${containerClassName || ""}`}>
+    <View style={[formFieldStyles.container, containerStyle]}>
       {/* Label */}
-      <View className="flex-row items-center mb-2">
-        <Text className="text-sm font-medium text-gray-700 dark:text-gray-300">
-          {label}
-        </Text>
-        {required && <Text className="text-error-500 ml-1">*</Text>}
+      <View style={formFieldStyles.labelContainer}>
+        <Text style={formFieldStyles.label}>{label}</Text>
+        {required && <Text style={formFieldStyles.required}>*</Text>}
       </View>
 
       {/* Input Container */}
-      <View
-        className={`
-          flex-row items-center
-          border-2 ${getBorderColor()}
-          rounded-xl
-          bg-white dark:bg-gray-800
-          ${disabled ? "opacity-50" : ""}
-        `.trim()}
-      >
+      <View style={getInputContainerStyle()}>
         {/* Left Icon */}
         {LeftIcon && (
-          <View className="pl-4">
-            <LeftIcon
-              size={20}
-              color={error ? "#ef4444" : isFocused ? "#0ea5e9" : "#9ca3af"}
-            />
+          <View style={formFieldStyles.leftIcon}>
+            <LeftIcon size={20} color={getIconColor()} />
           </View>
         )}
 
@@ -195,52 +197,44 @@ export const FormField: React.FC<FormFieldProps> = ({
             setIsFocused(false);
             textInputProps.onBlur?.(e);
           }}
-          className={`
-            flex-1
-            px-4 py-3
-            text-base
-            text-gray-900 dark:text-white
-            ${inputClassName || ""}
-          `.trim()}
-          placeholderTextColor="#9ca3af"
+          style={[formFieldStyles.input, inputStyle]}
+          placeholderTextColor={iconColors.muted}
         />
 
         {/* Right Icon or Password Toggle */}
         {inputType === "password" ? (
           <TouchableOpacity
             onPress={() => setShowPassword(!showPassword)}
-            className="pr-4"
+            style={formFieldStyles.rightIcon}
+            activeOpacity={0.7}
             disabled={disabled}
           >
             {showPassword ? (
-              <EyeOff size={20} color="#9ca3af" />
+              <EyeOff size={20} color={iconColors.muted} />
             ) : (
-              <Eye size={20} color="#9ca3af" />
+              <Eye size={20} color={iconColors.muted} />
             )}
           </TouchableOpacity>
         ) : (
           RightIcon && (
             <TouchableOpacity
               onPress={onRightIconPress}
-              className="pr-4"
+              style={formFieldStyles.rightIcon}
+              activeOpacity={0.7}
               disabled={disabled || !onRightIconPress}
             >
-              <RightIcon size={20} color={isFocused ? "#0ea5e9" : "#9ca3af"} />
+              <RightIcon size={20} color={getIconColor()} />
             </TouchableOpacity>
           )
         )}
       </View>
 
       {/* Error Message */}
-      {error && (
-        <Text className="text-xs text-error-500 mt-1 ml-1">{error}</Text>
-      )}
+      {error && <Text style={formFieldStyles.errorText}>{error}</Text>}
 
       {/* Helper Text */}
       {helperText && !error && (
-        <Text className="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-1">
-          {helperText}
-        </Text>
+        <Text style={formFieldStyles.helperText}>{helperText}</Text>
       )}
     </View>
   );

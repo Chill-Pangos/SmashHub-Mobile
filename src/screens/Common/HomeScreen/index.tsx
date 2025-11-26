@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import {
   Home,
   Trophy,
@@ -88,26 +89,41 @@ const HomeScreen: React.FC = () => {
         <Text className="text-lg font-bold text-gray-800 mb-3">
           Featured Tournament
         </Text>
-        <TouchableOpacity className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 shadow-lg">
-          <View className="flex-row items-center justify-between">
-            <View className="flex-1">
-              <Text className="text-white text-xl font-bold mb-1">
-                National Championship 2025
-              </Text>
-              <Text className="text-purple-100 text-sm mb-3">
-                March 15-20, 2025 • Hanoi
-              </Text>
-              <View className="flex-row items-center">
-                <Award color="#ffffff" size={16} />
-                <Text className="text-white text-sm ml-2 font-semibold">
-                  1,200 Athletes Registered
+        <TouchableOpacity activeOpacity={0.7}>
+          <LinearGradient
+            colors={["#a855f7", "#ec4899"]}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={{
+              borderRadius: 16,
+              padding: 24,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+              elevation: 8,
+            }}
+          >
+            <View className="flex-row items-center justify-between">
+              <View className="flex-1">
+                <Text className="text-white text-xl font-bold mb-1">
+                  National Championship 2025
                 </Text>
+                <Text className="text-purple-100 text-sm mb-3">
+                  March 15-20, 2025 • Hanoi
+                </Text>
+                <View className="flex-row items-center">
+                  <Award color="#ffffff" size={16} />
+                  <Text className="text-white text-sm ml-2 font-semibold">
+                    1,200 Athletes Registered
+                  </Text>
+                </View>
+              </View>
+              <View className="bg-white/20 rounded-full p-4">
+                <Trophy color="#ffffff" size={32} />
               </View>
             </View>
-            <View className="bg-white/20 rounded-full p-4">
-              <Trophy color="#ffffff" size={32} />
-            </View>
-          </View>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
 

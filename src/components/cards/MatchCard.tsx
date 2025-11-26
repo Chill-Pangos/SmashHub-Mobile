@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Image, Animated } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Animated,
+  ViewStyle,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { Calendar, MapPin, User as UserIcon, Clock } from "lucide-react-native";
 import { Match } from "../../types";
 import { formatTime, formatDate, formatRelativeTime } from "../../utils/format";
 import { StatusBadge } from "../badges/StatusBadge";
 import { colors, iconSizes } from "../../constants/design-tokens";
+import { matchCardStyles } from "./MatchCardStyle";
 
 /**
  * MatchCard Props
@@ -28,8 +37,8 @@ export interface MatchCardProps {
   isFavorite?: boolean;
   /** Callback when favorite button is pressed */
   onToggleFavorite?: () => void;
-  /** Custom className for styling */
-  className?: string;
+  /** Custom style for container */
+  style?: ViewStyle;
 }
 
 /**
@@ -58,7 +67,7 @@ export const MatchCard: React.FC<MatchCardProps> = ({
   showFavorite = false,
   isFavorite = false,
   onToggleFavorite,
-  className = "",
+  style,
 }) => {
   // Animated pulse for live matches
   const pulseAnim = useState(new Animated.Value(1))[0];
@@ -105,49 +114,52 @@ export const MatchCard: React.FC<MatchCardProps> = ({
     return (
       <TouchableOpacity
         onPress={onPress}
-        className={`bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-700 ${className}`}
+        style={[matchCardStyles.compact_container, style]}
         activeOpacity={0.7}
       >
         {/* Tournament Name (if shown) */}
         {showTournament && (
           <Text
-            className="text-xs text-gray-500 dark:text-gray-400 mb-2"
+            style={matchCardStyles.compact_tournamentText}
             numberOfLines={1}
           >
             {match.tournamentName} • {match.roundName}
           </Text>
         )}
 
-        <View className="flex-row items-center justify-between">
+        <View style={matchCardStyles.compact_playersRow}>
           {/* Players */}
-          <View className="flex-1">
-            <View className="flex-row items-center mb-1">
+          <View style={matchCardStyles.compact_playersContainer}>
+            <View style={matchCardStyles.compact_playerRow}>
               <Text
-                className={`text-sm ${
+                style={[
+                  matchCardStyles.compact_playerText,
                   isHomeWinner
-                    ? "font-bold text-gray-900 dark:text-white"
-                    : "text-gray-700 dark:text-gray-300"
-                } ${
-                  highlightAthlete === match.homePlayerId
-                    ? "text-primary-600 dark:text-primary-400"
-                    : ""
-                }`}
+                    ? matchCardStyles.compact_playerText_winner
+                    : matchCardStyles.compact_playerText_loser,
+                  highlightAthlete === match.homePlayerId &&
+                    matchCardStyles.compact_playerText_highlight,
+                ]}
                 numberOfLines={1}
               >
                 {match.homePlayer}
               </Text>
             </View>
-            <View className="flex-row items-center">
+            <View
+              style={[
+                matchCardStyles.compact_playerRow,
+                matchCardStyles.compact_playerRowLast,
+              ]}
+            >
               <Text
-                className={`text-sm ${
+                style={[
+                  matchCardStyles.compact_playerText,
                   isAwayWinner
-                    ? "font-bold text-gray-900 dark:text-white"
-                    : "text-gray-700 dark:text-gray-300"
-                } ${
-                  highlightAthlete === match.awayPlayerId
-                    ? "text-primary-600 dark:text-primary-400"
-                    : ""
-                }`}
+                    ? matchCardStyles.compact_playerText_winner
+                    : matchCardStyles.compact_playerText_loser,
+                  highlightAthlete === match.awayPlayerId &&
+                    matchCardStyles.compact_playerText_highlight,
+                ]}
                 numberOfLines={1}
               >
                 {match.awayPlayer}
@@ -156,45 +168,59 @@ export const MatchCard: React.FC<MatchCardProps> = ({
           </View>
 
           {/* Score or Time */}
-          <View className="items-end ml-2">
+          <View style={matchCardStyles.compact_scoreContainer}>
             {match.status === "completed" &&
             match.homeScore !== undefined &&
             match.awayScore !== undefined ? (
-              <View className="items-end">
+              <View style={matchCardStyles.compact_scoresColumn}>
                 <Text
-                  className={`text-base ${
-                    isHomeWinner ? "font-bold" : ""
-                  } text-gray-900 dark:text-white`}
+                  style={[
+                    matchCardStyles.compact_scoreText,
+                    isHomeWinner && matchCardStyles.compact_scoreText_bold,
+                  ]}
                 >
                   {match.homeScore}
                 </Text>
                 <Text
-                  className={`text-base ${
-                    isAwayWinner ? "font-bold" : ""
-                  } text-gray-900 dark:text-white`}
+                  style={[
+                    matchCardStyles.compact_scoreText,
+                    isAwayWinner && matchCardStyles.compact_scoreText_bold,
+                  ]}
                 >
                   {match.awayScore}
                 </Text>
               </View>
             ) : match.status === "live" ? (
-              <View className="items-center">
-                <View className="bg-red-500 px-2 py-1 rounded mb-1">
-                  <Text className="text-white text-xs font-bold">LIVE</Text>
+              <View>
+                <View style={matchCardStyles.compact_liveBadge}>
+                  <Text style={matchCardStyles.compact_liveBadgeText}>
+                    LIVE
+                  </Text>
                 </View>
                 {match.homeScore !== undefined &&
                   match.awayScore !== undefined && (
-                    <View className="items-end">
-                      <Text className="text-base font-bold text-gray-900 dark:text-white">
+                    <View style={matchCardStyles.compact_scoresColumn}>
+                      <Text
+                        style={[
+                          matchCardStyles.compact_scoreText,
+                          matchCardStyles.compact_scoreText_bold,
+                        ]}
+                      >
                         {match.homeScore}
                       </Text>
-                      <Text className="text-base font-bold text-gray-900 dark:text-white">
+                      <Text
+                        style={[
+                          matchCardStyles.compact_scoreText,
+                          matchCardStyles.compact_scoreText_bold,
+                        ]}
+                      >
                         {match.awayScore}
                       </Text>
                     </View>
                   )}
               </View>
             ) : (
-              <Text className="text-xs text-gray-500 dark:text-gray-400">
+              <Text style={matchCardStyles.compact_timeText}>
                 {formatTime(match.scheduledTime)}
               </Text>
             )}
@@ -210,28 +236,37 @@ export const MatchCard: React.FC<MatchCardProps> = ({
       <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
         <TouchableOpacity
           onPress={onPress}
-          className={`bg-white dark:bg-gray-800 rounded-xl border-2 border-red-500 overflow-hidden ${className}`}
-          activeOpacity={0.8}
+          style={[matchCardStyles.live_container, style]}
+          activeOpacity={0.7}
         >
           {/* Live Badge Header */}
-          <View className="bg-red-500 px-4 py-2 flex-row items-center justify-between">
-            <View className="flex-row items-center">
-              <View className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse" />
-              <Text className="text-white font-bold text-sm">ĐANG DIỄN RA</Text>
+          <LinearGradient
+            colors={["#dc2626", "#b91c1c"]}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={matchCardStyles.live_header}
+          >
+            <View style={matchCardStyles.live_headerRow}>
+              <View style={matchCardStyles.live_headerLeft}>
+                <View style={matchCardStyles.live_pulseDot} />
+                <Text style={matchCardStyles.live_headerText}>
+                  ĐANG DIỄN RA
+                </Text>
+              </View>
+              {match.courtNumber && (
+                <Text style={matchCardStyles.live_courtText}>
+                  Sân {match.courtNumber}
+                </Text>
+              )}
             </View>
-            {match.courtNumber && (
-              <Text className="text-white text-sm">
-                Sân {match.courtNumber}
-              </Text>
-            )}
-          </View>
+          </LinearGradient>
 
           {/* Match Content */}
-          <View className="p-4">
+          <View style={matchCardStyles.live_content}>
             {/* Tournament Info */}
             {showTournament && (
               <Text
-                className="text-sm text-gray-600 dark:text-gray-400 mb-3"
+                style={matchCardStyles.live_tournamentText}
                 numberOfLines={1}
               >
                 {match.tournamentName} • {match.roundName}
@@ -239,53 +274,55 @@ export const MatchCard: React.FC<MatchCardProps> = ({
             )}
 
             {/* Players with Avatars */}
-            <View className="space-y-3">
+            <View style={matchCardStyles.live_playersContainer}>
               {/* Home Player */}
-              <View className="flex-row items-center justify-between">
-                <View className="flex-row items-center flex-1">
+              <View style={matchCardStyles.live_playerRow}>
+                <View style={matchCardStyles.live_playerLeft}>
                   {match.homePlayerAvatar && (
                     <Image
                       source={{ uri: match.homePlayerAvatar }}
-                      className="w-10 h-10 rounded-full mr-3"
+                      style={matchCardStyles.live_avatar}
                     />
                   )}
                   <Text
-                    className={`text-lg font-bold flex-1 ${
+                    style={[
+                      matchCardStyles.live_playerName,
                       isHomeWinner
-                        ? "text-green-600 dark:text-green-400"
-                        : "text-gray-900 dark:text-white"
-                    }`}
+                        ? matchCardStyles.live_playerName_winner
+                        : matchCardStyles.live_playerName_normal,
+                    ]}
                     numberOfLines={1}
                   >
                     {match.homePlayer}
                   </Text>
                 </View>
-                <Text className="text-2xl font-bold text-gray-900 dark:text-white ml-2">
+                <Text style={matchCardStyles.live_score}>
                   {match.homeScore ?? 0}
                 </Text>
               </View>
 
               {/* Away Player */}
-              <View className="flex-row items-center justify-between">
-                <View className="flex-row items-center flex-1">
+              <View style={matchCardStyles.live_playerRow}>
+                <View style={matchCardStyles.live_playerLeft}>
                   {match.awayPlayerAvatar && (
                     <Image
                       source={{ uri: match.awayPlayerAvatar }}
-                      className="w-10 h-10 rounded-full mr-3"
+                      style={matchCardStyles.live_avatar}
                     />
                   )}
                   <Text
-                    className={`text-lg font-bold flex-1 ${
+                    style={[
+                      matchCardStyles.live_playerName,
                       isAwayWinner
-                        ? "text-green-600 dark:text-green-400"
-                        : "text-gray-900 dark:text-white"
-                    }`}
+                        ? matchCardStyles.live_playerName_winner
+                        : matchCardStyles.live_playerName_normal,
+                    ]}
                     numberOfLines={1}
                   >
                     {match.awayPlayer}
                   </Text>
                 </View>
-                <Text className="text-2xl font-bold text-gray-900 dark:text-white ml-2">
+                <Text style={matchCardStyles.live_score}>
                   {match.awayScore ?? 0}
                 </Text>
               </View>
@@ -293,19 +330,22 @@ export const MatchCard: React.FC<MatchCardProps> = ({
 
             {/* Detailed Score (Sets) */}
             {showDetailedScore && match.score && (
-              <View className="mt-4 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
-                <View className="flex-row justify-between mb-2">
-                  <Text className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+              <View style={matchCardStyles.live_detailedScore}>
+                <View style={matchCardStyles.live_setsHeader}>
+                  <Text style={matchCardStyles.live_setsText}>
                     Sets: {match.score.homeSets} - {match.score.awaySets}
                   </Text>
                 </View>
-                <View className="flex-row space-x-2">
+                <View style={matchCardStyles.live_setsRow}>
                   {match.score.sets.map((set) => (
-                    <View key={set.setNumber} className="flex-1 items-center">
-                      <Text className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                    <View
+                      key={set.setNumber}
+                      style={matchCardStyles.live_setContainer}
+                    >
+                      <Text style={matchCardStyles.live_setLabel}>
                         Set {set.setNumber}
                       </Text>
-                      <Text className="text-sm font-semibold text-gray-900 dark:text-white">
+                      <Text style={matchCardStyles.live_setScore}>
                         {set.homeGames}-{set.awayGames}
                       </Text>
                     </View>
@@ -316,9 +356,9 @@ export const MatchCard: React.FC<MatchCardProps> = ({
 
             {/* Referee */}
             {match.refereeName && (
-              <View className="mt-3 flex-row items-center">
+              <View style={matchCardStyles.live_refereeRow}>
                 <UserIcon size={iconSizes.xs} color={colors.gray[500]} />
-                <Text className="text-xs text-gray-500 dark:text-gray-400 ml-1">
+                <Text style={matchCardStyles.live_refereeText}>
                   Trọng tài: {match.refereeName}
                 </Text>
               </View>
@@ -333,24 +373,18 @@ export const MatchCard: React.FC<MatchCardProps> = ({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden ${className}`}
-      activeOpacity={0.8}
+      style={[matchCardStyles.full_container, style]}
+      activeOpacity={0.7}
     >
       {/* Header */}
-      <View className="bg-gray-50 dark:bg-gray-900 px-4 py-2 flex-row items-center justify-between">
-        <View className="flex-1">
+      <View style={matchCardStyles.full_header}>
+        <View style={matchCardStyles.full_headerLeft}>
           {showTournament && (
-            <Text
-              className="text-xs text-gray-600 dark:text-gray-400 mb-1"
-              numberOfLines={1}
-            >
+            <Text style={matchCardStyles.full_tournamentText} numberOfLines={1}>
               {match.tournamentName}
             </Text>
           )}
-          <Text
-            className="text-sm font-semibold text-gray-900 dark:text-white"
-            numberOfLines={1}
-          >
+          <Text style={matchCardStyles.full_roundText} numberOfLines={1}>
             {match.roundName}
           </Text>
         </View>
@@ -358,30 +392,29 @@ export const MatchCard: React.FC<MatchCardProps> = ({
       </View>
 
       {/* Players Section */}
-      <View className="p-4">
+      <View style={matchCardStyles.full_content}>
         {/* Home Player */}
-        <View className="flex-row items-center justify-between mb-3">
-          <View className="flex-row items-center flex-1">
+        <View style={matchCardStyles.full_playerContainer}>
+          <View style={matchCardStyles.full_playerLeft}>
             {match.homePlayerAvatar ? (
               <Image
                 source={{ uri: match.homePlayerAvatar }}
-                className="w-12 h-12 rounded-full mr-3"
+                style={matchCardStyles.full_avatar}
               />
             ) : (
-              <View className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 mr-3 items-center justify-center">
+              <View style={matchCardStyles.full_avatarPlaceholder}>
                 <UserIcon size={iconSizes.md} color={colors.gray[400]} />
               </View>
             )}
             <Text
-              className={`text-base flex-1 ${
+              style={[
+                matchCardStyles.full_playerName,
                 isHomeWinner
-                  ? "font-bold text-gray-900 dark:text-white"
-                  : "text-gray-700 dark:text-gray-300"
-              } ${
-                highlightAthlete === match.homePlayerId
-                  ? "text-primary-600 dark:text-primary-400"
-                  : ""
-              }`}
+                  ? matchCardStyles.full_playerName_winner
+                  : matchCardStyles.full_playerName_normal,
+                highlightAthlete === match.homePlayerId &&
+                  matchCardStyles.full_playerName_highlight,
+              ]}
               numberOfLines={2}
             >
               {match.homePlayer}
@@ -389,11 +422,12 @@ export const MatchCard: React.FC<MatchCardProps> = ({
           </View>
           {match.status !== "scheduled" && match.homeScore !== undefined && (
             <Text
-              className={`text-2xl ml-3 ${
+              style={[
+                matchCardStyles.full_playerScore,
                 isHomeWinner
-                  ? "font-bold text-gray-900 dark:text-white"
-                  : "text-gray-600 dark:text-gray-400"
-              }`}
+                  ? matchCardStyles.full_playerScore_winner
+                  : matchCardStyles.full_playerScore_normal,
+              ]}
             >
               {match.homeScore}
             </Text>
@@ -401,37 +435,39 @@ export const MatchCard: React.FC<MatchCardProps> = ({
         </View>
 
         {/* VS Divider */}
-        <View className="flex-row items-center my-2">
-          <View className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-          <Text className="text-xs text-gray-400 dark:text-gray-500 mx-2 font-medium">
-            VS
-          </Text>
-          <View className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+        <View style={matchCardStyles.full_divider}>
+          <View style={matchCardStyles.full_dividerLine} />
+          <Text style={matchCardStyles.full_vsText}>VS</Text>
+          <View style={matchCardStyles.full_dividerLine} />
         </View>
 
         {/* Away Player */}
-        <View className="flex-row items-center justify-between mt-3">
-          <View className="flex-row items-center flex-1">
+        <View
+          style={[
+            matchCardStyles.full_playerContainer,
+            matchCardStyles.full_playerContainerLast,
+          ]}
+        >
+          <View style={matchCardStyles.full_playerLeft}>
             {match.awayPlayerAvatar ? (
               <Image
                 source={{ uri: match.awayPlayerAvatar }}
-                className="w-12 h-12 rounded-full mr-3"
+                style={matchCardStyles.full_avatar}
               />
             ) : (
-              <View className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 mr-3 items-center justify-center">
+              <View style={matchCardStyles.full_avatarPlaceholder}>
                 <UserIcon size={iconSizes.md} color={colors.gray[400]} />
               </View>
             )}
             <Text
-              className={`text-base flex-1 ${
+              style={[
+                matchCardStyles.full_playerName,
                 isAwayWinner
-                  ? "font-bold text-gray-900 dark:text-white"
-                  : "text-gray-700 dark:text-gray-300"
-              } ${
-                highlightAthlete === match.awayPlayerId
-                  ? "text-primary-600 dark:text-primary-400"
-                  : ""
-              }`}
+                  ? matchCardStyles.full_playerName_winner
+                  : matchCardStyles.full_playerName_normal,
+                highlightAthlete === match.awayPlayerId &&
+                  matchCardStyles.full_playerName_highlight,
+              ]}
               numberOfLines={2}
             >
               {match.awayPlayer}
@@ -439,11 +475,12 @@ export const MatchCard: React.FC<MatchCardProps> = ({
           </View>
           {match.status !== "scheduled" && match.awayScore !== undefined && (
             <Text
-              className={`text-2xl ml-3 ${
+              style={[
+                matchCardStyles.full_playerScore,
                 isAwayWinner
-                  ? "font-bold text-gray-900 dark:text-white"
-                  : "text-gray-600 dark:text-gray-400"
-              }`}
+                  ? matchCardStyles.full_playerScore_winner
+                  : matchCardStyles.full_playerScore_normal,
+              ]}
             >
               {match.awayScore}
             </Text>
@@ -452,20 +489,20 @@ export const MatchCard: React.FC<MatchCardProps> = ({
 
         {/* Detailed Score */}
         {showDetailedScore && match.score && match.status !== "scheduled" && (
-          <View className="mt-4 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
-            <Text className="text-xs text-gray-500 dark:text-gray-400 font-medium mb-2">
+          <View style={matchCardStyles.full_detailedScore}>
+            <Text style={matchCardStyles.full_setsTitle}>
               Chi tiết set ({match.score.homeSets} - {match.score.awaySets})
             </Text>
-            <View className="flex-row space-x-2">
+            <View style={matchCardStyles.full_setsRow}>
               {match.score.sets.map((set) => (
                 <View
                   key={set.setNumber}
-                  className="flex-1 items-center bg-white dark:bg-gray-800 py-2 rounded"
+                  style={matchCardStyles.full_setContainer}
                 >
-                  <Text className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                  <Text style={matchCardStyles.full_setLabel}>
                     Set {set.setNumber}
                   </Text>
-                  <Text className="text-sm font-semibold text-gray-900 dark:text-white">
+                  <Text style={matchCardStyles.full_setScore}>
                     {set.homeGames}-{set.awayGames}
                   </Text>
                 </View>
@@ -475,11 +512,11 @@ export const MatchCard: React.FC<MatchCardProps> = ({
         )}
 
         {/* Match Info */}
-        <View className="mt-4 space-y-2">
+        <View style={matchCardStyles.full_matchInfo}>
           {/* Time */}
-          <View className="flex-row items-center">
+          <View style={matchCardStyles.full_infoRow}>
             <Clock size={iconSizes.sm} color={colors.gray[500]} />
-            <Text className="text-sm text-gray-600 dark:text-gray-400 ml-2">
+            <Text style={matchCardStyles.full_infoText}>
               {match.status === "scheduled" && timeUntil
                 ? `${timeUntil} • ${formatTime(match.scheduledTime)}`
                 : match.status === "live"
@@ -493,22 +530,19 @@ export const MatchCard: React.FC<MatchCardProps> = ({
           </View>
 
           {/* Court & Referee */}
-          <View className="flex-row items-center justify-between">
+          <View style={matchCardStyles.full_infoRowSplit}>
             {match.courtNumber && (
-              <View className="flex-row items-center flex-1">
+              <View style={matchCardStyles.full_infoLeft}>
                 <MapPin size={iconSizes.sm} color={colors.gray[500]} />
-                <Text className="text-sm text-gray-600 dark:text-gray-400 ml-2">
+                <Text style={matchCardStyles.full_infoText}>
                   Sân {match.courtNumber}
                 </Text>
               </View>
             )}
             {match.refereeName && (
-              <View className="flex-row items-center flex-1">
+              <View style={matchCardStyles.full_infoRight}>
                 <UserIcon size={iconSizes.sm} color={colors.gray[500]} />
-                <Text
-                  className="text-sm text-gray-600 dark:text-gray-400 ml-2"
-                  numberOfLines={1}
-                >
+                <Text style={matchCardStyles.full_infoText} numberOfLines={1}>
                   {match.refereeName}
                 </Text>
               </View>

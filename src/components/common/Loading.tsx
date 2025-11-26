@@ -1,15 +1,18 @@
 import React from "react";
-import { View, ActivityIndicator, Text } from "react-native";
+import { View, ActivityIndicator, Text, ViewStyle } from "react-native";
+import { loadingStyles } from "./LoadingStyle";
+import { colors } from "../../constants/design-tokens";
 
 interface LoadingProps {
   message?: string;
+  style?: ViewStyle;
 }
 
-const Loading: React.FC<LoadingProps> = ({ message = "Loading..." }) => {
+const Loading: React.FC<LoadingProps> = ({ message = "Loading...", style }) => {
   return (
-    <View className="flex-1 justify-center items-center bg-white">
-      <ActivityIndicator size="large" color="#2563eb" />
-      <Text className="text-gray-600 mt-4">{message}</Text>
+    <View style={[loadingStyles.container, style]}>
+      <ActivityIndicator size="large" color={colors.primary[500]} />
+      <Text style={loadingStyles.message}>{message}</Text>
     </View>
   );
 };

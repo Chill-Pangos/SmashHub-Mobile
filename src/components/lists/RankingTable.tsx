@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 import {
   Trophy,
   TrendingUp,
@@ -12,7 +18,9 @@ import { Ranking } from "../../types";
 import { formatNumber, formatPercentage } from "../../utils/format";
 import { EmptyState } from "../states/EmptyState";
 import { LoadingSpinner } from "../states/LoadingSpinner";
-import { colors, iconSizes } from "../../constants/design-tokens";
+import { iconSizes } from "../../constants/design-tokens";
+import { iconColors } from "../../styles/iconColors";
+import { rankingTableStyles } from "./RankingTableStyle";
 
 /**
  * RankingTable Props
@@ -32,8 +40,8 @@ export interface RankingTableProps {
   onPlayerPress?: (playerId: string) => void;
   /** Show group headers */
   showGroupHeaders?: boolean;
-  /** Custom className */
-  className?: string;
+  /** Custom style */
+  style?: ViewStyle;
 }
 
 /**
@@ -66,7 +74,7 @@ export const RankingTable: React.FC<RankingTableProps> = ({
   loading = false,
   onPlayerPress,
   showGroupHeaders = false,
-  className = "",
+  style,
 }) => {
   const [sortColumn, setSortColumn] = useState<SortColumn>("position");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
@@ -119,11 +127,11 @@ export const RankingTable: React.FC<RankingTableProps> = ({
     if (!previous) return null;
 
     if (current < previous) {
-      return <TrendingUp size={iconSizes.xs} color={colors.success[600]} />;
+      return <TrendingUp size={iconSizes.xs} color={iconColors.success} />;
     } else if (current > previous) {
-      return <TrendingDown size={iconSizes.xs} color={colors.error[600]} />;
+      return <TrendingDown size={iconSizes.xs} color={iconColors.error} />;
     } else {
-      return <Minus size={iconSizes.xs} color={colors.gray[400]} />;
+      return <Minus size={iconSizes.xs} color={iconColors.muted} />;
     }
   };
 
@@ -140,22 +148,20 @@ export const RankingTable: React.FC<RankingTableProps> = ({
   /**
    * Render column header
    */
-  const renderHeader = (label: string, column: SortColumn, width: string) => (
+  const renderHeader = (label: string, column: SortColumn, cellStyle: any) => (
     <TouchableOpacity
       onPress={() => handleSort(column)}
       disabled={!sortable}
-      className={`${width} py-3 flex-row items-center justify-center`}
+      style={[rankingTableStyles.headerCell, cellStyle]}
       activeOpacity={sortable ? 0.7 : 1}
     >
-      <Text className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
-        {label}
-      </Text>
+      <Text style={rankingTableStyles.headerText}>{label}</Text>
       {sortable && sortColumn === column && (
-        <View className="ml-1">
+        <View style={rankingTableStyles.sortIconContainer}>
           {sortOrder === "asc" ? (
-            <ChevronUp size={12} color={colors.gray[600]} />
+            <ChevronUp size={12} color={iconColors.muted} />
           ) : (
-            <ChevronDown size={12} color={colors.gray[600]} />
+            <ChevronDown size={12} color={iconColors.muted} />
           )}
         </View>
       )}
@@ -173,48 +179,47 @@ export const RankingTable: React.FC<RankingTableProps> = ({
       <TouchableOpacity
         key={ranking.id}
         onPress={() => onPlayerPress?.(ranking.playerId)}
-        className={`flex-row items-center border-b border-gray-200 dark:border-gray-700 py-3 ${
-          isHighlighted ? "bg-primary-50 dark:bg-primary-900/20" : ""
-        }`}
+        style={[
+          rankingTableStyles.row,
+          isHighlighted && rankingTableStyles.row_highlighted,
+        ]}
         activeOpacity={0.7}
       >
         {/* Rank */}
-        <View className="w-16 items-center flex-row justify-center">
+        <View style={rankingTableStyles.rankCell}>
           {medal ? (
-            <Text className="text-lg">{medal}</Text>
+            <Text style={rankingTableStyles.rankMedal}>{medal}</Text>
           ) : (
             <Text
-              className={`text-base font-semibold ${
-                isHighlighted
-                  ? "text-primary-600 dark:text-primary-400"
-                  : "text-gray-900 dark:text-white"
-              }`}
+              style={[
+                rankingTableStyles.rankNumber,
+                isHighlighted && rankingTableStyles.rankNumber_highlighted,
+              ]}
             >
               {ranking.position}
             </Text>
           )}
           {ranking.previousPosition && (
-            <View className="ml-1">
+            <View style={rankingTableStyles.trendIconContainer}>
               {getTrendIcon(ranking.position, ranking.previousPosition)}
             </View>
           )}
         </View>
 
         {/* Player Name */}
-        <View className="flex-1 px-2">
+        <View style={rankingTableStyles.playerCell}>
           <Text
-            className={`text-sm font-medium ${
-              isHighlighted
-                ? "text-primary-600 dark:text-primary-400"
-                : "text-gray-900 dark:text-white"
-            }`}
+            style={[
+              rankingTableStyles.playerName,
+              isHighlighted && rankingTableStyles.playerName_highlighted,
+            ]}
             numberOfLines={1}
           >
             {ranking.playerName}
           </Text>
           {variant === "full" && ranking.organization && (
             <Text
-              className="text-xs text-gray-500 dark:text-gray-400 mt-0.5"
+              style={rankingTableStyles.playerOrganization}
               numberOfLines={1}
             >
               {ranking.organization}
@@ -225,29 +230,24 @@ export const RankingTable: React.FC<RankingTableProps> = ({
         {variant === "full" && (
           <>
             {/* Wins */}
-            <View className="w-12 items-center">
-              <Text className="text-sm text-gray-900 dark:text-white">
-                {ranking.wins}
-              </Text>
+            <View style={rankingTableStyles.statsCell}>
+              <Text style={rankingTableStyles.statsText}>{ranking.wins}</Text>
             </View>
 
             {/* Losses */}
-            <View className="w-12 items-center">
-              <Text className="text-sm text-gray-900 dark:text-white">
-                {ranking.losses}
-              </Text>
+            <View style={rankingTableStyles.statsCell}>
+              <Text style={rankingTableStyles.statsText}>{ranking.losses}</Text>
             </View>
           </>
         )}
 
         {/* Points */}
-        <View className="w-16 items-center">
+        <View style={rankingTableStyles.statsCell_points}>
           <Text
-            className={`text-sm font-semibold ${
-              isHighlighted
-                ? "text-primary-600 dark:text-primary-400"
-                : "text-gray-900 dark:text-white"
-            }`}
+            style={[
+              rankingTableStyles.statsText,
+              isHighlighted && rankingTableStyles.statsText_highlighted,
+            ]}
           >
             {formatNumber(ranking.points)}
           </Text>
@@ -256,8 +256,8 @@ export const RankingTable: React.FC<RankingTableProps> = ({
         {variant === "full" && (
           <>
             {/* Win Rate */}
-            <View className="w-16 items-center">
-              <Text className="text-sm text-gray-900 dark:text-white">
+            <View style={rankingTableStyles.statsCell_winRate}>
+              <Text style={rankingTableStyles.statsText}>
                 {formatPercentage(ranking.winRate)}
               </Text>
             </View>
@@ -282,7 +282,7 @@ export const RankingTable: React.FC<RankingTableProps> = ({
   // Loading state
   if (loading) {
     return (
-      <View className={`flex-1 ${className}`}>
+      <View style={[rankingTableStyles.loadingContainer, style]}>
         <LoadingSpinner overlay={false} />
       </View>
     );
@@ -291,7 +291,7 @@ export const RankingTable: React.FC<RankingTableProps> = ({
   // Empty state
   if (rankings.length === 0) {
     return (
-      <View className={`flex-1 ${className}`}>
+      <View style={[rankingTableStyles.emptyContainer, style]}>
         <EmptyState
           variant="no-data"
           title="Chưa có bảng xếp hạng"
@@ -303,36 +303,56 @@ export const RankingTable: React.FC<RankingTableProps> = ({
 
   return (
     <ScrollView
-      className={`flex-1 bg-white dark:bg-gray-800 ${className}`}
+      style={[rankingTableStyles.container, style]}
       showsVerticalScrollIndicator={false}
     >
       {Object.entries(groupedRankings).map(([groupName, groupRankings]) => (
         <View key={groupName}>
           {/* Group Header */}
           {showGroupHeaders && (
-            <View className="bg-gray-100 dark:bg-gray-900 px-4 py-2">
-              <Text className="text-sm font-semibold text-gray-900 dark:text-white">
+            <View style={rankingTableStyles.groupHeader}>
+              <Text style={rankingTableStyles.groupHeaderText}>
                 {groupName}
               </Text>
             </View>
           )}
 
           {/* Table Header */}
-          <View className="flex-row items-center bg-gray-50 dark:bg-gray-900 border-b-2 border-gray-300 dark:border-gray-600">
-            {renderHeader("Hạng", "position", "w-16")}
-            <View className="flex-1 py-3 px-2">
-              <Text className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
-                Vận động viên
-              </Text>
+          <View style={rankingTableStyles.headerRow}>
+            {renderHeader(
+              "Hạng",
+              "position",
+              rankingTableStyles.headerCell_rank
+            )}
+            <View
+              style={[
+                rankingTableStyles.headerCell,
+                rankingTableStyles.headerCell_player,
+              ]}
+            >
+              <Text style={rankingTableStyles.headerText}>Vận động viên</Text>
             </View>
             {variant === "full" && (
               <>
-                {renderHeader("T", "wins", "w-12")}
-                {renderHeader("TH", "losses", "w-12")}
+                {renderHeader("T", "wins", rankingTableStyles.headerCell_wins)}
+                {renderHeader(
+                  "TH",
+                  "losses",
+                  rankingTableStyles.headerCell_losses
+                )}
               </>
             )}
-            {renderHeader("Điểm", "points", "w-16")}
-            {variant === "full" && renderHeader("Tỉ lệ", "winRate", "w-16")}
+            {renderHeader(
+              "Điểm",
+              "points",
+              rankingTableStyles.headerCell_points
+            )}
+            {variant === "full" &&
+              renderHeader(
+                "Tỉ lệ",
+                "winRate",
+                rankingTableStyles.headerCell_winRate
+              )}
           </View>
 
           {/* Table Rows */}

@@ -7,8 +7,21 @@
  */
 
 export const colors = {
-  // Primary Colors
+  // Base UI Colors (shadcn/ui compatible)
+  background: "#ffffff",
+  foreground: "#1f2937", // gray-800
+  card: "#ffffff",
+  cardForeground: "#1f2937",
+  popover: "#ffffff",
+  popoverForeground: "#1f2937",
+  border: "#e5e7eb", // gray-200
+  input: "#e5e7eb",
+  ring: "#0ea5e9", // primary-500
+
+  // Primary Colors (with DEFAULT and foreground for compatibility)
   primary: {
+    DEFAULT: "#0ea5e9",
+    foreground: "#ffffff",
     50: "#f0f9ff",
     100: "#e0f2fe",
     200: "#bae6fd",
@@ -20,9 +33,34 @@ export const colors = {
     800: "#075985",
     900: "#0c4a6e",
   },
+  primaryLight: "#e0f2fe", // primary-100
+  primaryForeground: "#ffffff",
 
-  // Secondary/Accent
+  // Secondary Colors (with DEFAULT and foreground)
+  secondary: {
+    DEFAULT: "#f3f4f6", // gray-100
+    foreground: "#1f2937", // gray-800
+  },
+  secondaryForeground: "#1f2937",
+
+  // Muted Colors (with DEFAULT and foreground)
+  muted: {
+    DEFAULT: "#f9fafb", // gray-50
+    foreground: "#6b7280", // gray-500
+  },
+  mutedForeground: "#6b7280", // gray-500
+
+  // Destructive Colors (with DEFAULT and foreground)
+  destructive: {
+    DEFAULT: "#ef4444", // error-500
+    foreground: "#ffffff",
+  },
+  destructiveForeground: "#ffffff",
+
+  // Accent (with DEFAULT and foreground)
   accent: {
+    DEFAULT: "#a855f7",
+    foreground: "#ffffff",
     50: "#faf5ff",
     100: "#f3e8ff",
     200: "#e9d5ff",
@@ -34,6 +72,7 @@ export const colors = {
     800: "#6b21a8",
     900: "#581c87",
   },
+  accentForeground: "#ffffff",
 
   // Status Colors
   success: {
@@ -48,6 +87,7 @@ export const colors = {
     800: "#166534",
     900: "#14532d",
   },
+  statusSuccess: "#22c55e", // success-500
 
   warning: {
     50: "#fffbeb",
@@ -61,6 +101,7 @@ export const colors = {
     800: "#92400e",
     900: "#78350f",
   },
+  statusWarning: "#f59e0b", // warning-500
 
   error: {
     50: "#fef2f2",
@@ -74,6 +115,7 @@ export const colors = {
     800: "#991b1b",
     900: "#7f1d1d",
   },
+  statusError: "#ef4444", // error-500
 
   info: {
     50: "#eff6ff",
@@ -87,6 +129,7 @@ export const colors = {
     800: "#1e40af",
     900: "#1e3a8a",
   },
+  statusInfo: "#3b82f6", // info-500
 
   // Neutral Colors
   gray: {
@@ -100,6 +143,20 @@ export const colors = {
     700: "#374151",
     800: "#1f2937",
     900: "#111827",
+  },
+
+  // Convenience aliases for light variants
+  successLight: "#dcfce7", // success-100
+  warningLight: "#fef3c7", // warning-100
+  errorLight: "#fee2e2", // error-100
+  infoLight: "#dbeafe", // info-100
+
+  // Status object for compatibility
+  status: {
+    success: "#22c55e", // success-500
+    warning: "#f59e0b", // warning-500
+    error: "#ef4444", // error-500
+    info: "#3b82f6", // info-500
   },
 
   // Match Status Colors

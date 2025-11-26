@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, ViewStyle } from "react-native";
+import { statusBadgeStyles } from "./StatusBadgeStyle";
 
 export type StatusVariant = "match" | "tournament" | "complaint";
 
@@ -54,127 +55,36 @@ export interface StatusBadgeProps {
   size?: "small" | "medium" | "large";
 
   /**
-   * Additional CSS classes
+   * Additional custom styles
    */
-  className?: string;
+  style?: ViewStyle;
 }
 
-// Status configurations with labels and colors
-const statusConfig: Record<
-  StatusVariant,
-  Record<string, { label: string; colorClass: string }>
-> = {
+// Status label mappings
+const statusLabels: Record<StatusVariant, Record<string, string>> = {
   match: {
-    scheduled: {
-      label: "Sắp diễn ra",
-      colorClass:
-        "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300",
-    },
-    live: {
-      label: "Đang diễn ra",
-      colorClass:
-        "bg-error-100 dark:bg-error-900/30 text-error-700 dark:text-error-400",
-    },
-    completed: {
-      label: "Đã kết thúc",
-      colorClass:
-        "bg-success-100 dark:bg-success-900/30 text-success-700 dark:text-success-400",
-    },
-    cancelled: {
-      label: "Đã hủy",
-      colorClass:
-        "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400",
-    },
-    postponed: {
-      label: "Hoãn lại",
-      colorClass:
-        "bg-warning-100 dark:bg-warning-900/30 text-warning-700 dark:text-warning-400",
-    },
+    scheduled: "Sắp diễn ra",
+    live: "Đang diễn ra",
+    completed: "Đã kết thúc",
+    cancelled: "Đã hủy",
+    postponed: "Hoãn lại",
   },
   tournament: {
-    draft: {
-      label: "Nháp",
-      colorClass:
-        "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400",
-    },
-    registration_open: {
-      label: "Đang mở đăng ký",
-      colorClass:
-        "bg-info-100 dark:bg-info-900/30 text-info-700 dark:text-info-400",
-    },
-    registration_closed: {
-      label: "Đóng đăng ký",
-      colorClass:
-        "bg-warning-100 dark:bg-warning-900/30 text-warning-700 dark:text-warning-400",
-    },
-    ongoing: {
-      label: "Đang diễn ra",
-      colorClass:
-        "bg-success-100 dark:bg-success-900/30 text-success-700 dark:text-success-400",
-    },
-    completed: {
-      label: "Đã kết thúc",
-      colorClass:
-        "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400",
-    },
-    cancelled: {
-      label: "Đã hủy",
-      colorClass:
-        "bg-error-100 dark:bg-error-900/30 text-error-700 dark:text-error-400",
-    },
+    draft: "Nháp",
+    registration_open: "Đang mở đăng ký",
+    registration_closed: "Đóng đăng ký",
+    ongoing: "Đang diễn ra",
+    completed: "Đã kết thúc",
+    cancelled: "Đã hủy",
   },
   complaint: {
-    draft: {
-      label: "Nháp",
-      colorClass:
-        "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400",
-    },
-    pending_review: {
-      label: "Chờ xem xét",
-      colorClass:
-        "bg-warning-100 dark:bg-warning-900/30 text-warning-700 dark:text-warning-400",
-    },
-    under_review: {
-      label: "Đang xem xét",
-      colorClass:
-        "bg-info-100 dark:bg-info-900/30 text-info-700 dark:text-info-400",
-    },
-    approved: {
-      label: "Đã chấp nhận",
-      colorClass:
-        "bg-success-100 dark:bg-success-900/30 text-success-700 dark:text-success-400",
-    },
-    rejected: {
-      label: "Đã từ chối",
-      colorClass:
-        "bg-error-100 dark:bg-error-900/30 text-error-700 dark:text-error-400",
-    },
-    resolved: {
-      label: "Đã giải quyết",
-      colorClass:
-        "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400",
-    },
-    submitted: {
-      label: "Đã gửi",
-      colorClass:
-        "bg-info-100 dark:bg-info-900/30 text-info-700 dark:text-info-400",
-    },
-  },
-};
-
-// Size configurations
-const sizeConfig = {
-  small: {
-    container: "px-2 py-0.5 rounded-md",
-    text: "text-xs",
-  },
-  medium: {
-    container: "px-3 py-1 rounded-lg",
-    text: "text-sm",
-  },
-  large: {
-    container: "px-4 py-1.5 rounded-xl",
-    text: "text-base",
+    draft: "Nháp",
+    pending_review: "Chờ xem xét",
+    under_review: "Đang xem xét",
+    approved: "Đã chấp nhận",
+    rejected: "Đã từ chối",
+    resolved: "Đã giải quyết",
+    submitted: "Đã gửi",
   },
 };
 
@@ -200,26 +110,52 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
   variant = "match",
   status,
   size = "medium",
-  className,
+  style,
 }) => {
-  // Get configuration for this variant and status
-  const config = statusConfig[variant]?.[status] || {
-    label: status,
-    colorClass: "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400",
-  };
+  // Get label for this status
+  const label = statusLabels[variant]?.[status] || status;
 
-  const sizeStyles = sizeConfig[size];
+  // Get container and text size styles
+  const containerSizeStyle =
+    size === "small"
+      ? statusBadgeStyles.container_small
+      : size === "large"
+      ? statusBadgeStyles.container_large
+      : statusBadgeStyles.container_medium;
+
+  const textSizeStyle =
+    size === "small"
+      ? statusBadgeStyles.text_small
+      : size === "large"
+      ? statusBadgeStyles.text_large
+      : statusBadgeStyles.text_medium;
+
+  // Get status-specific styles (ViewStyle keys don't have _text suffix)
+  const statusKey = `${variant}_${status}` as keyof typeof statusBadgeStyles;
+  const statusTextKey =
+    `${variant}_${status}_text` as keyof typeof statusBadgeStyles;
+
+  const statusStyle = statusBadgeStyles[statusKey];
+  const statusTextStyle = statusBadgeStyles[statusTextKey];
+
+  // Build final styles - check if statusStyle exists and is not a text style
+  const containerStyle =
+    statusStyle &&
+    typeof statusStyle === "object" &&
+    "backgroundColor" in statusStyle
+      ? statusStyle
+      : statusBadgeStyles.default;
+
+  const textStyle =
+    statusTextStyle &&
+    typeof statusTextStyle === "object" &&
+    "color" in statusTextStyle
+      ? statusTextStyle
+      : statusBadgeStyles.default_text;
 
   return (
-    <View
-      className={`
-        ${sizeStyles.container} 
-        ${config.colorClass} 
-        self-start
-        ${className || ""}
-      `.trim()}
-    >
-      <Text className={`${sizeStyles.text} font-semibold`}>{config.label}</Text>
+    <View style={[containerSizeStyle, containerStyle, style]}>
+      <Text style={[textSizeStyle, textStyle]}>{label}</Text>
     </View>
   );
 };

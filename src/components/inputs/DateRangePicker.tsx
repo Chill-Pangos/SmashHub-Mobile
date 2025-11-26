@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Modal, ViewStyle } from "react-native";
 import { Calendar, X, ChevronLeft, ChevronRight } from "lucide-react-native";
 import { formatDate } from "../../utils/format";
-import { colors, iconSizes } from "../../constants/design-tokens";
+import { iconSizes } from "../../constants/design-tokens";
+import { iconColors } from "../../styles/iconColors";
+import { dateRangePickerStyles } from "./DateRangePickerStyle";
 import {
   startOfMonth,
   endOfMonth,
@@ -54,8 +56,8 @@ export interface DateRangePickerProps {
   singleDate?: boolean;
   /** Placeholder text */
   placeholder?: string;
-  /** Custom className */
-  className?: string;
+  /** Custom style */
+  style?: ViewStyle;
 }
 
 /**
@@ -86,7 +88,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   showPresets = true,
   singleDate = false,
   placeholder = "Chọn ngày",
-  className = "",
+  style,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -230,21 +232,21 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const weekDays = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
 
   return (
-    <View className={className}>
+    <View style={style}>
       {/* Trigger Button */}
       <TouchableOpacity
         onPress={() => setIsModalVisible(true)}
-        className="flex-row items-center justify-between bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3"
+        style={dateRangePickerStyles.triggerButton}
         activeOpacity={0.7}
       >
-        <View className="flex-row items-center flex-1">
-          <Calendar size={iconSizes.sm} color={colors.gray[500]} />
+        <View style={dateRangePickerStyles.triggerContent}>
+          <Calendar size={iconSizes.sm} color={iconColors.muted} />
           <Text
-            className={`ml-2 flex-1 ${
+            style={
               startDate
-                ? "text-gray-900 dark:text-white"
-                : "text-gray-400 dark:text-gray-500"
-            }`}
+                ? dateRangePickerStyles.triggerText
+                : dateRangePickerStyles.triggerPlaceholder
+            }
             numberOfLines={1}
           >
             {getDisplayText()}
@@ -256,9 +258,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
               e.stopPropagation();
               handleClear();
             }}
-            className="ml-2 p-1"
+            style={dateRangePickerStyles.clearButton}
+            activeOpacity={0.7}
           >
-            <X size={iconSizes.sm} color={colors.gray[400]} />
+            <X size={iconSizes.sm} color={iconColors.muted} />
           </TouchableOpacity>
         )}
       </TouchableOpacity>
@@ -266,26 +269,29 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
       {/* Calendar Modal */}
       <Modal
         visible={isModalVisible}
-        animationType="slide"
+        animationType="fade"
         transparent
         onRequestClose={() => setIsModalVisible(false)}
       >
-        <View className="flex-1 justify-end bg-black/50">
-          <View className="bg-white dark:bg-gray-800 rounded-t-3xl max-h-[90%]">
+        <View style={dateRangePickerStyles.modalOverlay}>
+          <View style={dateRangePickerStyles.modalContainer}>
             {/* Header */}
-            <View className="flex-row items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-              <Text className="text-lg font-bold text-gray-900 dark:text-white">
+            <View style={dateRangePickerStyles.modalHeader}>
+              <Text style={dateRangePickerStyles.modalTitle}>
                 {singleDate ? "Chọn ngày" : "Chọn khoảng thời gian"}
               </Text>
-              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                <X size={iconSizes.md} color={colors.gray[400]} />
+              <TouchableOpacity
+                onPress={() => setIsModalVisible(false)}
+                activeOpacity={0.7}
+              >
+                <X size={iconSizes.md} color={iconColors.muted} />
               </TouchableOpacity>
             </View>
 
             {/* Quick Presets */}
             {showPresets && !singleDate && (
-              <View className="p-4 border-b border-gray-200 dark:border-gray-700">
-                <View className="flex-row flex-wrap gap-2">
+              <View style={dateRangePickerStyles.presetsContainer}>
+                <View style={dateRangePickerStyles.presetsGrid}>
                   {[
                     { label: "Hôm nay", value: "today" as DatePreset },
                     { label: "Hôm qua", value: "yesterday" as DatePreset },
@@ -297,10 +303,10 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
                     <TouchableOpacity
                       key={preset.value}
                       onPress={() => applyPreset(preset.value)}
-                      className="px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg"
+                      style={dateRangePickerStyles.presetButton}
                       activeOpacity={0.7}
                     >
-                      <Text className="text-sm text-gray-700 dark:text-gray-300">
+                      <Text style={dateRangePickerStyles.presetButtonText}>
                         {preset.label}
                       </Text>
                     </TouchableOpacity>
@@ -310,39 +316,42 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
             )}
 
             {/* Calendar */}
-            <View className="p-4">
+            <View style={dateRangePickerStyles.calendarContainer}>
               {/* Month Navigation */}
-              <View className="flex-row items-center justify-between mb-4">
+              <View style={dateRangePickerStyles.monthNavigation}>
                 <TouchableOpacity
                   onPress={() => setCurrentMonth(addMonths(currentMonth, -1))}
-                  className="p-2"
+                  style={dateRangePickerStyles.monthNavigationButton}
+                  activeOpacity={0.7}
                 >
-                  <ChevronLeft size={iconSizes.md} color={colors.gray[600]} />
+                  <ChevronLeft size={iconSizes.md} color={iconColors.default} />
                 </TouchableOpacity>
-                <Text className="text-lg font-semibold text-gray-900 dark:text-white">
+                <Text style={dateRangePickerStyles.monthText}>
                   {format(currentMonth, "MMMM yyyy", { locale: vi })}
                 </Text>
                 <TouchableOpacity
                   onPress={() => setCurrentMonth(addMonths(currentMonth, 1))}
-                  className="p-2"
+                  style={dateRangePickerStyles.monthNavigationButton}
+                  activeOpacity={0.7}
                 >
-                  <ChevronRight size={iconSizes.md} color={colors.gray[600]} />
+                  <ChevronRight
+                    size={iconSizes.md}
+                    color={iconColors.default}
+                  />
                 </TouchableOpacity>
               </View>
 
               {/* Week Days */}
-              <View className="flex-row mb-2">
+              <View style={dateRangePickerStyles.weekDaysRow}>
                 {weekDays.map((day) => (
-                  <View key={day} className="flex-1 items-center py-2">
-                    <Text className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                      {day}
-                    </Text>
+                  <View key={day} style={dateRangePickerStyles.weekDay}>
+                    <Text style={dateRangePickerStyles.weekDayText}>{day}</Text>
                   </View>
                 ))}
               </View>
 
               {/* Calendar Grid */}
-              <View className="flex-row flex-wrap">
+              <View style={dateRangePickerStyles.calendarGrid}>
                 {calendarDays.map((day, index) => {
                   const isSelected =
                     (tempStartDate && isSameDay(day, tempStartDate)) ||
@@ -352,37 +361,42 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
                   const isTodayDate = isToday(day);
                   const disabled = isDisabled(day);
 
+                  // Determine day text style
+                  let dayTextStyle = dateRangePickerStyles.dayText_default;
+                  if (disabled) {
+                    dayTextStyle = dateRangePickerStyles.dayText_disabled;
+                  } else if (isSelected) {
+                    dayTextStyle = dateRangePickerStyles.dayText_selected;
+                  } else if (!isCurrentMonth) {
+                    dayTextStyle =
+                      dateRangePickerStyles.dayText_notCurrentMonth;
+                  }
+
                   return (
                     <TouchableOpacity
                       key={index}
                       onPress={() => !disabled && handleDatePress(day)}
                       disabled={disabled}
-                      className={`w-[14.28%] aspect-square items-center justify-center ${
-                        isInDateRange && !isSelected
-                          ? "bg-primary-100 dark:bg-primary-900/20"
-                          : ""
-                      }`}
+                      style={[
+                        dateRangePickerStyles.dayButton,
+                        isInDateRange &&
+                          !isSelected &&
+                          dateRangePickerStyles.dayButton_inRange,
+                      ]}
                       activeOpacity={0.7}
                     >
                       <View
-                        className={`w-10 h-10 items-center justify-center rounded-full ${
-                          isSelected
-                            ? "bg-primary-500"
-                            : isTodayDate
-                            ? "border-2 border-primary-500"
-                            : ""
-                        }`}
+                        style={[
+                          dateRangePickerStyles.dayCircle,
+                          isSelected &&
+                            dateRangePickerStyles.dayCircle_selected,
+                          isTodayDate &&
+                            !isSelected &&
+                            dateRangePickerStyles.dayCircle_today,
+                        ]}
                       >
                         <Text
-                          className={`text-base ${
-                            disabled
-                              ? "text-gray-300 dark:text-gray-600"
-                              : isSelected
-                              ? "text-white font-bold"
-                              : !isCurrentMonth
-                              ? "text-gray-400 dark:text-gray-500"
-                              : "text-gray-900 dark:text-white"
-                          }`}
+                          style={[dateRangePickerStyles.dayText, dayTextStyle]}
                         >
                           {format(day, "d")}
                         </Text>
@@ -394,18 +408,20 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
             </View>
 
             {/* Footer Actions */}
-            <View className="flex-row items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
-              <TouchableOpacity onPress={handleClear} className="px-4 py-2">
-                <Text className="text-base text-gray-600 dark:text-gray-400 font-medium">
-                  Xóa
-                </Text>
+            <View style={dateRangePickerStyles.footer}>
+              <TouchableOpacity
+                onPress={handleClear}
+                style={dateRangePickerStyles.clearFooterButton}
+                activeOpacity={0.7}
+              >
+                <Text style={dateRangePickerStyles.clearFooterText}>Xóa</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={handleApply}
-                className="bg-primary-500 px-6 py-3 rounded-lg"
-                activeOpacity={0.8}
+                style={dateRangePickerStyles.applyButton}
+                activeOpacity={0.7}
               >
-                <Text className="text-base text-white font-semibold">
+                <Text style={dateRangePickerStyles.applyButtonText}>
                   Áp dụng
                 </Text>
               </TouchableOpacity>

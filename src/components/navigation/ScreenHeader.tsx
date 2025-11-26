@@ -6,8 +6,17 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
-import { ChevronLeft, MoreVertical } from "lucide-react-native";
-import { colors, iconSizes } from "../../constants/design-tokens";
+import { LinearGradient } from "expo-linear-gradient";
+import {
+  ArrowLeft,
+  Search,
+  MoreVertical,
+  ChevronLeft,
+} from "lucide-react-native";
+import { colors, gradients } from "../../theme";
+import { iconColors } from "../../styles/iconColors";
+import { iconSizes } from "../../styles/iconSizes";
+import { screenHeaderStyles } from "./ScreenHeaderStyle";
 
 /**
  * Action Button for header
@@ -43,8 +52,6 @@ export interface ScreenHeaderProps {
   showMoreMenu?: boolean;
   /** Callback when more menu is pressed */
   onMoreMenuPress?: () => void;
-  /** Custom className */
-  className?: string;
 }
 
 /**
@@ -81,7 +88,6 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   actions = [],
   showMoreMenu = false,
   onMoreMenuPress,
-  className = "",
 }) => {
   // Get status bar height for safe area
   const statusBarHeight =
@@ -89,50 +95,43 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   const headerHeight = Platform.OS === "ios" ? 44 : 56;
   const totalHeight = statusBarHeight + headerHeight;
 
+  // Determine text colors based on variant
+  const isLightVariant = variant === "gradient" || variant === "transparent";
+  const titleColor = isLightVariant ? "#ffffff" : colors["gray-900"];
+  const subtitleColor = isLightVariant
+    ? "rgba(255, 255, 255, 0.8)"
+    : colors["gray-500"];
+  const iconColor = isLightVariant ? "#ffffff" : colors["gray-900"];
+
   /**
    * Render header content
    */
   const renderContent = () => (
     <>
       {/* Left Section - Back Button */}
-      <View className="flex-row items-center">
+      <View style={screenHeaderStyles.leftSection}>
         {showBackButton && onBackPress && (
           <TouchableOpacity
             onPress={onBackPress}
-            className="mr-2 p-2 -ml-2"
+            style={screenHeaderStyles.backButton}
             activeOpacity={0.7}
             accessibilityLabel="Quay lại"
           >
-            <ChevronLeft
-              size={iconSizes.lg}
-              color={
-                variant === "gradient" || variant === "transparent"
-                  ? "#fff"
-                  : colors.gray[900]
-              }
-            />
+            <ChevronLeft size={iconSizes.lg} color={iconColor} />
           </TouchableOpacity>
         )}
 
         {/* Title & Subtitle */}
-        <View className="flex-1">
+        <View style={screenHeaderStyles.titleContainer}>
           <Text
-            className={`text-lg font-bold ${
-              variant === "gradient" || variant === "transparent"
-                ? "text-white"
-                : "text-gray-900 dark:text-white"
-            }`}
+            style={[screenHeaderStyles.title, { color: titleColor }]}
             numberOfLines={1}
           >
             {title}
           </Text>
           {subtitle && (
             <Text
-              className={`text-xs mt-0.5 ${
-                variant === "gradient" || variant === "transparent"
-                  ? "text-white/80"
-                  : "text-gray-500 dark:text-gray-400"
-              }`}
+              style={[screenHeaderStyles.subtitle, { color: subtitleColor }]}
               numberOfLines={1}
             >
               {subtitle}
@@ -143,12 +142,12 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
 
       {/* Right Section - Actions */}
       {(actions.length > 0 || showMoreMenu) && (
-        <View className="flex-row items-center ml-2 space-x-1">
+        <View style={screenHeaderStyles.rightSection}>
           {actions.map((action) => (
             <TouchableOpacity
               key={action.id}
               onPress={action.onPress}
-              className="p-2"
+              style={screenHeaderStyles.actionButton}
               activeOpacity={0.7}
               accessibilityLabel={action.label}
             >
@@ -158,18 +157,11 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
           {showMoreMenu && onMoreMenuPress && (
             <TouchableOpacity
               onPress={onMoreMenuPress}
-              className="p-2"
+              style={screenHeaderStyles.actionButton}
               activeOpacity={0.7}
               accessibilityLabel="Xem thêm"
             >
-              <MoreVertical
-                size={iconSizes.md}
-                color={
-                  variant === "gradient" || variant === "transparent"
-                    ? "#fff"
-                    : colors.gray[900]
-                }
-              />
+              <MoreVertical size={iconSizes.md} color={iconColor} />
             </TouchableOpacity>
           )}
         </View>
@@ -177,20 +169,25 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
     </>
   );
 
-  // Gradient variant (using solid color for now, can be replaced with LinearGradient later)
+  // Gradient variant
   if (variant === "gradient") {
+    const gradientConfig = gradients.primary("horizontal");
     return (
-      <View className={`bg-primary-600 ${className}`}>
+      <LinearGradient
+        colors={gradientConfig.colors}
+        start={gradientConfig.start}
+        end={gradientConfig.end}
+        style={{ flex: 1 }}
+      >
         <View
-          style={{
-            paddingTop: statusBarHeight,
-            height: totalHeight,
-          }}
-          className="flex-row items-center justify-between px-4"
+          style={[
+            screenHeaderStyles.headerContainer,
+            { paddingTop: statusBarHeight, height: totalHeight },
+          ]}
         >
           {renderContent()}
         </View>
-      </View>
+      </LinearGradient>
     );
   }
 
@@ -198,14 +195,14 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   if (variant === "transparent") {
     return (
       <View
-        style={{
-          paddingTop: statusBarHeight,
-          height: totalHeight,
-        }}
-        className={`flex-row items-center justify-between px-4 bg-transparent ${className}`}
+        style={[
+          screenHeaderStyles.headerContainer,
+          screenHeaderStyles.transparentContainer,
+          { paddingTop: statusBarHeight, height: totalHeight },
+        ]}
       >
-        <View className="absolute inset-0 bg-black/30" />
-        <View className="flex-row items-center justify-between flex-1 z-10">
+        <View style={screenHeaderStyles.transparentOverlay} />
+        <View style={screenHeaderStyles.transparentContent}>
           {renderContent()}
         </View>
       </View>
@@ -216,11 +213,11 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   if (variant === "sticky") {
     return (
       <View
-        style={{
-          paddingTop: statusBarHeight,
-          height: totalHeight,
-        }}
-        className={`flex-row items-center justify-between px-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 ${className}`}
+        style={[
+          screenHeaderStyles.headerContainer,
+          screenHeaderStyles.stickyContainer,
+          { paddingTop: statusBarHeight, height: totalHeight },
+        ]}
       >
         {renderContent()}
       </View>
@@ -230,11 +227,11 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   // Default variant
   return (
     <View
-      style={{
-        paddingTop: statusBarHeight,
-        height: totalHeight,
-      }}
-      className={`flex-row items-center justify-between px-4 bg-white dark:bg-gray-800 ${className}`}
+      style={[
+        screenHeaderStyles.headerContainer,
+        screenHeaderStyles.defaultContainer,
+        { paddingTop: statusBarHeight, height: totalHeight },
+      ]}
     >
       {renderContent()}
     </View>

@@ -1,12 +1,14 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ViewStyle } from "react-native";
 import { ArrowLeft } from "lucide-react-native";
+import { headerStyles } from "./HeaderStyle";
 
 interface HeaderProps {
   title: string;
   showBack?: boolean;
   onBack?: () => void;
   rightAction?: React.ReactNode;
+  style?: ViewStyle;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -14,18 +16,25 @@ const Header: React.FC<HeaderProps> = ({
   showBack = false,
   onBack,
   rightAction,
+  style,
 }) => {
   return (
-    <View className="bg-white border-b border-gray-200 px-4 py-4 flex-row items-center justify-between">
-      <View className="flex-row items-center flex-1">
+    <View style={[headerStyles.container, style]}>
+      <View style={headerStyles.leftContainer}>
         {showBack && (
-          <TouchableOpacity onPress={onBack} className="mr-3">
+          <TouchableOpacity
+            onPress={onBack}
+            style={headerStyles.backButton}
+            activeOpacity={0.7}
+          >
             <ArrowLeft size={24} color="#1f2937" />
           </TouchableOpacity>
         )}
-        <Text className="text-xl font-bold text-gray-900">{title}</Text>
+        <Text style={headerStyles.title}>{title}</Text>
       </View>
-      {rightAction && <View>{rightAction}</View>}
+      {rightAction && (
+        <View style={headerStyles.rightContainer}>{rightAction}</View>
+      )}
     </View>
   );
 };

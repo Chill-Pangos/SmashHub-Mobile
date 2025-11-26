@@ -4,7 +4,11 @@ import {
   Text,
   ActivityIndicator,
   TouchableOpacityProps,
+  ViewStyle,
+  TextStyle,
 } from "react-native";
+import { colors } from "../../theme/colors";
+import { buttonStyles } from "./ButtonStyle";
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
@@ -19,52 +23,41 @@ const Button: React.FC<ButtonProps> = ({
   loading = false,
   size = "md",
   disabled,
+  style,
   ...props
 }) => {
-  const getVariantClasses = () => {
-    switch (variant) {
-      case "primary":
-        return "bg-blue-600 active:bg-blue-700";
-      case "secondary":
-        return "bg-gray-600 active:bg-gray-700";
-      case "outline":
-        return "bg-transparent border-2 border-blue-600";
-      default:
-        return "bg-blue-600 active:bg-blue-700";
-    }
+  const getButtonStyle = (): ViewStyle => {
+    const baseStyle = buttonStyles.button;
+    const variantStyle = buttonStyles[`button_${variant}`];
+    const sizeStyle = buttonStyles[`size_${size}`];
+    const disabledStyle =
+      disabled || loading ? buttonStyles.buttonDisabled : {};
+
+    return { ...baseStyle, ...variantStyle, ...sizeStyle, ...disabledStyle };
   };
 
-  const getSizeClasses = () => {
-    switch (size) {
-      case "sm":
-        return "px-3 py-2";
-      case "md":
-        return "px-4 py-3";
-      case "lg":
-        return "px-6 py-4";
-      default:
-        return "px-4 py-3";
-    }
+  const getTextStyle = (): TextStyle => {
+    const baseStyle = buttonStyles.text;
+    const variantTextStyle = buttonStyles[`text_${variant}`];
+
+    return { ...baseStyle, ...variantTextStyle };
   };
 
-  const getTextColor = () => {
-    return variant === "outline" ? "text-blue-600" : "text-white";
+  const getSpinnerColor = () => {
+    return variant === "outline" ? colors.primary.DEFAULT : "#ffffff";
   };
 
   return (
     <TouchableOpacity
-      className={`rounded-lg ${getVariantClasses()} ${getSizeClasses()} ${
-        disabled || loading ? "opacity-50" : ""
-      } items-center justify-center`}
+      style={[getButtonStyle(), style]}
+      activeOpacity={0.7}
       disabled={disabled || loading}
       {...props}
     >
       {loading ? (
-        <ActivityIndicator
-          color={variant === "outline" ? "#2563eb" : "#ffffff"}
-        />
+        <ActivityIndicator color={getSpinnerColor()} />
       ) : (
-        <Text className={`font-semibold ${getTextColor()}`}>{title}</Text>
+        <Text style={getTextStyle()}>{title}</Text>
       )}
     </TouchableOpacity>
   );

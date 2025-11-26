@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, ViewStyle } from "react-native";
 import {
   Trophy,
   TrendingUp,
@@ -13,6 +13,7 @@ import {
   getInitials,
 } from "../../utils/format";
 import { colors, iconSizes } from "../../constants/design-tokens";
+import { athleteCardStyles } from "./AthleteCardStyle";
 
 /**
  * Athlete Stats for card display
@@ -53,8 +54,8 @@ export interface AthleteCardProps {
   onActionsPress?: () => void;
   /** Show online status indicator */
   showOnlineStatus?: boolean;
-  /** Custom className for styling */
-  className?: string;
+  /** Custom style */
+  style?: ViewStyle;
 }
 
 /**
@@ -83,7 +84,7 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
   showActions = false,
   onActionsPress,
   showOnlineStatus = false,
-  className = "",
+  style,
 }) => {
   // Calculate win/loss record if stats available
   const winLossRecord =
@@ -94,19 +95,20 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
   // Get trend icon
   const getTrendIcon = () => {
     if (!stats?.trend || stats.trend === "same") return null;
+    const isUp = stats.trend === "up";
     return (
       <View
-        className={`ml-2 ${
-          stats.trend === "up"
-            ? "bg-green-100 dark:bg-green-900/30"
-            : "bg-red-100 dark:bg-red-900/30"
-        } px-2 py-0.5 rounded-full flex-row items-center`}
+        style={
+          isUp
+            ? athleteCardStyles.stats_trendBadge_up
+            : athleteCardStyles.stats_trendBadge_down
+        }
       >
         <TrendingUp
           size={12}
-          color={stats.trend === "up" ? colors.success[600] : colors.error[600]}
+          color={isUp ? colors.success[600] : colors.error[600]}
           style={{
-            transform: [{ rotate: stats.trend === "up" ? "0deg" : "180deg" }],
+            transform: [{ rotate: isUp ? "0deg" : "180deg" }],
           }}
         />
       </View>
@@ -118,39 +120,36 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
     return (
       <TouchableOpacity
         onPress={onPress}
-        className={`bg-white dark:bg-gray-800 rounded-lg p-3 flex-row items-center border border-gray-200 dark:border-gray-700 ${className}`}
+        style={[athleteCardStyles.compact_container, style]}
         activeOpacity={0.7}
       >
         {/* Avatar */}
-        <View className="relative">
+        <View style={athleteCardStyles.compact_avatarContainer}>
           {athlete.avatar ? (
             <Image
               source={{ uri: athlete.avatar }}
-              className="w-10 h-10 rounded-full"
+              style={athleteCardStyles.compact_avatar}
             />
           ) : (
-            <View className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 items-center justify-center">
-              <Text className="text-gray-600 dark:text-gray-400 font-semibold text-sm">
+            <View style={athleteCardStyles.compact_avatarPlaceholder}>
+              <Text style={athleteCardStyles.compact_initialsText}>
                 {getInitials(athlete.name)}
               </Text>
             </View>
           )}
           {/* Online Status */}
           {showOnlineStatus && athlete.isOnline && (
-            <View className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full" />
+            <View style={athleteCardStyles.compact_onlineIndicator} />
           )}
         </View>
 
         {/* Info */}
-        <View className="flex-1 ml-3">
-          <Text
-            className="text-base font-semibold text-gray-900 dark:text-white"
-            numberOfLines={1}
-          >
+        <View style={athleteCardStyles.compact_info}>
+          <Text style={athleteCardStyles.compact_name} numberOfLines={1}>
             {athlete.name}
           </Text>
           <Text
-            className="text-xs text-gray-500 dark:text-gray-400"
+            style={athleteCardStyles.compact_organization}
             numberOfLines={1}
           >
             {athlete.organization || stats?.organization || "Không có đơn vị"}
@@ -159,9 +158,9 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
 
         {/* Ranking Badge (if available) */}
         {stats?.ranking && (
-          <View className="bg-yellow-100 dark:bg-yellow-900/30 px-3 py-1 rounded-full flex-row items-center">
-            <Trophy size={14} color={colors.warning[600]} />
-            <Text className="text-sm font-bold text-yellow-700 dark:text-yellow-400 ml-1">
+          <View style={athleteCardStyles.compact_rankingBadge}>
+            <Trophy size={14} color="#f59e0b" />
+            <Text style={athleteCardStyles.compact_rankingText}>
               #{stats.ranking}
             </Text>
           </View>
@@ -169,7 +168,11 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
 
         {/* Actions Button */}
         {showActions && onActionsPress && (
-          <TouchableOpacity onPress={onActionsPress} className="ml-2 p-1">
+          <TouchableOpacity
+            onPress={onActionsPress}
+            style={athleteCardStyles.compact_actionButton}
+            activeOpacity={0.7}
+          >
             <MoreVertical size={iconSizes.sm} color={colors.gray[400]} />
           </TouchableOpacity>
         )}
@@ -182,41 +185,38 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
     return (
       <TouchableOpacity
         onPress={onPress}
-        className={`bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 ${className}`}
+        style={[athleteCardStyles.stats_container, style]}
         activeOpacity={0.7}
       >
-        <View className="flex-row items-start">
+        <View style={athleteCardStyles.stats_topRow}>
           {/* Avatar */}
-          <View className="relative">
+          <View style={athleteCardStyles.stats_avatarContainer}>
             {athlete.avatar ? (
               <Image
                 source={{ uri: athlete.avatar }}
-                className="w-14 h-14 rounded-full"
+                style={athleteCardStyles.stats_avatar}
               />
             ) : (
-              <View className="w-14 h-14 rounded-full bg-gray-200 dark:bg-gray-700 items-center justify-center">
-                <Text className="text-gray-600 dark:text-gray-400 font-semibold text-lg">
+              <View style={athleteCardStyles.stats_avatarPlaceholder}>
+                <Text style={athleteCardStyles.stats_initialsText}>
                   {getInitials(athlete.name)}
                 </Text>
               </View>
             )}
             {showOnlineStatus && athlete.isOnline && (
-              <View className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full" />
+              <View style={athleteCardStyles.stats_onlineIndicator} />
             )}
           </View>
 
           {/* Info & Stats */}
-          <View className="flex-1 ml-3">
-            <View className="flex-row items-start justify-between">
-              <View className="flex-1">
-                <Text
-                  className="text-base font-bold text-gray-900 dark:text-white"
-                  numberOfLines={1}
-                >
+          <View style={athleteCardStyles.stats_infoContainer}>
+            <View style={athleteCardStyles.stats_headerRow}>
+              <View style={athleteCardStyles.stats_nameContainer}>
+                <Text style={athleteCardStyles.stats_name} numberOfLines={1}>
                   {athlete.name}
                 </Text>
                 <Text
-                  className="text-sm text-gray-500 dark:text-gray-400 mt-0.5"
+                  style={athleteCardStyles.stats_organization}
                   numberOfLines={1}
                 >
                   {athlete.organization ||
@@ -226,7 +226,11 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
               </View>
 
               {showActions && onActionsPress && (
-                <TouchableOpacity onPress={onActionsPress} className="ml-2 p-1">
+                <TouchableOpacity
+                  onPress={onActionsPress}
+                  style={athleteCardStyles.stats_actionButton}
+                  activeOpacity={0.7}
+                >
                   <MoreVertical size={iconSizes.sm} color={colors.gray[400]} />
                 </TouchableOpacity>
               )}
@@ -234,12 +238,12 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
 
             {/* Stats Row */}
             {stats && (
-              <View className="flex-row items-center mt-3 space-x-4">
+              <View style={athleteCardStyles.stats_statsRow}>
                 {/* Ranking */}
                 {stats.ranking && (
-                  <View className="flex-row items-center">
+                  <View style={athleteCardStyles.stats_rankingContainer}>
                     <Trophy size={iconSizes.sm} color={colors.warning[500]} />
-                    <Text className="text-sm font-bold text-gray-900 dark:text-white ml-1">
+                    <Text style={athleteCardStyles.stats_rankingText}>
                       #{stats.ranking}
                     </Text>
                     {getTrendIcon()}
@@ -248,8 +252,8 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
 
                 {/* Win/Loss */}
                 {winLossRecord && (
-                  <View className="flex-row items-center">
-                    <Text className="text-sm text-gray-600 dark:text-gray-400">
+                  <View style={athleteCardStyles.stats_winLossContainer}>
+                    <Text style={athleteCardStyles.stats_winLossText}>
                       {winLossRecord}
                     </Text>
                   </View>
@@ -257,8 +261,8 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
 
                 {/* Win Rate */}
                 {stats.winRate !== undefined && (
-                  <View className="bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded-full">
-                    <Text className="text-xs font-semibold text-green-700 dark:text-green-400">
+                  <View style={athleteCardStyles.stats_winRateBadge}>
+                    <Text style={athleteCardStyles.stats_winRateText}>
                       {formatPercentage(stats.winRate)}
                     </Text>
                   </View>
@@ -275,41 +279,38 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 ${className}`}
-      activeOpacity={0.8}
+      style={[athleteCardStyles.full_container, style]}
+      activeOpacity={0.7}
     >
       {/* Header Section */}
-      <View className="p-4">
-        <View className="flex-row items-start">
+      <View style={athleteCardStyles.full_header}>
+        <View style={athleteCardStyles.full_topRow}>
           {/* Avatar */}
-          <View className="relative">
+          <View style={athleteCardStyles.full_avatarContainer}>
             {athlete.avatar ? (
               <Image
                 source={{ uri: athlete.avatar }}
-                className="w-16 h-16 rounded-full"
+                style={athleteCardStyles.full_avatar}
               />
             ) : (
-              <View className="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-700 items-center justify-center">
+              <View style={athleteCardStyles.full_avatarPlaceholder}>
                 <UserIcon size={iconSizes.lg} color={colors.gray[400]} />
               </View>
             )}
             {showOnlineStatus && athlete.isOnline && (
-              <View className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full" />
+              <View style={athleteCardStyles.full_onlineIndicator} />
             )}
           </View>
 
           {/* Info */}
-          <View className="flex-1 ml-4">
-            <View className="flex-row items-start justify-between">
-              <View className="flex-1">
-                <Text
-                  className="text-lg font-bold text-gray-900 dark:text-white"
-                  numberOfLines={1}
-                >
+          <View style={athleteCardStyles.full_infoContainer}>
+            <View style={athleteCardStyles.full_headerRow}>
+              <View style={athleteCardStyles.full_nameContainer}>
+                <Text style={athleteCardStyles.full_name} numberOfLines={1}>
                   {athlete.name}
                 </Text>
                 <Text
-                  className="text-sm text-gray-500 dark:text-gray-400 mt-1"
+                  style={athleteCardStyles.full_organization}
                   numberOfLines={1}
                 >
                   {athlete.organization ||
@@ -317,8 +318,8 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
                     "Không có đơn vị"}
                 </Text>
                 {athlete.role && (
-                  <View className="mt-1 bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded-full self-start">
-                    <Text className="text-xs font-medium text-blue-700 dark:text-blue-400 capitalize">
+                  <View style={athleteCardStyles.full_roleBadge}>
+                    <Text style={athleteCardStyles.full_roleText}>
                       {athlete.role === "athlete"
                         ? "Vận động viên"
                         : athlete.role === "coach"
@@ -332,7 +333,11 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
               </View>
 
               {showActions && onActionsPress && (
-                <TouchableOpacity onPress={onActionsPress} className="ml-2 p-1">
+                <TouchableOpacity
+                  onPress={onActionsPress}
+                  style={athleteCardStyles.full_actionButton}
+                  activeOpacity={0.7}
+                >
                   <MoreVertical size={iconSizes.md} color={colors.gray[400]} />
                 </TouchableOpacity>
               )}
@@ -342,10 +347,7 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
 
         {/* Bio (if available) */}
         {athlete.bio && (
-          <Text
-            className="text-sm text-gray-600 dark:text-gray-400 mt-3"
-            numberOfLines={2}
-          >
+          <Text style={athleteCardStyles.full_bio} numberOfLines={2}>
             {athlete.bio}
           </Text>
         )}
@@ -353,43 +355,44 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
 
       {/* Stats Section */}
       {stats && (
-        <View className="bg-gray-50 dark:bg-gray-900 px-4 py-3 border-t border-gray-200 dark:border-gray-700">
-          <View className="flex-row items-center justify-around">
+        <View style={athleteCardStyles.full_statsSection}>
+          <View style={athleteCardStyles.full_statsRow}>
             {/* Ranking */}
             {stats.ranking && (
-              <View className="items-center">
-                <View className="flex-row items-center mb-1">
+              <View style={athleteCardStyles.full_statItem}>
+                <View style={athleteCardStyles.full_statIconRow}>
                   <Trophy size={iconSizes.sm} color={colors.warning[500]} />
                   {getTrendIcon()}
                 </View>
-                <Text className="text-2xl font-bold text-gray-900 dark:text-white">
+                <Text style={athleteCardStyles.full_statValue}>
                   #{stats.ranking}
                 </Text>
-                <Text className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  Hạng
-                </Text>
+                <Text style={athleteCardStyles.full_statLabel}>Hạng</Text>
               </View>
             )}
 
             {/* Win/Loss */}
             {stats.wins !== undefined && stats.losses !== undefined && (
-              <View className="items-center">
-                <Text className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+              <View style={athleteCardStyles.full_statItem}>
+                <Text
+                  style={[
+                    athleteCardStyles.full_statValue,
+                    { marginBottom: 4 },
+                  ]}
+                >
                   {stats.wins}-{stats.losses}
                 </Text>
-                <Text className="text-xs text-gray-500 dark:text-gray-400">
-                  Thắng/Thua
-                </Text>
+                <Text style={athleteCardStyles.full_statLabel}>Thắng/Thua</Text>
               </View>
             )}
 
             {/* Win Rate */}
             {stats.winRate !== undefined && (
-              <View className="items-center">
-                <Text className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
+              <View style={athleteCardStyles.full_statItem}>
+                <Text style={athleteCardStyles.full_statValue_green}>
                   {formatPercentage(stats.winRate)}
                 </Text>
-                <Text className="text-xs text-gray-500 dark:text-gray-400">
+                <Text style={athleteCardStyles.full_statLabel}>
                   Tỉ lệ thắng
                 </Text>
               </View>
@@ -397,13 +400,16 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
 
             {/* Points */}
             {stats.points !== undefined && (
-              <View className="items-center">
-                <Text className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+              <View style={athleteCardStyles.full_statItem}>
+                <Text
+                  style={[
+                    athleteCardStyles.full_statValue,
+                    { marginBottom: 4 },
+                  ]}
+                >
                   {formatNumber(stats.points)}
                 </Text>
-                <Text className="text-xs text-gray-500 dark:text-gray-400">
-                  Điểm
-                </Text>
+                <Text style={athleteCardStyles.full_statLabel}>Điểm</Text>
               </View>
             )}
           </View>
@@ -412,15 +418,18 @@ export const AthleteCard: React.FC<AthleteCardProps> = ({
 
       {/* Contact Info (if available) */}
       {(athlete.phone || athlete.email) && (
-        <View className="px-4 py-3 border-t border-gray-200 dark:border-gray-700">
+        <View style={athleteCardStyles.full_contactSection}>
           {athlete.phone && (
-            <Text className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+            <Text style={athleteCardStyles.full_contactItem}>
               📱 {athlete.phone}
             </Text>
           )}
           {athlete.email && (
             <Text
-              className="text-sm text-gray-600 dark:text-gray-400"
+              style={[
+                athleteCardStyles.full_contactItem,
+                athleteCardStyles.full_contactItemLast,
+              ]}
               numberOfLines={1}
             >
               ✉️ {athlete.email}

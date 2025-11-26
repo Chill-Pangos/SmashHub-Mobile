@@ -4,8 +4,13 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  ViewStyle,
+  TextStyle,
 } from "react-native";
 import { Search, X } from "lucide-react-native";
+import { colors } from "../../theme/colors";
+import { iconColors } from "../../styles/iconColors";
+import { searchBarStyles } from "./SearchBarStyle";
 
 export interface SearchBarProps {
   /**
@@ -59,14 +64,14 @@ export interface SearchBarProps {
   disabled?: boolean;
 
   /**
-   * Additional container classes
+   * Additional container style
    */
-  containerClassName?: string;
+  containerStyle?: ViewStyle;
 
   /**
-   * Additional input classes
+   * Additional input style
    */
-  inputClassName?: string;
+  inputStyle?: TextStyle;
 }
 
 /**
@@ -111,8 +116,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   autoFocus = false,
   onClear,
   disabled = false,
-  containerClassName,
-  inputClassName,
+  containerStyle,
+  inputStyle,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
@@ -144,26 +149,20 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     }
   };
 
-  // Determine border color
-  const getBorderColor = () => {
-    if (isFocused) return "border-primary-500";
-    return "border-gray-300 dark:border-gray-700";
+  // Get container style with border color
+  const getContainerStyle = (): ViewStyle => {
+    const borderColor = isFocused ? colors.primary.DEFAULT : colors.border;
+    const opacity = disabled ? 0.5 : 1;
+    return { ...searchBarStyles.container, borderColor, opacity };
   };
 
+  const iconColor = isFocused ? iconColors.primary : iconColors.muted;
+
   return (
-    <View
-      className={`
-        flex-row items-center
-        border-2 ${getBorderColor()}
-        rounded-xl
-        bg-white dark:bg-gray-800
-        ${disabled ? "opacity-50" : ""}
-        ${containerClassName || ""}
-      `.trim()}
-    >
+    <View style={[getContainerStyle(), containerStyle]}>
       {/* Search Icon */}
-      <View className="pl-4">
-        <Search size={20} color={isFocused ? "#0ea5e9" : "#9ca3af"} />
+      <View style={searchBarStyles.leftIcon}>
+        <Search size={20} color={iconColor} />
       </View>
 
       {/* Text Input */}
@@ -171,35 +170,29 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        placeholderTextColor="#9ca3af"
+        placeholderTextColor={iconColors.muted}
         autoFocus={autoFocus}
         editable={!disabled}
         returnKeyType="search"
         onSubmitEditing={() => onSearch?.(value)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        className={`
-          flex-1
-          px-3 py-3
-          text-base
-          text-gray-900 dark:text-white
-          ${inputClassName || ""}
-        `.trim()}
+        style={[searchBarStyles.input, inputStyle]}
       />
 
       {/* Loading Indicator or Clear Button */}
       {loading ? (
-        <View className="pr-4">
-          <ActivityIndicator size="small" color="#0ea5e9" />
+        <View style={searchBarStyles.rightIcon}>
+          <ActivityIndicator size="small" color={iconColors.primary} />
         </View>
       ) : value.length > 0 ? (
         <TouchableOpacity
           onPress={handleClear}
-          className="pr-4 active:opacity-50"
-          activeOpacity={0.5}
+          style={searchBarStyles.rightIcon}
+          activeOpacity={0.7}
           disabled={disabled}
         >
-          <X size={20} color="#9ca3af" />
+          <X size={20} color={iconColors.muted} />
         </TouchableOpacity>
       ) : null}
     </View>

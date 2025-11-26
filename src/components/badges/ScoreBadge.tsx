@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { colors } from "../../constants/design-tokens";
+import { View, Text, ViewStyle } from "react-native";
+import { scoreBadgeStyles } from "./ScoreBadgeStyle";
 
 /**
  * ScoreBadge Props
@@ -22,8 +22,8 @@ export interface ScoreBadgeProps {
   variant?: "default" | "compact" | "detailed";
   /** Highlight winner */
   highlightWinner?: boolean;
-  /** Custom className */
-  className?: string;
+  /** Custom style */
+  style?: ViewStyle;
 }
 
 /**
@@ -53,55 +53,58 @@ export const ScoreBadge: React.FC<ScoreBadgeProps> = ({
   isLive = false,
   variant = "default",
   highlightWinner = true,
-  className = "",
+  style,
 }) => {
-  // Size configurations
-  const sizeConfig = {
-    small: {
-      container: "px-2 py-1",
-      score: "text-sm",
-      name: "text-xs",
-      live: "text-xs px-1.5 py-0.5",
-    },
-    medium: {
-      container: "px-3 py-1.5",
-      score: "text-base",
-      name: "text-sm",
-      live: "text-xs px-2 py-1",
-    },
-    large: {
-      container: "px-4 py-2",
-      score: "text-lg",
-      name: "text-base",
-      live: "text-sm px-2.5 py-1",
-    },
-  };
-
-  const config = sizeConfig[size];
-
   // Determine winner
   const homeWins = homeScore > awayScore;
   const awayWins = awayScore > homeScore;
   const isDraw = homeScore === awayScore;
+
+  // Size-based style selection
+  const scoreContainerStyle =
+    size === "small"
+      ? scoreBadgeStyles.scoreContainer_small
+      : size === "large"
+      ? scoreBadgeStyles.scoreContainer_large
+      : scoreBadgeStyles.scoreContainer_medium;
+
+  const scoreTextStyle =
+    size === "small"
+      ? scoreBadgeStyles.scoreText_small
+      : size === "large"
+      ? scoreBadgeStyles.scoreText_large
+      : scoreBadgeStyles.scoreText_medium;
+
+  const nameTextStyle =
+    size === "small"
+      ? scoreBadgeStyles.nameText_small
+      : size === "large"
+      ? scoreBadgeStyles.nameText_large
+      : scoreBadgeStyles.nameText_medium;
+
+  const liveContainerStyle =
+    size === "small"
+      ? scoreBadgeStyles.liveContainer_small
+      : size === "large"
+      ? scoreBadgeStyles.liveContainer_large
+      : scoreBadgeStyles.liveContainer_medium;
 
   /**
    * Render compact variant (score only)
    */
   if (variant === "compact") {
     return (
-      <View className={`flex-row items-center ${className}`}>
-        <View
-          className={`${config.container} rounded-lg bg-gray-100 dark:bg-gray-800`}
-        >
+      <View style={[scoreBadgeStyles.compactContainer, style]}>
+        <View style={[scoreContainerStyle, scoreBadgeStyles.compactScore]}>
           <Text
-            className={`${config.score} font-bold text-gray-900 dark:text-white`}
+            style={[scoreTextStyle, scoreBadgeStyles.textSecondaryForeground]}
           >
             {homeScore} - {awayScore}
           </Text>
         </View>
         {isLive && (
-          <View className={`${config.live} ml-2 rounded-full bg-red-500`}>
-            <Text className="text-white font-semibold">LIVE</Text>
+          <View style={[liveContainerStyle, scoreBadgeStyles.compactLive]}>
+            <Text style={scoreBadgeStyles.liveText}>LIVE</Text>
           </View>
         )}
       </View>
@@ -113,40 +116,45 @@ export const ScoreBadge: React.FC<ScoreBadgeProps> = ({
    */
   if (variant === "detailed") {
     return (
-      <View className={`${className}`}>
+      <View style={[scoreBadgeStyles.detailedContainer, style]}>
         {isLive && (
-          <View
-            className={`${config.live} mb-2 rounded-full self-start bg-red-500`}
-          >
-            <Text className="text-white font-semibold">ĐANG DIỄN RA</Text>
+          <View style={[liveContainerStyle, { marginBottom: 8 }]}>
+            <Text style={scoreBadgeStyles.liveText}>ĐANG DIỄN RA</Text>
           </View>
         )}
 
         {/* Home */}
-        <View className="flex-row items-center justify-between mb-2">
+        <View style={scoreBadgeStyles.detailedRow}>
           <Text
-            className={`${config.name} flex-1 ${
+            style={[
+              nameTextStyle,
+              scoreBadgeStyles.detailedName,
               highlightWinner && homeWins
-                ? "font-bold text-gray-900 dark:text-white"
-                : "text-gray-600 dark:text-gray-400"
-            }`}
+                ? scoreBadgeStyles.textForeground
+                : scoreBadgeStyles.textMuted,
+              highlightWinner && homeWins && scoreBadgeStyles.fontBold,
+            ]}
             numberOfLines={1}
           >
             {homeName || "Đội nhà"}
           </Text>
           <View
-            className={`${config.container} rounded-lg ml-2 ${
+            style={[
+              scoreContainerStyle,
+              scoreBadgeStyles.detailedScore,
               highlightWinner && homeWins
-                ? "bg-primary-100 dark:bg-primary-900/30"
-                : "bg-gray-100 dark:bg-gray-800"
-            }`}
+                ? scoreBadgeStyles.bgPrimaryLight
+                : scoreBadgeStyles.bgSecondary,
+            ]}
           >
             <Text
-              className={`${config.score} font-bold ${
+              style={[
+                scoreTextStyle,
+                scoreBadgeStyles.fontBold,
                 highlightWinner && homeWins
-                  ? "text-primary-600 dark:text-primary-400"
-                  : "text-gray-900 dark:text-white"
-              }`}
+                  ? scoreBadgeStyles.textPrimary
+                  : scoreBadgeStyles.textSecondaryForeground,
+              ]}
             >
               {homeScore}
             </Text>
@@ -154,30 +162,42 @@ export const ScoreBadge: React.FC<ScoreBadgeProps> = ({
         </View>
 
         {/* Away */}
-        <View className="flex-row items-center justify-between">
+        <View
+          style={[
+            scoreBadgeStyles.detailedRow,
+            scoreBadgeStyles.detailedRowLast,
+          ]}
+        >
           <Text
-            className={`${config.name} flex-1 ${
+            style={[
+              nameTextStyle,
+              scoreBadgeStyles.detailedName,
               highlightWinner && awayWins
-                ? "font-bold text-gray-900 dark:text-white"
-                : "text-gray-600 dark:text-gray-400"
-            }`}
+                ? scoreBadgeStyles.textForeground
+                : scoreBadgeStyles.textMuted,
+              highlightWinner && awayWins && scoreBadgeStyles.fontBold,
+            ]}
             numberOfLines={1}
           >
             {awayName || "Đội khách"}
           </Text>
           <View
-            className={`${config.container} rounded-lg ml-2 ${
+            style={[
+              scoreContainerStyle,
+              scoreBadgeStyles.detailedScore,
               highlightWinner && awayWins
-                ? "bg-primary-100 dark:bg-primary-900/30"
-                : "bg-gray-100 dark:bg-gray-800"
-            }`}
+                ? scoreBadgeStyles.bgPrimaryLight
+                : scoreBadgeStyles.bgSecondary,
+            ]}
           >
             <Text
-              className={`${config.score} font-bold ${
+              style={[
+                scoreTextStyle,
+                scoreBadgeStyles.fontBold,
                 highlightWinner && awayWins
-                  ? "text-primary-600 dark:text-primary-400"
-                  : "text-gray-900 dark:text-white"
-              }`}
+                  ? scoreBadgeStyles.textPrimary
+                  : scoreBadgeStyles.textSecondaryForeground,
+              ]}
             >
               {awayScore}
             </Text>
@@ -191,45 +211,53 @@ export const ScoreBadge: React.FC<ScoreBadgeProps> = ({
    * Render default variant
    */
   return (
-    <View className={`flex-row items-center ${className}`}>
+    <View style={[scoreBadgeStyles.rowContainer, style]}>
       {/* Home Score */}
       <View
-        className={`${config.container} rounded-l-lg ${
+        style={[
+          scoreContainerStyle,
+          scoreBadgeStyles.roundedLeft,
           highlightWinner && homeWins
-            ? "bg-primary-100 dark:bg-primary-900/30"
-            : "bg-gray-100 dark:bg-gray-800"
-        }`}
+            ? scoreBadgeStyles.bgPrimaryLight
+            : scoreBadgeStyles.bgSecondary,
+        ]}
       >
         <Text
-          className={`${config.score} font-bold ${
+          style={[
+            scoreTextStyle,
+            scoreBadgeStyles.fontBold,
             highlightWinner && homeWins
-              ? "text-primary-600 dark:text-primary-400"
-              : "text-gray-900 dark:text-white"
-          }`}
+              ? scoreBadgeStyles.textPrimary
+              : scoreBadgeStyles.textSecondaryForeground,
+          ]}
         >
           {homeScore}
         </Text>
       </View>
 
       {/* Separator */}
-      <View className="px-1 bg-gray-100 dark:bg-gray-800">
-        <Text className={`${config.score} text-gray-400`}>-</Text>
+      <View style={scoreBadgeStyles.separator}>
+        <Text style={[scoreTextStyle, scoreBadgeStyles.textMuted]}>-</Text>
       </View>
 
       {/* Away Score */}
       <View
-        className={`${config.container} rounded-r-lg ${
+        style={[
+          scoreContainerStyle,
+          scoreBadgeStyles.roundedRight,
           highlightWinner && awayWins
-            ? "bg-primary-100 dark:bg-primary-900/30"
-            : "bg-gray-100 dark:bg-gray-800"
-        }`}
+            ? scoreBadgeStyles.bgPrimaryLight
+            : scoreBadgeStyles.bgSecondary,
+        ]}
       >
         <Text
-          className={`${config.score} font-bold ${
+          style={[
+            scoreTextStyle,
+            scoreBadgeStyles.fontBold,
             highlightWinner && awayWins
-              ? "text-primary-600 dark:text-primary-400"
-              : "text-gray-900 dark:text-white"
-          }`}
+              ? scoreBadgeStyles.textPrimary
+              : scoreBadgeStyles.textSecondaryForeground,
+          ]}
         >
           {awayScore}
         </Text>
@@ -237,8 +265,8 @@ export const ScoreBadge: React.FC<ScoreBadgeProps> = ({
 
       {/* Live Indicator */}
       {isLive && (
-        <View className={`${config.live} ml-2 rounded-full bg-red-500`}>
-          <Text className="text-white font-semibold">LIVE</Text>
+        <View style={[liveContainerStyle, { marginLeft: 8 }]}>
+          <Text style={scoreBadgeStyles.liveText}>LIVE</Text>
         </View>
       )}
     </View>

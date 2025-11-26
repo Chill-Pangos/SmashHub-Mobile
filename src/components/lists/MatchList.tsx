@@ -5,6 +5,7 @@ import {
   FlatList,
   RefreshControl,
   TouchableOpacity,
+  ViewStyle,
 } from "react-native";
 import { ChevronDown, ChevronUp } from "lucide-react-native";
 import { Match } from "../../types";
@@ -12,7 +13,9 @@ import { MatchCard } from "../cards/MatchCard";
 import { EmptyState } from "../states/EmptyState";
 import { LoadingSpinner } from "../states/LoadingSpinner";
 import { formatDate } from "../../utils/format";
-import { colors, iconSizes } from "../../constants/design-tokens";
+import { iconSizes } from "../../constants/design-tokens";
+import { iconColors } from "../../styles/iconColors";
+import { matchListStyles } from "./MatchListStyle";
 
 /**
  * Group By Options
@@ -50,8 +53,8 @@ export interface MatchListProps {
   highlightAthlete?: string;
   /** Empty state message */
   emptyMessage?: string;
-  /** Custom className */
-  className?: string;
+  /** Custom style */
+  style?: ViewStyle;
 }
 
 /**
@@ -94,7 +97,7 @@ export const MatchList: React.FC<MatchListProps> = ({
   showTournament = false,
   highlightAthlete,
   emptyMessage = "Không có trận đấu nào",
-  className = "",
+  style,
 }) => {
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(
     new Set()
@@ -223,22 +226,22 @@ export const MatchList: React.FC<MatchListProps> = ({
     return (
       <TouchableOpacity
         onPress={() => toggleGroup(group.key)}
-        className="bg-gray-100 dark:bg-gray-900 px-4 py-3 flex-row items-center justify-between"
+        style={matchListStyles.groupHeader}
         activeOpacity={0.7}
       >
-        <View className="flex-1">
-          <Text className="text-base font-semibold text-gray-900 dark:text-white">
-            {group.title}
-          </Text>
-          <Text className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+        <View style={matchListStyles.groupHeaderLeft}>
+          <Text style={matchListStyles.groupHeaderTitle}>{group.title}</Text>
+          <Text style={matchListStyles.groupHeaderSubtitle}>
             {group.data.length} trận đấu
           </Text>
         </View>
-        {group.collapsed ? (
-          <ChevronDown size={iconSizes.sm} color={colors.gray[500]} />
-        ) : (
-          <ChevronUp size={iconSizes.sm} color={colors.gray[500]} />
-        )}
+        <View style={matchListStyles.groupHeaderRight}>
+          {group.collapsed ? (
+            <ChevronDown size={iconSizes.sm} color={iconColors.muted} />
+          ) : (
+            <ChevronUp size={iconSizes.sm} color={iconColors.muted} />
+          )}
+        </View>
       </TouchableOpacity>
     );
   };
@@ -247,7 +250,7 @@ export const MatchList: React.FC<MatchListProps> = ({
    * Render match item
    */
   const renderMatch = (match: Match) => (
-    <View className="px-4 py-2">
+    <View style={matchListStyles.matchCardContainer}>
       <MatchCard
         match={match}
         variant="compact"
@@ -262,12 +265,13 @@ export const MatchList: React.FC<MatchListProps> = ({
    * Render group with matches
    */
   const renderGroup = ({ item: group }: { item: GroupedMatches }) => (
-    <View className="mb-2">
+    <View>
       {renderGroupHeader(group)}
       {!group.collapsed &&
         group.data.map((match) => (
           <View key={match.id}>{renderMatch(match)}</View>
         ))}
+      <View style={matchListStyles.sectionSeparator} />
     </View>
   );
 
@@ -276,7 +280,7 @@ export const MatchList: React.FC<MatchListProps> = ({
   // Loading state
   if (loading && matches.length === 0) {
     return (
-      <View className={`flex-1 ${className}`}>
+      <View style={[matchListStyles.loadingContainer, style]}>
         <LoadingSpinner overlay={false} />
       </View>
     );
@@ -285,7 +289,7 @@ export const MatchList: React.FC<MatchListProps> = ({
   // Empty state
   if (!loading && matches.length === 0) {
     return (
-      <View className={`flex-1 ${className}`}>
+      <View style={[matchListStyles.emptyContainer, style]}>
         <EmptyState
           variant="no-data"
           title={emptyMessage}
@@ -300,20 +304,20 @@ export const MatchList: React.FC<MatchListProps> = ({
       data={groupedMatches}
       renderItem={renderGroup}
       keyExtractor={(item) => item.key}
-      className={className}
+      style={[matchListStyles.list, style]}
+      contentContainerStyle={matchListStyles.listContent}
       refreshControl={
         onRefresh ? (
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor={colors.primary[500]}
+            tintColor={iconColors.primary}
           />
         ) : undefined
       }
       onEndReached={onEndReached}
       onEndReachedThreshold={0.5}
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingBottom: 16 }}
     />
   );
 };

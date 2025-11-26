@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { View, Text, TouchableOpacity, Modal, ViewStyle } from "react-native";
 import { X } from "lucide-react-native";
 import { colors, iconSizes } from "../../constants/design-tokens";
+import { actionSheetStyles } from "./ActionSheetStyle";
 
 /**
  * Action Sheet Item
@@ -84,33 +85,35 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
     <Modal
       visible={visible}
       transparent
-      animationType="slide"
+      animationType="fade"
       onRequestClose={onClose}
     >
       <TouchableOpacity
-        activeOpacity={1}
+        activeOpacity={0.95}
         onPress={onClose}
-        className="flex-1 justify-end bg-black/50"
+        style={actionSheetStyles.modalOverlay}
       >
         <TouchableOpacity activeOpacity={1}>
-          <View className="bg-white dark:bg-gray-800 rounded-t-3xl">
+          <View style={actionSheetStyles.container}>
             {/* Header */}
             {(title || description) && (
-              <View className="p-4 border-b border-gray-200 dark:border-gray-700">
-                <View className="flex-row items-start justify-between">
-                  <View className="flex-1">
+              <View style={actionSheetStyles.header}>
+                <View style={actionSheetStyles.headerRow}>
+                  <View style={actionSheetStyles.headerContent}>
                     {title && (
-                      <Text className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                        {title}
-                      </Text>
+                      <Text style={actionSheetStyles.title}>{title}</Text>
                     )}
                     {description && (
-                      <Text className="text-sm text-gray-600 dark:text-gray-400">
+                      <Text style={actionSheetStyles.description}>
                         {description}
                       </Text>
                     )}
                   </View>
-                  <TouchableOpacity onPress={onClose} className="ml-2 p-1">
+                  <TouchableOpacity
+                    onPress={onClose}
+                    style={actionSheetStyles.closeButton}
+                    activeOpacity={0.7}
+                  >
                     <X size={iconSizes.md} color={colors.gray[400]} />
                   </TouchableOpacity>
                 </View>
@@ -118,7 +121,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
             )}
 
             {/* Actions */}
-            <View className="py-2">
+            <View style={actionSheetStyles.actionsContainer}>
               {actions.map((action, index) => (
                 <TouchableOpacity
                   key={action.id}
@@ -129,22 +132,27 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                     }
                   }}
                   disabled={action.disabled}
-                  className={`flex-row items-center px-6 py-4 ${
-                    index < actions.length - 1
-                      ? "border-b border-gray-100 dark:border-gray-700"
-                      : ""
-                  } ${action.disabled ? "opacity-50" : ""}`}
+                  style={[
+                    actionSheetStyles.actionItem,
+                    index < actions.length - 1 &&
+                      actionSheetStyles.actionItem_withBorder,
+                    action.disabled && actionSheetStyles.actionItem_disabled,
+                  ]}
                   activeOpacity={0.7}
                 >
-                  {action.icon && <View className="mr-3">{action.icon}</View>}
+                  {action.icon && (
+                    <View style={actionSheetStyles.actionIcon}>
+                      {action.icon}
+                    </View>
+                  )}
                   <Text
-                    className={`text-base flex-1 ${
+                    style={[
+                      actionSheetStyles.actionLabel,
                       action.destructive
-                        ? "text-red-600 dark:text-red-400"
-                        : "text-gray-900 dark:text-white"
-                    } ${
-                      action.disabled ? "text-gray-400 dark:text-gray-600" : ""
-                    }`}
+                        ? actionSheetStyles.actionLabel_destructive
+                        : actionSheetStyles.actionLabel_normal,
+                      action.disabled && actionSheetStyles.actionLabel_disabled,
+                    ]}
                   >
                     {action.label}
                   </Text>
@@ -154,13 +162,13 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
 
             {/* Cancel Button */}
             {showCancel && (
-              <View className="border-t-8 border-gray-100 dark:border-gray-900">
+              <View style={actionSheetStyles.cancelSection}>
                 <TouchableOpacity
                   onPress={onClose}
-                  className="px-6 py-4"
+                  style={actionSheetStyles.cancelButton}
                   activeOpacity={0.7}
                 >
-                  <Text className="text-base text-center font-semibold text-gray-700 dark:text-gray-300">
+                  <Text style={actionSheetStyles.cancelText}>
                     {cancelLabel}
                   </Text>
                 </TouchableOpacity>
@@ -168,7 +176,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
             )}
 
             {/* Safe Area Bottom Padding */}
-            <View className="pb-safe" />
+            <View style={actionSheetStyles.safeArea} />
           </View>
         </TouchableOpacity>
       </TouchableOpacity>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { ScreenHeader, TabBar } from "../../../components";
 import { Bell, Settings } from "lucide-react-native";
 
@@ -50,7 +51,12 @@ const NavigationComponentsScreen: React.FC = () => {
           />
         </View>
 
-        <View className="mt-4 bg-gradient-to-br from-primary-500 to-primary-600 pt-4">
+        <LinearGradient
+          colors={['#e89b3c', '#d88320']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={{ marginTop: 16, paddingTop: 16 }}
+        >
           <ScreenHeader
             variant="transparent"
             title="Transparent Header"
@@ -65,7 +71,7 @@ const NavigationComponentsScreen: React.FC = () => {
               },
             ]}
           />
-        </View>
+        </LinearGradient>
       </View>
 
       <ScrollView>

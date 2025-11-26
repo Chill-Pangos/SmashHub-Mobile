@@ -1,10 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, ViewStyle } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { Calendar, MapPin, Users, Heart, Share2 } from "lucide-react-native";
 import { Tournament } from "../../types";
 import { formatDate, formatNumber } from "../../utils/format";
 import { StatusBadge } from "../badges/StatusBadge";
 import { colors, iconSizes } from "../../constants/design-tokens";
+import { tournamentCardStyles } from "./TournamentCardStyle";
 
 /**
  * TournamentCard Props
@@ -28,8 +30,8 @@ export interface TournamentCardProps {
   showRegistration?: boolean;
   /** Callback when register button is pressed */
   onRegister?: () => void;
-  /** Custom className for styling */
-  className?: string;
+  /** Custom style */
+  style?: ViewStyle;
 }
 
 /**
@@ -60,7 +62,7 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
   onShare,
   showRegistration = false,
   onRegister,
-  className = "",
+  style,
 }) => {
   const canRegister =
     tournament.status === "registration_open" &&
@@ -72,29 +74,26 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
     return (
       <TouchableOpacity
         onPress={onPress}
-        className={`bg-white dark:bg-gray-800 rounded-lg p-3 flex-row items-center border border-gray-200 dark:border-gray-700 ${className}`}
+        style={[tournamentCardStyles.compact_container, style]}
         activeOpacity={0.7}
       >
         {/* Tournament Logo */}
         {tournament.logoUrl && (
           <Image
             source={{ uri: tournament.logoUrl }}
-            className="w-12 h-12 rounded-md mr-3"
+            style={tournamentCardStyles.compact_logo}
             resizeMode="cover"
           />
         )}
 
         {/* Info */}
-        <View className="flex-1">
-          <Text
-            className="text-base font-semibold text-gray-900 dark:text-white mb-1"
-            numberOfLines={1}
-          >
+        <View style={tournamentCardStyles.compact_info}>
+          <Text style={tournamentCardStyles.compact_title} numberOfLines={1}>
             {tournament.name}
           </Text>
-          <View className="flex-row items-center">
-            <Calendar size={iconSizes.xs} color={colors.gray[500]} />
-            <Text className="text-xs text-gray-500 dark:text-gray-400 ml-1">
+          <View style={tournamentCardStyles.compact_dateRow}>
+            <Calendar size={iconSizes.xs} color="#94a3b8" />
+            <Text style={tournamentCardStyles.compact_dateText}>
               {formatDate(tournament.startDate)}
             </Text>
           </View>
@@ -115,50 +114,60 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
     return (
       <TouchableOpacity
         onPress={onPress}
-        className={`rounded-xl overflow-hidden ${className}`}
+        style={[tournamentCardStyles.featured_container, style]}
         activeOpacity={0.9}
       >
         {/* Background Image with Gradient Overlay */}
-        <View className="relative h-48">
+        <View style={tournamentCardStyles.featured_imageContainer}>
           {tournament.bannerUrl ? (
             <Image
               source={{ uri: tournament.bannerUrl }}
-              className="w-full h-full"
+              style={tournamentCardStyles.featured_image}
               resizeMode="cover"
             />
           ) : (
-            <View className="w-full h-full bg-gradient-to-br from-primary-500 to-primary-700" />
+            <LinearGradient
+              colors={["#e89b3c", "#b56b18"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ width: "100%", height: "100%" }}
+            />
           )}
 
           {/* Gradient Overlay */}
-          <View className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+          <LinearGradient
+            colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.8)"]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={tournamentCardStyles.featured_gradientOverlay}
+          />
 
           {/* Content Overlay */}
-          <View className="absolute inset-0 p-4 justify-end">
+          <View style={tournamentCardStyles.featured_contentOverlay}>
             {/* Status Badge */}
-            <View className="absolute top-4 right-4">
+            <View style={tournamentCardStyles.featured_statusBadge}>
               <StatusBadge variant="tournament" status={tournament.status} />
             </View>
 
             {/* Tournament Info */}
-            <Text
-              className="text-2xl font-bold text-white mb-2"
-              numberOfLines={2}
-            >
+            <Text style={tournamentCardStyles.featured_title} numberOfLines={2}>
               {tournament.name}
             </Text>
 
-            <View className="flex-row items-center mb-2">
+            <View style={tournamentCardStyles.featured_dateRow}>
               <Calendar size={iconSizes.sm} color="#fff" />
-              <Text className="text-white text-sm ml-2">
+              <Text style={tournamentCardStyles.featured_dateText}>
                 {formatDate(tournament.startDate)} -{" "}
                 {formatDate(tournament.endDate)}
               </Text>
             </View>
 
-            <View className="flex-row items-center">
+            <View style={tournamentCardStyles.featured_locationRow}>
               <MapPin size={iconSizes.sm} color="#fff" />
-              <Text className="text-white text-sm ml-2" numberOfLines={1}>
+              <Text
+                style={tournamentCardStyles.featured_locationText}
+                numberOfLines={1}
+              >
                 {tournament.location}
               </Text>
             </View>
@@ -167,28 +176,36 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
 
         {/* Actions */}
         {showActions && (
-          <View className="bg-white dark:bg-gray-800 px-4 py-3 flex-row justify-between">
-            <View className="flex-row items-center">
-              <Users size={iconSizes.sm} color={colors.gray[500]} />
-              <Text className="text-sm text-gray-600 dark:text-gray-400 ml-2">
+          <View style={tournamentCardStyles.featured_actionsContainer}>
+            <View style={tournamentCardStyles.featured_participantsRow}>
+              <Users size={iconSizes.sm} color="#94a3b8" />
+              <Text style={tournamentCardStyles.featured_participantsText}>
                 {formatNumber(tournament.currentParticipants)}
                 {tournament.maxParticipants &&
                   ` / ${formatNumber(tournament.maxParticipants)}`}
               </Text>
             </View>
 
-            <View className="flex-row space-x-3">
+            <View style={tournamentCardStyles.featured_actionButtons}>
               {onToggleFavorite && (
-                <TouchableOpacity onPress={onToggleFavorite} className="p-1">
+                <TouchableOpacity
+                  onPress={onToggleFavorite}
+                  style={tournamentCardStyles.featured_actionButton}
+                  activeOpacity={0.7}
+                >
                   <Heart
                     size={iconSizes.sm}
-                    color={isFavorite ? colors.error[500] : colors.gray[400]}
-                    fill={isFavorite ? colors.error[500] : "none"}
+                    color={isFavorite ? "#dc2626" : "#94a3b8"}
+                    fill={isFavorite ? "#dc2626" : "none"}
                   />
                 </TouchableOpacity>
               )}
               {onShare && (
-                <TouchableOpacity onPress={onShare} className="p-1">
+                <TouchableOpacity
+                  onPress={onShare}
+                  style={tournamentCardStyles.featured_actionButton}
+                  activeOpacity={0.7}
+                >
                   <Share2 size={iconSizes.sm} color={colors.gray[400]} />
                 </TouchableOpacity>
               )}
@@ -203,71 +220,62 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 ${className}`}
-      activeOpacity={0.8}
+      style={[tournamentCardStyles.full_container, style]}
+      activeOpacity={0.7}
     >
       {/* Header Image/Logo */}
       {(tournament.bannerUrl || tournament.logoUrl) && (
-        <View className="relative h-32 bg-gray-100 dark:bg-gray-700">
+        <View style={tournamentCardStyles.full_headerImage}>
           <Image
             source={{ uri: tournament.bannerUrl || tournament.logoUrl }}
-            className="w-full h-full"
+            style={tournamentCardStyles.full_bannerImage}
             resizeMode="cover"
           />
           {/* Status Badge Overlay */}
-          <View className="absolute top-3 right-3">
+          <View style={tournamentCardStyles.full_statusBadgeOverlay}>
             <StatusBadge variant="tournament" status={tournament.status} />
           </View>
         </View>
       )}
 
       {/* Content */}
-      <View className="p-4">
+      <View style={tournamentCardStyles.full_content}>
         {/* Title */}
-        <Text
-          className="text-lg font-bold text-gray-900 dark:text-white mb-2"
-          numberOfLines={2}
-        >
+        <Text style={tournamentCardStyles.full_title} numberOfLines={2}>
           {tournament.name}
         </Text>
 
         {/* Description */}
         {tournament.description && (
-          <Text
-            className="text-sm text-gray-600 dark:text-gray-400 mb-3"
-            numberOfLines={2}
-          >
+          <Text style={tournamentCardStyles.full_description} numberOfLines={2}>
             {tournament.description}
           </Text>
         )}
 
         {/* Info Grid */}
-        <View className="space-y-2">
+        <View style={tournamentCardStyles.full_infoGrid}>
           {/* Date */}
-          <View className="flex-row items-center">
-            <Calendar size={iconSizes.sm} color={colors.gray[500]} />
-            <Text className="text-sm text-gray-700 dark:text-gray-300 ml-2">
+          <View style={tournamentCardStyles.full_infoRow}>
+            <Calendar size={iconSizes.sm} color="#94a3b8" />
+            <Text style={tournamentCardStyles.full_infoText}>
               {formatDate(tournament.startDate)} -{" "}
               {formatDate(tournament.endDate)}
             </Text>
           </View>
 
           {/* Location */}
-          <View className="flex-row items-center">
-            <MapPin size={iconSizes.sm} color={colors.gray[500]} />
-            <Text
-              className="text-sm text-gray-700 dark:text-gray-300 ml-2"
-              numberOfLines={1}
-            >
+          <View style={tournamentCardStyles.full_infoRow}>
+            <MapPin size={iconSizes.sm} color="#94a3b8" />
+            <Text style={tournamentCardStyles.full_infoText} numberOfLines={1}>
               {tournament.location}
               {tournament.venue && ` • ${tournament.venue}`}
             </Text>
           </View>
 
           {/* Participants */}
-          <View className="flex-row items-center">
-            <Users size={iconSizes.sm} color={colors.gray[500]} />
-            <Text className="text-sm text-gray-700 dark:text-gray-300 ml-2">
+          <View style={tournamentCardStyles.full_infoRow}>
+            <Users size={iconSizes.sm} color="#94a3b8" />
+            <Text style={tournamentCardStyles.full_infoText}>
               {formatNumber(tournament.currentParticipants)} người tham gia
               {tournament.maxParticipants &&
                 ` / ${formatNumber(tournament.maxParticipants)}`}
@@ -278,8 +286,8 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
         {/* Registration Deadline */}
         {tournament.registrationDeadline &&
           tournament.status === "registration_open" && (
-            <View className="mt-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-2">
-              <Text className="text-xs text-blue-700 dark:text-blue-300">
+            <View style={tournamentCardStyles.full_registrationDeadline}>
+              <Text style={tournamentCardStyles.full_deadlineText}>
                 Hạn đăng ký: {formatDate(tournament.registrationDeadline)}
               </Text>
             </View>
@@ -287,14 +295,15 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
 
         {/* Actions */}
         {(showActions || showRegistration) && (
-          <View className="flex-row items-center justify-between mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <View style={tournamentCardStyles.full_actionsContainer}>
             {/* Action Buttons */}
             {showActions && (
-              <View className="flex-row space-x-4">
+              <View style={tournamentCardStyles.full_actionButtons}>
                 {onToggleFavorite && (
                   <TouchableOpacity
                     onPress={onToggleFavorite}
-                    className="flex-row items-center"
+                    style={tournamentCardStyles.full_actionButton}
+                    activeOpacity={0.7}
                   >
                     <Heart
                       size={iconSizes.sm}
@@ -302,11 +311,12 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
                       fill={isFavorite ? colors.error[500] : "none"}
                     />
                     <Text
-                      className={`text-sm ml-1 ${
+                      style={[
+                        tournamentCardStyles.full_actionText,
                         isFavorite
-                          ? "text-red-500 dark:text-red-400"
-                          : "text-gray-500 dark:text-gray-400"
-                      }`}
+                          ? tournamentCardStyles.full_actionText_favorite
+                          : tournamentCardStyles.full_actionText_normal,
+                      ]}
                     >
                       Yêu thích
                     </Text>
@@ -316,10 +326,16 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
                 {onShare && (
                   <TouchableOpacity
                     onPress={onShare}
-                    className="flex-row items-center"
+                    style={tournamentCardStyles.full_actionButton}
+                    activeOpacity={0.7}
                   >
                     <Share2 size={iconSizes.sm} color={colors.gray[400]} />
-                    <Text className="text-sm text-gray-500 dark:text-gray-400 ml-1">
+                    <Text
+                      style={[
+                        tournamentCardStyles.full_actionText,
+                        tournamentCardStyles.full_actionText_normal,
+                      ]}
+                    >
                       Chia sẻ
                     </Text>
                   </TouchableOpacity>
@@ -331,10 +347,10 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
             {showRegistration && canRegister && onRegister && (
               <TouchableOpacity
                 onPress={onRegister}
-                className="bg-primary-500 rounded-lg px-4 py-2 ml-auto"
-                activeOpacity={0.8}
+                style={tournamentCardStyles.full_registerButton}
+                activeOpacity={0.7}
               >
-                <Text className="text-white text-sm font-semibold">
+                <Text style={tournamentCardStyles.full_registerButtonText}>
                   Đăng ký
                 </Text>
               </TouchableOpacity>

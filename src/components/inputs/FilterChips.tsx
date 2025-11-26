@@ -1,7 +1,15 @@
 import React from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  ViewStyle,
+} from "react-native";
 import { X } from "lucide-react-native";
-import { colors, iconSizes } from "../../constants/design-tokens";
+import { iconSizes } from "../../constants/design-tokens";
+import { iconColors } from "../../styles/iconColors";
+import { filterChipsStyles } from "./FilterChipsStyle";
 
 /**
  * Filter Item
@@ -33,8 +41,8 @@ export interface FilterChipsProps {
   showClearAll?: boolean;
   /** Enable horizontal scrolling (default: true) */
   scrollable?: boolean;
-  /** Custom className for container */
-  className?: string;
+  /** Custom style for container */
+  style?: ViewStyle;
 }
 
 /**
@@ -67,7 +75,7 @@ export const FilterChips: React.FC<FilterChipsProps> = ({
   multiSelect = true,
   showClearAll = true,
   scrollable = true,
-  className = "",
+  style,
 }) => {
   /**
    * Handle chip press
@@ -112,20 +120,20 @@ export const FilterChips: React.FC<FilterChipsProps> = ({
       <TouchableOpacity
         key={filter.id}
         onPress={() => handleChipPress(filter.id)}
-        className={`
-          px-4 py-2 rounded-full border mr-2 flex-row items-center
-          ${
-            isSelected
-              ? "bg-primary-500 border-primary-500"
-              : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-          }
-        `}
+        style={[
+          filterChipsStyles.chip,
+          isSelected
+            ? filterChipsStyles.chip_selected
+            : filterChipsStyles.chip_unselected,
+        ]}
         activeOpacity={0.7}
       >
         <Text
-          className={`text-sm font-medium ${
-            isSelected ? "text-white" : "text-gray-700 dark:text-gray-300"
-          }`}
+          style={
+            isSelected
+              ? filterChipsStyles.chipText_selected
+              : filterChipsStyles.chipText_unselected
+          }
         >
           {filter.label}
         </Text>
@@ -133,14 +141,19 @@ export const FilterChips: React.FC<FilterChipsProps> = ({
         {/* Count Badge */}
         {filter.count !== undefined && filter.count > 0 && (
           <View
-            className={`ml-2 px-2 py-0.5 rounded-full ${
-              isSelected ? "bg-white/20" : "bg-gray-100 dark:bg-gray-700"
-            }`}
+            style={[
+              filterChipsStyles.countBadge,
+              isSelected
+                ? filterChipsStyles.countBadge_selected
+                : filterChipsStyles.countBadge_unselected,
+            ]}
           >
             <Text
-              className={`text-xs font-semibold ${
-                isSelected ? "text-white" : "text-gray-600 dark:text-gray-400"
-              }`}
+              style={
+                isSelected
+                  ? filterChipsStyles.countBadgeText_selected
+                  : filterChipsStyles.countBadgeText_unselected
+              }
             >
               {filter.count}
             </Text>
@@ -151,7 +164,7 @@ export const FilterChips: React.FC<FilterChipsProps> = ({
   };
 
   const containerContent = (
-    <View className={`flex-row items-center ${className}`}>
+    <View style={[filterChipsStyles.container, style]}>
       {/* Filter Chips */}
       {filters.map(renderChip)}
 
@@ -159,13 +172,11 @@ export const FilterChips: React.FC<FilterChipsProps> = ({
       {showClearAll && selectedFilters.length > 0 && (
         <TouchableOpacity
           onPress={handleClearAll}
-          className="px-3 py-2 rounded-full bg-gray-100 dark:bg-gray-700 flex-row items-center ml-2"
+          style={filterChipsStyles.clearAllButton}
           activeOpacity={0.7}
         >
-          <X size={iconSizes.xs} color={colors.gray[500]} />
-          <Text className="text-sm text-gray-600 dark:text-gray-400 ml-1 font-medium">
-            Xóa bộ lọc
-          </Text>
+          <X size={iconSizes.xs} color={iconColors.muted} />
+          <Text style={filterChipsStyles.clearAllText}>Xóa bộ lọc</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -177,8 +188,8 @@ export const FilterChips: React.FC<FilterChipsProps> = ({
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 16 }}
-        className="flex-grow-0"
+        contentContainerStyle={filterChipsStyles.scrollContent}
+        style={{ flexGrow: 0 }}
       >
         {containerContent}
       </ScrollView>
@@ -187,18 +198,16 @@ export const FilterChips: React.FC<FilterChipsProps> = ({
 
   // Otherwise, render as flex-wrap container
   return (
-    <View className={`flex-row flex-wrap px-4 ${className}`}>
+    <View style={[filterChipsStyles.wrapContainer, style]}>
       {filters.map(renderChip)}
       {showClearAll && selectedFilters.length > 0 && (
         <TouchableOpacity
           onPress={handleClearAll}
-          className="px-3 py-2 rounded-full bg-gray-100 dark:bg-gray-700 flex-row items-center mr-2 mb-2"
+          style={filterChipsStyles.clearAllButtonWrap}
           activeOpacity={0.7}
         >
-          <X size={iconSizes.xs} color={colors.gray[500]} />
-          <Text className="text-sm text-gray-600 dark:text-gray-400 ml-1 font-medium">
-            Xóa bộ lọc
-          </Text>
+          <X size={iconSizes.xs} color={iconColors.muted} />
+          <Text style={filterChipsStyles.clearAllText}>Xóa bộ lọc</Text>
         </TouchableOpacity>
       )}
     </View>
