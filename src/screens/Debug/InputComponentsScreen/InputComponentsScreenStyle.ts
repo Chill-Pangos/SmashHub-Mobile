@@ -1,10 +1,10 @@
-﻿import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { colors } from '../../../constants/design-tokens';
 
 export const inputComponentsScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors[`"gray-50`"],
+    backgroundColor: "#f9fafb",
   },
   header: {
     backgroundColor: colors.primary[500],
@@ -39,13 +39,13 @@ export const inputComponentsScreenStyles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: colors[`"gray-900`"],
+    color: "#111827",
     marginBottom: 16,
   },
   subsectionTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: colors[`"gray-700`"],
+    color: "#374151",
     marginBottom: 8,
   },
   spacer: {

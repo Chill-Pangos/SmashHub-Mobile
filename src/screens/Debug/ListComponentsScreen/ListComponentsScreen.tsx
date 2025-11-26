@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { listComponentsScreenStyles } from './ListComponentsScreenStyle';
 import { View, Text, ScrollView } from "react-native";
 import { MatchList, RankingTable, NotificationList } from "../../../components";
@@ -37,7 +37,7 @@ const ListComponentsScreen: React.FC = () => {
             MatchList
           </Text>
 
-          <View className="h-96 border border-gray-200 rounded-lg overflow-hidden">
+          <View style={{height:384,borderWidth:1,borderColor:"#e5e7eb",borderRadius:12,overflow:"hidden"}}>
             <MatchList
               matches={mockMatches}
               groupBy="date"
@@ -60,7 +60,7 @@ const ListComponentsScreen: React.FC = () => {
               <Text style={listComponentsScreenStyles.subsectionTitle}>
                 Full Variant:
               </Text>
-              <View className="h-80 border border-gray-200 rounded-lg overflow-hidden">
+              <View style={{height:320,borderWidth:1,borderColor:"#e5e7eb",borderRadius:12,overflow:"hidden"}}>
                 <RankingTable
                   rankings={mockRankings}
                   variant="full"
@@ -74,7 +74,7 @@ const ListComponentsScreen: React.FC = () => {
               <Text style={listComponentsScreenStyles.subsectionTitle}>
                 Compact Variant:
               </Text>
-              <View className="h-64 border border-gray-200 rounded-lg overflow-hidden">
+              <View style={{height:256,borderWidth:1,borderColor:"#e5e7eb",borderRadius:12,overflow:"hidden"}}>
                 <RankingTable
                   rankings={mockRankings}
                   variant="compact"
@@ -91,7 +91,7 @@ const ListComponentsScreen: React.FC = () => {
             NotificationList
           </Text>
 
-          <View className="h-96 border border-gray-200 rounded-lg overflow-hidden">
+          <View style={{height:384,borderWidth:1,borderColor:"#e5e7eb",borderRadius:12,overflow:"hidden"}}>
             <NotificationList
               notifications={mockNotifications}
               groupByDate

@@ -6,7 +6,7 @@ export const skeletonLoaderStyles = StyleSheet.create({
 
   // Skeleton Item
   skeletonItem: {
-    backgroundColor: `${colors.muted}80`, // 50% opacity
+    backgroundColor: "#f9fafb80", // colors.muted.DEFAULT with 50% opacity
     borderRadius: 4,
   },
 

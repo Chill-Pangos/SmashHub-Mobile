@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { cardComponentsScreenStyles } from './CardComponentsScreenStyle';
 import { View, Text, ScrollView } from "react-native";
 import { TournamentCard, MatchCard, AthleteCard } from "../../../components";

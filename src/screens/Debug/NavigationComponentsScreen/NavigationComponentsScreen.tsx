@@ -1,5 +1,5 @@
 ﻿import React, { useState } from "react";
-import { navigationComponentsScreenStyles } from './NavigationComponentsScreenStyle';
+import { navigationComponentsScreenStyles } from "./NavigationComponentsScreenStyle";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScreenHeader, TabBar } from "../../../components";
@@ -21,7 +21,7 @@ const NavigationComponentsScreen: React.FC = () => {
   return (
     <View style={navigationComponentsScreenStyles.container}>
       {/* Header Examples */}
-      <View className="mb-6">
+      <View style={{ marginBottom: 24 }}>
         <ScreenHeader
           title="Default Header"
           showBackButton
@@ -42,7 +42,7 @@ const NavigationComponentsScreen: React.FC = () => {
           ]}
         />
 
-        <View className="mt-4">
+        <View style={{ marginTop: 16 }}>
           <ScreenHeader
             variant="gradient"
             title="Gradient Header"
@@ -53,7 +53,7 @@ const NavigationComponentsScreen: React.FC = () => {
         </View>
 
         <LinearGradient
-          colors={['#e89b3c', '#d88320']}
+          colors={["#e89b3c", "#d88320"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={{ marginTop: 16, paddingTop: 16 }}
@@ -79,17 +79,19 @@ const NavigationComponentsScreen: React.FC = () => {
         <View style={navigationComponentsScreenStyles.content}>
           {/* ScreenHeader Info */}
           <View style={navigationComponentsScreenStyles.section}>
-            <Text className="text-xl font-bold text-gray-900 mb-2">
+            <Text style={navigationComponentsScreenStyles.sectionTitle}>
               ScreenHeader
             </Text>
-            <Text className="text-sm text-gray-600">
+            <Text style={{ fontSize: 14, color: "#6b7280" }}>
               4 variants: default, gradient, sticky, transparent
             </Text>
           </View>
 
           {/* TabBar */}
           <View style={navigationComponentsScreenStyles.section}>
-            <Text style={navigationComponentsScreenStyles.sectionTitle}>TabBar</Text>
+            <Text style={navigationComponentsScreenStyles.sectionTitle}>
+              TabBar
+            </Text>
 
             <View style={navigationComponentsScreenStyles.spacer}>
               <View>
@@ -138,4 +140,3 @@ const NavigationComponentsScreen: React.FC = () => {
 };
 
 export default NavigationComponentsScreen;
-

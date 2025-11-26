@@ -1,5 +1,5 @@
 ﻿import React, { useState } from "react";
-import { debugNavigatorScreenStyles } from './DebugNavigatorScreenStyle';
+import { debugNavigatorScreenStyles } from "./DebugNavigatorScreenStyle";
 import {
   View,
   Text,
@@ -363,21 +363,21 @@ const DebugNavigatorScreen: React.FC = () => {
   return (
     <View style={debugNavigatorScreenStyles.container}>
       {/* Header */}
-      <View className=" px-6 pt-12 pb-6">
-        <Text className="text-black text-3xl font-bold mb-2">
+      <View style={debugNavigatorScreenStyles.header}>
+        <Text style={debugNavigatorScreenStyles.headerTitle}>
           🛠️ Debug Navigator
         </Text>
-        <Text className="text-blue-100 text-sm">
+        <Text style={debugNavigatorScreenStyles.headerSubtitle}>
           Access all screens for UI development
         </Text>
       </View>
 
       {/* Search Bar */}
-      <View className="px-6 -mt-6 mb-4">
-        <View className="bg-white rounded-2xl shadow-lg p-4 flex-row items-center">
+      <View style={debugNavigatorScreenStyles.searchContainer}>
+        <View style={debugNavigatorScreenStyles.searchInputWrapper}>
           <Search color="#9ca3af" size={20} />
           <TextInput
-            className="flex-1 ml-3 text-base text-gray-800"
+            style={debugNavigatorScreenStyles.searchInput}
             placeholder="Search screens, UC, or description..."
             placeholderTextColor="#9ca3af"
             value={searchQuery}
@@ -387,77 +387,98 @@ const DebugNavigatorScreen: React.FC = () => {
       </View>
 
       {/* Screen Categories */}
-      <ScrollView className="flex-1 px-6">
+      <ScrollView style={{ flex: 1, paddingHorizontal: 24 }}>
         {filteredCategories.length === 0 ? (
-          <View className="items-center justify-center py-20">
-            <Text className="text-gray-400 text-lg">No screens found</Text>
+          <View style={debugNavigatorScreenStyles.noResults}>
+            <Text style={debugNavigatorScreenStyles.noResultsText}>
+              No screens found
+            </Text>
           </View>
         ) : (
           filteredCategories.map((category, index) => (
-            <View key={index} className="mb-4">
+            <View key={index} style={debugNavigatorScreenStyles.categoryCard}>
               {/* Category Header */}
               <TouchableOpacity
-                className="bg-white rounded-xl p-4 shadow-sm mb-2"
+                style={debugNavigatorScreenStyles.categoryHeader}
                 onPress={() => toggleCategory(category.category)}
               >
-                <View className="flex-row items-center justify-between">
-                  <View className="flex-row items-center flex-1">
-                    <View className={`${category.color} rounded-lg p-2 mr-3`}>
-                      <Text className="text-xl">{category.icon}</Text>
-                    </View>
-                    <View className="flex-1">
-                      <Text className="text-lg font-bold text-gray-800">
-                        {category.category}
-                      </Text>
-                      <Text className="text-sm text-gray-500">
-                        {category.screens.length} screen(s)
-                      </Text>
-                    </View>
+                <View style={debugNavigatorScreenStyles.categoryHeaderLeft}>
+                  <Text style={debugNavigatorScreenStyles.categoryIcon}>
+                    {category.icon}
+                  </Text>
+                  <View style={debugNavigatorScreenStyles.categoryHeaderText}>
+                    <Text style={debugNavigatorScreenStyles.categoryName}>
+                      {category.category}
+                    </Text>
+                    <Text style={debugNavigatorScreenStyles.categoryCount}>
+                      {category.screens.length} screen(s)
+                    </Text>
                   </View>
-                  <ChevronRight
-                    color="#9ca3af"
-                    size={20}
-                    style={{
-                      transform: [
-                        {
-                          rotate:
-                            expandedCategory === category.category
-                              ? "90deg"
-                              : "0deg",
-                        },
-                      ],
-                    }}
-                  />
                 </View>
+                <ChevronRight
+                  color="#9ca3af"
+                  size={20}
+                  style={{
+                    marginLeft: 8,
+                    transform: [
+                      {
+                        rotate:
+                          expandedCategory === category.category
+                            ? "90deg"
+                            : "0deg",
+                      },
+                    ],
+                  }}
+                />
               </TouchableOpacity>
 
               {/* Screen List */}
               {expandedCategory === category.category && (
-                <View className="bg-white rounded-xl shadow-sm overflow-hidden">
+                <View style={debugNavigatorScreenStyles.screensList}>
                   {category.screens.map((screen, screenIndex) => (
                     <TouchableOpacity
                       key={screenIndex}
-                      className={`p-4 flex-row items-center justify-between ${
-                        screenIndex !== category.screens.length - 1
-                          ? "border-b border-gray-100"
-                          : ""
-                      }`}
+                      style={[
+                        debugNavigatorScreenStyles.screenItem,
+                        screenIndex !== category.screens.length - 1 && {
+                          borderBottomWidth: 1,
+                          borderBottomColor: "#f3f4f6",
+                        },
+                      ]}
                       onPress={() => navigateToScreen(screen.route)}
                     >
-                      <View className="flex-1">
-                        <View className="flex-row items-center mb-1">
-                          <Text className="text-base font-semibold text-gray-800 mr-2">
+                      <View style={debugNavigatorScreenStyles.screenItemLeft}>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginBottom: 4,
+                          }}
+                        >
+                          <Text style={debugNavigatorScreenStyles.screenName}>
                             {screen.name}
                           </Text>
                           {screen.uc && (
-                            <View className="bg-blue-100 rounded px-2 py-0.5">
-                              <Text className="text-xs text-blue-600 font-semibold">
+                            <View
+                              style={{
+                                backgroundColor: "#dbeafe",
+                                borderRadius: 4,
+                                paddingHorizontal: 8,
+                                paddingVertical: 2,
+                                marginLeft: 8,
+                              }}
+                            >
+                              <Text
+                                style={debugNavigatorScreenStyles.screenUseCase}
+                              >
                                 {screen.uc}
                               </Text>
                             </View>
                           )}
                         </View>
-                        <Text className="text-sm text-gray-500">
+                        <Text
+                          style={debugNavigatorScreenStyles.screenDescription}
+                        >
                           {screen.description}
                         </Text>
                       </View>
@@ -478,4 +499,3 @@ const DebugNavigatorScreen: React.FC = () => {
 };
 
 export default DebugNavigatorScreen;
-

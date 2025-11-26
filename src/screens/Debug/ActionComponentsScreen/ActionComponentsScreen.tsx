@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { actionComponentsScreenStyles } from './ActionComponentsScreenStyle';
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { FloatingActionButton, ActionSheet } from "../../../components";
@@ -34,27 +34,27 @@ const ActionComponentsScreen: React.FC = () => {
                 <Text style={actionComponentsScreenStyles.subsectionTitle}>
                   Sizes:
                 </Text>
-                <View className="flex-row space-x-4 bg-gray-100 p-4 rounded-lg">
+                <View style={{flexDirection:"row",gap:16,backgroundColor:"#f3f4f6",padding:16,borderRadius:12}}>
                   <FloatingActionButton
                     icon={<Plus size={16} color="#fff" />}
                     onPress={() => console.log("Small")}
                     size="small"
                     position="bottom-right"
-                    className="relative"
+                    style={{position:"relative"}}
                   />
                   <FloatingActionButton
                     icon={<Plus size={20} color="#fff" />}
                     onPress={() => console.log("Medium")}
                     size="medium"
                     position="bottom-right"
-                    className="relative"
+                    style={{position:"relative"}}
                   />
                   <FloatingActionButton
                     icon={<Plus size={24} color="#fff" />}
                     onPress={() => console.log("Large")}
                     size="large"
                     position="bottom-right"
-                    className="relative"
+                    style={{position:"relative"}}
                   />
                 </View>
               </View>
@@ -63,7 +63,7 @@ const ActionComponentsScreen: React.FC = () => {
                 <Text style={actionComponentsScreenStyles.subsectionTitle}>
                   Extended FAB:
                 </Text>
-                <View className="bg-gray-100 p-4 rounded-lg h-20 relative">
+                <View style={{backgroundColor:"#f3f4f6",padding:16,borderRadius:12,height:80,position:"relative"}}>
                   <FloatingActionButton
                     icon={<Plus size={20} color="#fff" />}
                     label="Tạo mới"
@@ -84,15 +84,15 @@ const ActionComponentsScreen: React.FC = () => {
 
             <TouchableOpacity
               onPress={() => setShowActionSheet(true)}
-              className="bg-primary-500 rounded-lg py-3"
+              style={{backgroundColor:"#0ea5e9",borderRadius:12,paddingVertical:12}}
             >
-              <Text className="text-white text-center font-semibold">
+              <Text style={{color:"#ffffff",textAlign:"center",fontWeight:"600"}}>
                 Show Action Sheet
               </Text>
             </TouchableOpacity>
           </View>
 
-          <View className="h-20" />
+          <View style={{height:80}} />
         </View>
       </ScrollView>
 

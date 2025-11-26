@@ -1,10 +1,10 @@
-﻿import { StyleSheet } from 'react-native';
-import { colors } from '../../../constants/design-tokens';
+﻿import { StyleSheet } from "react-native";
+import { colors } from "../../../constants/design-tokens";
 
 export const navigationComponentsScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors[`"gray-50`"],
+    backgroundColor: "#f9fafb",
   },
   header: {
     backgroundColor: colors.primary[500],
@@ -13,9 +13,9 @@ export const navigationComponentsScreenStyles = StyleSheet.create({
     paddingBottom: 32,
   },
   headerTitle: {
-    color: '#ffffff',
+    color: "#ffffff",
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
   },
   headerSubtitle: {
@@ -30,7 +30,7 @@ export const navigationComponentsScreenStyles = StyleSheet.create({
     borderRadius: 12,
     padding: 24,
     marginBottom: 24,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
@@ -38,14 +38,14 @@ export const navigationComponentsScreenStyles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: colors[`"gray-900`"],
+    fontWeight: "bold",
+    color: "#111827",
     marginBottom: 16,
   },
   subsectionTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    color: colors[`"gray-700`"],
+    fontWeight: "600",
+    color: "#374151",
     marginBottom: 8,
   },
   spacer: {
@@ -55,4 +55,3 @@ export const navigationComponentsScreenStyles = StyleSheet.create({
     height: 32,
   },
 });
-

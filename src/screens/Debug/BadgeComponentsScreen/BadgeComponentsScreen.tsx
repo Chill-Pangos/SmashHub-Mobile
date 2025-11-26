@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { badgeComponentsScreenStyles } from './BadgeComponentsScreenStyle';
 import { View, Text, ScrollView } from "react-native";
 import { StatusBadge, ScoreBadge, UnreadBadge } from "../../../components";
@@ -31,7 +31,7 @@ const BadgeComponentsScreen: React.FC = () => {
               <Text style={badgeComponentsScreenStyles.subsectionTitle}>
                 Match Statuses:
               </Text>
-              <View className="flex-row flex-wrap gap-2">
+              <View style={{flexDirection:"row",flexWrap:"wrap",gap:8}}>
                 <StatusBadge status="scheduled" variant="match" />
                 <StatusBadge status="live" variant="match" />
                 <StatusBadge status="completed" variant="match" />
@@ -43,7 +43,7 @@ const BadgeComponentsScreen: React.FC = () => {
               <Text style={badgeComponentsScreenStyles.subsectionTitle}>
                 Tournament Statuses:
               </Text>
-              <View className="flex-row flex-wrap gap-2">
+              <View style={{flexDirection:"row",flexWrap:"wrap",gap:8}}>
                 <StatusBadge status="upcoming" variant="tournament" />
                 <StatusBadge status="registration" variant="tournament" />
                 <StatusBadge status="ongoing" variant="tournament" />
@@ -55,7 +55,7 @@ const BadgeComponentsScreen: React.FC = () => {
               <Text style={badgeComponentsScreenStyles.subsectionTitle}>
                 Complaint Statuses:
               </Text>
-              <View className="flex-row flex-wrap gap-2">
+              <View style={{flexDirection:"row",flexWrap:"wrap",gap:8}}>
                 <StatusBadge status="pending" variant="complaint" />
                 <StatusBadge status="reviewing" variant="complaint" />
                 <StatusBadge status="resolved" variant="complaint" />
@@ -76,7 +76,7 @@ const BadgeComponentsScreen: React.FC = () => {
               <Text style={badgeComponentsScreenStyles.subsectionTitle}>
                 Compact:
               </Text>
-              <View className="flex-row space-x-2">
+              <View style={{flexDirection:"row",gap:8}}>
                 <ScoreBadge
                   homeScore={3}
                   awayScore={1}
@@ -134,8 +134,8 @@ const BadgeComponentsScreen: React.FC = () => {
               <Text style={badgeComponentsScreenStyles.subsectionTitle}>
                 Dot Variant:
               </Text>
-              <View className="flex-row space-x-8">
-                <View className="relative">
+              <View style={{flexDirection:"row",gap:32}}>
+                <View style={{position:"relative"}}>
                   <Bell size={24} color="#666" />
                   <UnreadBadge
                     variant="dot"
@@ -143,7 +143,7 @@ const BadgeComponentsScreen: React.FC = () => {
                     position="top-right"
                   />
                 </View>
-                <View className="relative">
+                <View style={{position:"relative"}}>
                   <Bell size={32} color="#666" />
                   <UnreadBadge
                     variant="dot"
@@ -151,7 +151,7 @@ const BadgeComponentsScreen: React.FC = () => {
                     position="top-right"
                   />
                 </View>
-                <View className="relative">
+                <View style={{position:"relative"}}>
                   <Bell size={40} color="#666" />
                   <UnreadBadge
                     variant="dot"
@@ -166,20 +166,20 @@ const BadgeComponentsScreen: React.FC = () => {
               <Text style={badgeComponentsScreenStyles.subsectionTitle}>
                 Number Variant:
               </Text>
-              <View className="flex-row space-x-8">
-                <View className="relative">
+              <View style={{flexDirection:"row",gap:32}}>
+                <View style={{position:"relative"}}>
                   <Bell size={24} color="#666" />
                   <UnreadBadge count={3} size="small" position="top-right" />
                 </View>
-                <View className="relative">
+                <View style={{position:"relative"}}>
                   <Bell size={32} color="#666" />
                   <UnreadBadge count={15} size="medium" position="top-right" />
                 </View>
-                <View className="relative">
+                <View style={{position:"relative"}}>
                   <Bell size={40} color="#666" />
                   <UnreadBadge count={99} size="large" position="top-right" />
                 </View>
-                <View className="relative">
+                <View style={{position:"relative"}}>
                   <Bell size={40} color="#666" />
                   <UnreadBadge
                     count={150}

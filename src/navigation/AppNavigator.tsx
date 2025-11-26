@@ -6,58 +6,58 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Home, Calendar, User, Trophy, Bell } from "lucide-react-native";
 
 // Auth Screens
-import LoginScreen from "../screens/Auth/LoginScreen";
-import RegisterScreen from "../screens/Auth/RegisterScreen";
+import LoginScreen from "../screens/Auth/LoginScreen/LoginScreen";
+import RegisterScreen from "../screens/Auth/RegisterScreen/RegisterScreen";
 
 // Common Screens
-import HomeScreen from "../screens/Common/HomeScreen";
-import ProfileScreen from "../screens/Common/ProfileScreen";
-import NotificationCenterScreen from "../screens/Common/NotificationCenterScreen";
-import TournamentListScreen from "../screens/Common/TournamentListScreen";
-import TournamentDetailScreen from "../screens/Common/TournamentDetailScreen";
-import ScheduleScreen from "../screens/Common/ScheduleScreen";
-import MatchDetailScreen from "../screens/Common/MatchDetailScreen";
-import RankingScreen from "../screens/Common/RankingScreen";
-import ComplaintTrackingScreen from "../screens/Common/ComplaintTrackingScreen";
-import NewsScreen from "../screens/Common/NewsScreen";
-import AthleteDirectoryScreen from "../screens/Common/AthleteDirectoryScreen";
-import ContactSupportScreen from "../screens/Common/ContactSupportScreen";
+import HomeScreen from "../screens/Common/HomeScreen/HomeScreen";
+import ProfileScreen from "../screens/Common/ProfileScreen/ProfileScreen";
+import NotificationCenterScreen from "../screens/Common/NotificationCenterScreen/NotificationCenterScreen";
+import TournamentListScreen from "../screens/Common/TournamentListScreen/TournamentListScreen";
+import TournamentDetailScreen from "../screens/Common/TournamentDetailScreen/TournamentDetailScreen";
+import ScheduleScreen from "../screens/Common/ScheduleScreen/ScheduleScreen";
+import MatchDetailScreen from "../screens/Common/MatchDetailScreen/MatchDetailScreen";
+import RankingScreen from "../screens/Common/RankingScreen/RankingScreen";
+import ComplaintTrackingScreen from "../screens/Common/ComplaintTrackingScreen/ComplaintTrackingScreen";
+import NewsScreen from "../screens/Common/NewsScreen/NewsScreen";
+import AthleteDirectoryScreen from "../screens/Common/AthleteDirectoryScreen/AthleteDirectoryScreen";
+import ContactSupportScreen from "../screens/Common/ContactSupportScreen/ContactSupportScreen";
 
 // Athlete Screens
-import MyScheduleScreen from "../screens/Athlete/MyScheduleScreen";
-import MyMatchesScreen from "../screens/Athlete/MyMatchesScreen";
-import MyRankingScreen from "../screens/Athlete/MyRankingScreen";
-import SubmitComplaintScreen from "../screens/Athlete/SubmitComplaintScreen";
+import MyScheduleScreen from "../screens/Athlete/MyScheduleScreen/MyScheduleScreen";
+import MyMatchesScreen from "../screens/Athlete/MyMatchesScreen/MyMatchesScreen";
+import MyRankingScreen from "../screens/Athlete/MyRankingScreen/MyRankingScreen";
+import SubmitComplaintScreen from "../screens/Athlete/SubmitComplaintScreen/SubmitComplaintScreen";
 
 // Spectator Screens
-import SearchMatchScreen from "../screens/Spectator/SearchMatchScreen";
-import FavoriteMatchesScreen from "../screens/Spectator/FavoriteMatchesScreen";
+import SearchMatchScreen from "../screens/Spectator/SearchMatchScreen/SearchMatchScreen";
+import FavoriteMatchesScreen from "../screens/Spectator/FavoriteMatchesScreen/FavoriteMatchesScreen";
 
 // Coach Screens
-import MyAthletesScreen from "../screens/Coach/MyAthletesScreen";
-import TrainingPlansScreen from "../screens/Coach/TrainingPlansScreen";
-import CreateTrainingPlanScreen from "../screens/Coach/CreateTrainingPlanScreen";
-import AthleteEvaluationScreen from "../screens/Coach/AthleteEvaluationScreen";
-import PerformanceAnalyticsScreen from "../screens/Coach/PerformanceAnalyticsScreen";
-import TacticalReportScreen from "../screens/Coach/TacticalReportScreen";
-import ComplaintManagementScreen from "../screens/Coach/ComplaintManagementScreen";
+import MyAthletesScreen from "../screens/Coach/MyAthletesScreen/MyAthletesScreen";
+import TrainingPlansScreen from "../screens/Coach/TrainingPlansScreen/TrainingPlansScreen";
+import CreateTrainingPlanScreen from "../screens/Coach/CreateTrainingPlanScreen/CreateTrainingPlanScreen";
+import AthleteEvaluationScreen from "../screens/Coach/AthleteEvaluationScreen/AthleteEvaluationScreen";
+import PerformanceAnalyticsScreen from "../screens/Coach/PerformanceAnalyticsScreen/PerformanceAnalyticsScreen";
+import TacticalReportScreen from "../screens/Coach/TacticalReportScreen/TacticalReportScreen";
+import ComplaintManagementScreen from "../screens/Coach/ComplaintManagementScreen/ComplaintManagementScreen";
 
 // Team Leader Screens
-import DelegationManagementScreen from "../screens/TeamLeader/DelegationManagementScreen";
-import DelegationScheduleScreen from "../screens/TeamLeader/DelegationScheduleScreen";
-import AddAthletesScreen from "../screens/TeamLeader/AddAthletesScreen";
-import TeamManagementScreen from "../screens/TeamLeader/TeamManagementScreen";
-import ComplaintReviewScreen from "../screens/TeamLeader/ComplaintReviewScreen";
+import DelegationManagementScreen from "../screens/TeamLeader/DelegationManagementScreen/DelegationManagementScreen";
+import DelegationScheduleScreen from "../screens/TeamLeader/DelegationScheduleScreen/DelegationScheduleScreen";
+import AddAthletesScreen from "../screens/TeamLeader/AddAthletesScreen/AddAthletesScreen";
+import TeamManagementScreen from "../screens/TeamLeader/TeamManagementScreen/TeamManagementScreen";
+import ComplaintReviewScreen from "../screens/TeamLeader/ComplaintReviewScreen/ComplaintReviewScreen";
 
 // Debug Screen
-import DebugNavigatorScreen from "../screens/Debug/DebugNavigatorScreen";
-import StateComponentsScreen from "../screens/Debug/StateComponentsScreen";
-import InputComponentsScreen from "../screens/Debug/InputComponentsScreen";
-import BadgeComponentsScreen from "../screens/Debug/BadgeComponentsScreen";
-import CardComponentsScreen from "../screens/Debug/CardComponentsScreen";
-import ListComponentsScreen from "../screens/Debug/ListComponentsScreen";
-import NavigationComponentsScreen from "../screens/Debug/NavigationComponentsScreen";
-import ActionComponentsScreen from "../screens/Debug/ActionComponentsScreen";
+import DebugNavigatorScreen from "../screens/Debug/DebugNavigatorScreen/DebugNavigatorScreen";
+import StateComponentsScreen from "../screens/Debug/StateComponentsScreen/StateComponentsScreen";
+import InputComponentsScreen from "../screens/Debug/InputComponentsScreen/InputComponentsScreen";
+import BadgeComponentsScreen from "../screens/Debug/BadgeComponentsScreen/BadgeComponentsScreen";
+import CardComponentsScreen from "../screens/Debug/CardComponentsScreen/CardComponentsScreen";
+import ListComponentsScreen from "../screens/Debug/ListComponentsScreen/ListComponentsScreen";
+import NavigationComponentsScreen from "../screens/Debug/NavigationComponentsScreen/NavigationComponentsScreen";
+import ActionComponentsScreen from "../screens/Debug/ActionComponentsScreen/ActionComponentsScreen";
 import DebugButton from "../components/DebugButton";
 
 import { useAuth } from "../contexts/AuthContext";
