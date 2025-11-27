@@ -1,16 +1,17 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../../constants/design-tokens";
+import { colors, shadows } from "../../constants/design-tokens";
 
 export const tournamentCardStyles = StyleSheet.create({
   // Compact variant
   compact_container: {
     backgroundColor: colors.card,
-    borderRadius: 8,
-    padding: 12,
+    borderRadius: 12,
+    padding: 16,
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
     borderColor: colors.border,
+    ...shadows.sm,
   },
   compact_logo: {
     width: 48,
@@ -39,8 +40,9 @@ export const tournamentCardStyles = StyleSheet.create({
 
   // Featured variant
   featured_container: {
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
+    ...shadows.lg,
   },
   featured_imageContainer: {
     position: "relative",
@@ -123,10 +125,11 @@ export const tournamentCardStyles = StyleSheet.create({
   // Full variant
   full_container: {
     backgroundColor: colors.card,
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: "hidden",
     borderWidth: 1,
     borderColor: colors.border,
+    ...shadows.md,
   },
   full_headerImage: {
     position: "relative",

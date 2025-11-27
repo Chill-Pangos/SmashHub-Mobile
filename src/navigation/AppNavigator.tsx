@@ -3,7 +3,17 @@ import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Home, Calendar, User, Trophy, Bell } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  Home,
+  Calendar,
+  User,
+  Trophy,
+  Bell,
+  Users,
+  BarChart3,
+  Search,
+} from "lucide-react-native";
 
 // Auth Screens
 import LoginScreen from "../screens/Auth/LoginScreen/LoginScreen";
@@ -66,162 +76,226 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // Athlete Tab Navigator
-const AthleteTabNavigator = () => (
-  <Tab.Navigator screenOptions={{ headerShown: false }}>
-    <Tab.Screen
-      name="MySchedule"
-      component={MyScheduleScreen}
-      options={{
-        tabBarLabel: "Lịch thi đấu",
-        tabBarIcon: ({ color, size }) => <Calendar size={size} color={color} />,
+const AthleteTabNavigator = () => {
+  const insets = useSafeAreaInsets();
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#0ea5e9",
+        tabBarInactiveTintColor: "#9ca3af",
+        tabBarStyle: {
+          paddingBottom: insets.bottom,
+          paddingTop: 8,
+          height: 60 + insets.bottom,
+        },
       }}
-    />
-    <Tab.Screen
-      name="MyMatches"
-      component={MyMatchesScreen}
-      options={{
-        tabBarLabel: "Trận đấu",
-        tabBarIcon: ({ color, size }) => <Trophy size={size} color={color} />,
-      }}
-    />
-    <Tab.Screen
-      name="MyRanking"
-      component={MyRankingScreen}
-      options={{
-        tabBarLabel: "BXH",
-        tabBarIcon: ({ color, size }) => <Trophy size={size} color={color} />,
-      }}
-    />
-    <Tab.Screen
-      name="Profile"
-      component={ProfileScreen}
-      options={{
-        tabBarLabel: "Cá nhân",
-        tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
-      }}
-    />
-  </Tab.Navigator>
-);
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: "Trang chủ",
+          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="MySchedule"
+        component={MyScheduleScreen}
+        options={{
+          tabBarLabel: "Lịch thi đấu",
+          tabBarIcon: ({ color, size }) => (
+            <Calendar size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="MyMatches"
+        component={MyMatchesScreen}
+        options={{
+          tabBarLabel: "Trận đấu",
+          tabBarIcon: ({ color, size }) => <Trophy size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: "Cá nhân",
+          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 // Spectator Tab Navigator
-const SpectatorTabNavigator = () => (
-  <Tab.Navigator screenOptions={{ headerShown: false }}>
-    <Tab.Screen
-      name="TournamentList"
-      component={TournamentListScreen}
-      options={{
-        tabBarLabel: "Giải đấu",
-        tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+const SpectatorTabNavigator = () => {
+  const insets = useSafeAreaInsets();
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#0ea5e9",
+        tabBarInactiveTintColor: "#9ca3af",
+        tabBarStyle: {
+          paddingBottom: insets.bottom,
+          paddingTop: 8,
+          height: 60 + insets.bottom,
+        },
       }}
-    />
-    <Tab.Screen
-      name="Schedule"
-      component={ScheduleScreen}
-      options={{
-        tabBarLabel: "Lịch thi đấu",
-        tabBarIcon: ({ color, size }) => <Calendar size={size} color={color} />,
-      }}
-    />
-    <Tab.Screen
-      name="SearchMatch"
-      component={SearchMatchScreen}
-      options={{
-        tabBarLabel: "Tìm kiếm",
-        tabBarIcon: ({ color, size }) => <Trophy size={size} color={color} />,
-      }}
-    />
-    <Tab.Screen
-      name="Profile"
-      component={ProfileScreen}
-      options={{
-        tabBarLabel: "Cá nhân",
-        tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
-      }}
-    />
-  </Tab.Navigator>
-);
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: "Trang chủ",
+          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="TournamentList"
+        component={TournamentListScreen}
+        options={{
+          tabBarLabel: "Giải đấu",
+          tabBarIcon: ({ color, size }) => <Trophy size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Schedule"
+        component={ScheduleScreen}
+        options={{
+          tabBarLabel: "Lịch thi đấu",
+          tabBarIcon: ({ color, size }) => (
+            <Calendar size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: "Cá nhân",
+          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 // Coach Tab Navigator
-const CoachTabNavigator = () => (
-  <Tab.Navigator screenOptions={{ headerShown: false }}>
-    <Tab.Screen
-      name="MyAthletes"
-      component={MyAthletesScreen}
-      options={{
-        tabBarLabel: "VĐV",
-        tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+const CoachTabNavigator = () => {
+  const insets = useSafeAreaInsets();
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#0ea5e9",
+        tabBarInactiveTintColor: "#9ca3af",
+        tabBarStyle: {
+          paddingBottom: insets.bottom,
+          paddingTop: 8,
+          height: 60 + insets.bottom,
+        },
       }}
-    />
-    <Tab.Screen
-      name="TrainingPlans"
-      component={TrainingPlansScreen}
-      options={{
-        tabBarLabel: "Huấn luyện",
-        tabBarIcon: ({ color, size }) => <Calendar size={size} color={color} />,
-      }}
-    />
-    <Tab.Screen
-      name="PerformanceAnalytics"
-      component={PerformanceAnalyticsScreen}
-      options={{
-        tabBarLabel: "Thống kê",
-        tabBarIcon: ({ color, size }) => <Trophy size={size} color={color} />,
-      }}
-    />
-    <Tab.Screen
-      name="Profile"
-      component={ProfileScreen}
-      options={{
-        tabBarLabel: "Cá nhân",
-        tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
-      }}
-    />
-  </Tab.Navigator>
-);
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: "Trang chủ",
+          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="MyAthletes"
+        component={MyAthletesScreen}
+        options={{
+          tabBarLabel: "VĐV",
+          tabBarIcon: ({ color, size }) => <Users size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="TrainingPlans"
+        component={TrainingPlansScreen}
+        options={{
+          tabBarLabel: "Huấn luyện",
+          tabBarIcon: ({ color, size }) => (
+            <Calendar size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: "Cá nhân",
+          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 // Team Leader Tab Navigator
-const TeamLeaderTabNavigator = () => (
-  <Tab.Navigator screenOptions={{ headerShown: false }}>
-    <Tab.Screen
-      name="DelegationManagement"
-      component={DelegationManagementScreen}
-      options={{
-        tabBarLabel: "Quản lý đoàn",
-        tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+const TeamLeaderTabNavigator = () => {
+  const insets = useSafeAreaInsets();
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#0ea5e9",
+        tabBarInactiveTintColor: "#9ca3af",
+        tabBarStyle: {
+          paddingBottom: insets.bottom,
+          paddingTop: 8,
+          height: 60 + insets.bottom,
+        },
       }}
-    />
-    <Tab.Screen
-      name="DelegationSchedule"
-      component={DelegationScheduleScreen}
-      options={{
-        tabBarLabel: "Lịch đoàn",
-        tabBarIcon: ({ color, size }) => <Calendar size={size} color={color} />,
-      }}
-    />
-    <Tab.Screen
-      name="TeamManagement"
-      component={TeamManagementScreen}
-      options={{
-        tabBarLabel: "Quản lý đội",
-        tabBarIcon: ({ color, size }) => <Trophy size={size} color={color} />,
-      }}
-    />
-    <Tab.Screen
-      name="Profile"
-      component={ProfileScreen}
-      options={{
-        tabBarLabel: "Cá nhân",
-        tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
-      }}
-    />
-  </Tab.Navigator>
-);
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: "Trang chủ",
+          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="DelegationManagement"
+        component={DelegationManagementScreen}
+        options={{
+          tabBarLabel: "Quản lý đoàn",
+          tabBarIcon: ({ color, size }) => <Users size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="DelegationSchedule"
+        component={DelegationScheduleScreen}
+        options={{
+          tabBarLabel: "Lịch đoàn",
+          tabBarIcon: ({ color, size }) => (
+            <Calendar size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarLabel: "Cá nhân",
+          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 const AppNavigator = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
 
   const getMainNavigator = () => {
-    if (!user) return <SpectatorTabNavigator />;
+    if (!user) return null;
 
     switch (user.role) {
       case "athlete":
@@ -236,11 +310,19 @@ const AppNavigator = () => {
     }
   };
 
+  // Show loading screen while checking authentication
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        {/* You can add a proper loading screen here */}
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* TEMPORARY: Auth disabled for development - Enable later when implementing authentication */}
-        {false && !isAuthenticated ? (
+        {!isAuthenticated ? (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
@@ -273,12 +355,14 @@ const AppNavigator = () => {
             />
 
             {/* Athlete Screens */}
+            <Stack.Screen name="MyRanking" component={MyRankingScreen} />
             <Stack.Screen
               name="SubmitComplaint"
               component={SubmitComplaintScreen}
             />
 
             {/* Spectator Screens */}
+            <Stack.Screen name="SearchMatch" component={SearchMatchScreen} />
             <Stack.Screen
               name="FavoriteMatches"
               component={FavoriteMatchesScreen}
@@ -288,6 +372,10 @@ const AppNavigator = () => {
             <Stack.Screen
               name="CreateTrainingPlan"
               component={CreateTrainingPlanScreen}
+            />
+            <Stack.Screen
+              name="PerformanceAnalytics"
+              component={PerformanceAnalyticsScreen}
             />
             <Stack.Screen
               name="AthleteEvaluation"
@@ -305,61 +393,61 @@ const AppNavigator = () => {
             {/* Team Leader Screens */}
             <Stack.Screen name="AddAthletes" component={AddAthletesScreen} />
             <Stack.Screen
+              name="TeamManagement"
+              component={TeamManagementScreen}
+            />
+            <Stack.Screen
               name="ComplaintReview"
               component={ComplaintReviewScreen}
             />
 
-            {/* Auth Screens - Added here for Debug Navigator access */}
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Register" component={RegisterScreen} />
+            {/* Debug Screen - Always accessible for development */}
+            <Stack.Screen
+              name="DebugNavigator"
+              component={DebugNavigatorScreen}
+              options={{ title: "🛠️ Debug Navigator" }}
+            />
+            <Stack.Screen
+              name="StateComponents"
+              component={StateComponentsScreen}
+              options={{ title: "State Components" }}
+            />
+            <Stack.Screen
+              name="InputComponents"
+              component={InputComponentsScreen}
+              options={{ title: "Input Components" }}
+            />
+            <Stack.Screen
+              name="BadgeComponents"
+              component={BadgeComponentsScreen}
+              options={{ title: "Badge Components" }}
+            />
+            <Stack.Screen
+              name="CardComponents"
+              component={CardComponentsScreen}
+              options={{ title: "Card Components" }}
+            />
+            <Stack.Screen
+              name="ListComponents"
+              component={ListComponentsScreen}
+              options={{ title: "List Components" }}
+            />
+            <Stack.Screen
+              name="NavigationComponents"
+              component={NavigationComponentsScreen}
+              options={{ title: "Navigation Components" }}
+            />
+            <Stack.Screen
+              name="ActionComponents"
+              component={ActionComponentsScreen}
+              options={{ title: "Action Components" }}
+            />
           </>
         )}
-
-        {/* Debug Screen - Always accessible for development */}
-        <Stack.Screen
-          name="DebugNavigator"
-          component={DebugNavigatorScreen}
-          options={{ title: "🛠️ Debug Navigator" }}
-        />
-        <Stack.Screen
-          name="StateComponents"
-          component={StateComponentsScreen}
-          options={{ title: "State Components" }}
-        />
-        <Stack.Screen
-          name="InputComponents"
-          component={InputComponentsScreen}
-          options={{ title: "Input Components" }}
-        />
-        <Stack.Screen
-          name="BadgeComponents"
-          component={BadgeComponentsScreen}
-          options={{ title: "Badge Components" }}
-        />
-        <Stack.Screen
-          name="CardComponents"
-          component={CardComponentsScreen}
-          options={{ title: "Card Components" }}
-        />
-        <Stack.Screen
-          name="ListComponents"
-          component={ListComponentsScreen}
-          options={{ title: "List Components" }}
-        />
-        <Stack.Screen
-          name="NavigationComponents"
-          component={NavigationComponentsScreen}
-          options={{ title: "Navigation Components" }}
-        />
-        <Stack.Screen
-          name="ActionComponents"
-          component={ActionComponentsScreen}
-          options={{ title: "Action Components" }}
-        />
       </Stack.Navigator>
 
-      {/* Floating Debug Button - Only visible in development */}
-      <DebugButton />
+      {/* Floating Debug Button - Only visible when authenticated */}
+      {isAuthenticated && <DebugButton />}
     </NavigationContainer>
   );
 };

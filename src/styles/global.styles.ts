@@ -38,6 +38,7 @@ export const globalStyles = StyleSheet.create({
   },
   flex1: {
     flex: 1,
+    backgroundColor:colors["primary-500"]
   },
 
   // Card styles

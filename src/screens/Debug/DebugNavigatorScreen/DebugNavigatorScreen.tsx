@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Search, ChevronRight } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -361,140 +362,147 @@ const DebugNavigatorScreen: React.FC = () => {
   };
 
   return (
-    <View style={debugNavigatorScreenStyles.container}>
-      {/* Header */}
-      <View style={debugNavigatorScreenStyles.header}>
-        <Text style={debugNavigatorScreenStyles.headerTitle}>
-          🛠️ Debug Navigator
-        </Text>
-        <Text style={debugNavigatorScreenStyles.headerSubtitle}>
-          Access all screens for UI development
-        </Text>
-      </View>
-
-      {/* Search Bar */}
-      <View style={debugNavigatorScreenStyles.searchContainer}>
-        <View style={debugNavigatorScreenStyles.searchInputWrapper}>
-          <Search color="#9ca3af" size={20} />
-          <TextInput
-            style={debugNavigatorScreenStyles.searchInput}
-            placeholder="Search screens, UC, or description..."
-            placeholderTextColor="#9ca3af"
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-          />
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#f9fafb" }}
+      edges={["top"]}
+    >
+      <View style={debugNavigatorScreenStyles.container}>
+        {/* Header */}
+        <View style={debugNavigatorScreenStyles.header}>
+          <Text style={debugNavigatorScreenStyles.headerTitle}>
+            🛠️ Debug Navigator
+          </Text>
+          <Text style={debugNavigatorScreenStyles.headerSubtitle}>
+            Access all screens for UI development
+          </Text>
         </View>
-      </View>
 
-      {/* Screen Categories */}
-      <ScrollView style={{ flex: 1, paddingHorizontal: 24 }}>
-        {filteredCategories.length === 0 ? (
-          <View style={debugNavigatorScreenStyles.noResults}>
-            <Text style={debugNavigatorScreenStyles.noResultsText}>
-              No screens found
-            </Text>
+        {/* Search Bar */}
+        <View style={debugNavigatorScreenStyles.searchContainer}>
+          <View style={debugNavigatorScreenStyles.searchInputWrapper}>
+            <Search color="#9ca3af" size={20} />
+            <TextInput
+              style={debugNavigatorScreenStyles.searchInput}
+              placeholder="Search screens, UC, or description..."
+              placeholderTextColor="#9ca3af"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
           </View>
-        ) : (
-          filteredCategories.map((category, index) => (
-            <View key={index} style={debugNavigatorScreenStyles.categoryCard}>
-              {/* Category Header */}
-              <TouchableOpacity
-                style={debugNavigatorScreenStyles.categoryHeader}
-                onPress={() => toggleCategory(category.category)}
-              >
-                <View style={debugNavigatorScreenStyles.categoryHeaderLeft}>
-                  <Text style={debugNavigatorScreenStyles.categoryIcon}>
-                    {category.icon}
-                  </Text>
-                  <View style={debugNavigatorScreenStyles.categoryHeaderText}>
-                    <Text style={debugNavigatorScreenStyles.categoryName}>
-                      {category.category}
-                    </Text>
-                    <Text style={debugNavigatorScreenStyles.categoryCount}>
-                      {category.screens.length} screen(s)
-                    </Text>
-                  </View>
-                </View>
-                <ChevronRight
-                  color="#9ca3af"
-                  size={20}
-                  style={{
-                    marginLeft: 8,
-                    transform: [
-                      {
-                        rotate:
-                          expandedCategory === category.category
-                            ? "90deg"
-                            : "0deg",
-                      },
-                    ],
-                  }}
-                />
-              </TouchableOpacity>
+        </View>
 
-              {/* Screen List */}
-              {expandedCategory === category.category && (
-                <View style={debugNavigatorScreenStyles.screensList}>
-                  {category.screens.map((screen, screenIndex) => (
-                    <TouchableOpacity
-                      key={screenIndex}
-                      style={[
-                        debugNavigatorScreenStyles.screenItem,
-                        screenIndex !== category.screens.length - 1 && {
-                          borderBottomWidth: 1,
-                          borderBottomColor: "#f3f4f6",
-                        },
-                      ]}
-                      onPress={() => navigateToScreen(screen.route)}
-                    >
-                      <View style={debugNavigatorScreenStyles.screenItemLeft}>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            marginBottom: 4,
-                          }}
-                        >
-                          <Text style={debugNavigatorScreenStyles.screenName}>
-                            {screen.name}
-                          </Text>
-                          {screen.uc && (
-                            <View
-                              style={{
-                                backgroundColor: "#dbeafe",
-                                borderRadius: 4,
-                                paddingHorizontal: 8,
-                                paddingVertical: 2,
-                                marginLeft: 8,
-                              }}
-                            >
-                              <Text
-                                style={debugNavigatorScreenStyles.screenUseCase}
-                              >
-                                {screen.uc}
-                              </Text>
-                            </View>
-                          )}
-                        </View>
-                        <Text
-                          style={debugNavigatorScreenStyles.screenDescription}
-                        >
-                          {screen.description}
-                        </Text>
-                      </View>
-                      <ChevronRight color="#cbd5e1" size={20} />
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              )}
+        {/* Screen Categories */}
+        <ScrollView style={{ flex: 1, paddingHorizontal: 24 }}>
+          {filteredCategories.length === 0 ? (
+            <View style={debugNavigatorScreenStyles.noResults}>
+              <Text style={debugNavigatorScreenStyles.noResultsText}>
+                No screens found
+              </Text>
             </View>
-          ))
-        )}
+          ) : (
+            filteredCategories.map((category, index) => (
+              <View key={index} style={debugNavigatorScreenStyles.categoryCard}>
+                {/* Category Header */}
+                <TouchableOpacity
+                  style={debugNavigatorScreenStyles.categoryHeader}
+                  onPress={() => toggleCategory(category.category)}
+                >
+                  <View style={debugNavigatorScreenStyles.categoryHeaderLeft}>
+                    <Text style={debugNavigatorScreenStyles.categoryIcon}>
+                      {category.icon}
+                    </Text>
+                    <View style={debugNavigatorScreenStyles.categoryHeaderText}>
+                      <Text style={debugNavigatorScreenStyles.categoryName}>
+                        {category.category}
+                      </Text>
+                      <Text style={debugNavigatorScreenStyles.categoryCount}>
+                        {category.screens.length} screen(s)
+                      </Text>
+                    </View>
+                  </View>
+                  <ChevronRight
+                    color="#9ca3af"
+                    size={20}
+                    style={{
+                      marginLeft: 8,
+                      transform: [
+                        {
+                          rotate:
+                            expandedCategory === category.category
+                              ? "90deg"
+                              : "0deg",
+                        },
+                      ],
+                    }}
+                  />
+                </TouchableOpacity>
 
-        {/* Bottom Padding */}
-        <View style={debugNavigatorScreenStyles.largeSpacer} />
-      </ScrollView>
-    </View>
+                {/* Screen List */}
+                {expandedCategory === category.category && (
+                  <View style={debugNavigatorScreenStyles.screensList}>
+                    {category.screens.map((screen, screenIndex) => (
+                      <TouchableOpacity
+                        key={screenIndex}
+                        style={[
+                          debugNavigatorScreenStyles.screenItem,
+                          screenIndex !== category.screens.length - 1 && {
+                            borderBottomWidth: 1,
+                            borderBottomColor: "#f3f4f6",
+                          },
+                        ]}
+                        onPress={() => navigateToScreen(screen.route)}
+                      >
+                        <View style={debugNavigatorScreenStyles.screenItemLeft}>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                              marginBottom: 4,
+                            }}
+                          >
+                            <Text style={debugNavigatorScreenStyles.screenName}>
+                              {screen.name}
+                            </Text>
+                            {screen.uc && (
+                              <View
+                                style={{
+                                  backgroundColor: "#dbeafe",
+                                  borderRadius: 4,
+                                  paddingHorizontal: 8,
+                                  paddingVertical: 2,
+                                  marginLeft: 8,
+                                }}
+                              >
+                                <Text
+                                  style={
+                                    debugNavigatorScreenStyles.screenUseCase
+                                  }
+                                >
+                                  {screen.uc}
+                                </Text>
+                              </View>
+                            )}
+                          </View>
+                          <Text
+                            style={debugNavigatorScreenStyles.screenDescription}
+                          >
+                            {screen.description}
+                          </Text>
+                        </View>
+                        <ChevronRight color="#cbd5e1" size={20} />
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
+              </View>
+            ))
+          )}
+
+          {/* Bottom Padding */}
+          <View style={debugNavigatorScreenStyles.largeSpacer} />
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 

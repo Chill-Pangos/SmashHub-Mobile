@@ -1,14 +1,16 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../../constants/design-tokens";
+import { colors, shadows } from "../../constants/design-tokens";
 
 export const matchCardStyles = StyleSheet.create({
   // Compact variant
   compact_container: {
     backgroundColor: colors.card,
-    borderRadius: 8,
-    padding: 12,
+    borderRadius: 12,
+    padding: 16,
     borderWidth: 1,
     borderColor: colors.border,
+    marginBottom: 12,
+    ...shadows.sm,
   },
   compact_tournamentText: {
     fontSize: 12,

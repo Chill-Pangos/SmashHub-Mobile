@@ -157,4 +157,7 @@ export const debugNavigatorScreenStyles = StyleSheet.create({
     fontSize: 12,
     color: "#6b7280",
   },
+  largeSpacer: {
+    height: 32,
+  },
 });

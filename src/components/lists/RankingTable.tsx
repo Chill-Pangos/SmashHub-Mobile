@@ -302,10 +302,7 @@ export const RankingTable: React.FC<RankingTableProps> = ({
   }
 
   return (
-    <ScrollView
-      style={[rankingTableStyles.container, style]}
-      showsVerticalScrollIndicator={false}
-    >
+    <View style={[rankingTableStyles.container, style]}>
       {Object.entries(groupedRankings).map(([groupName, groupRankings]) => (
         <View key={groupName}>
           {/* Group Header */}
@@ -317,48 +314,70 @@ export const RankingTable: React.FC<RankingTableProps> = ({
             </View>
           )}
 
-          {/* Table Header */}
-          <View style={rankingTableStyles.headerRow}>
-            {renderHeader(
-              "Hạng",
-              "position",
-              rankingTableStyles.headerCell_rank
-            )}
-            <View
-              style={[
-                rankingTableStyles.headerCell,
-                rankingTableStyles.headerCell_player,
-              ]}
-            >
-              <Text style={rankingTableStyles.headerText}>Vận động viên</Text>
-            </View>
-            {variant === "full" && (
-              <>
-                {renderHeader("T", "wins", rankingTableStyles.headerCell_wins)}
-                {renderHeader(
-                  "TH",
-                  "losses",
-                  rankingTableStyles.headerCell_losses
-                )}
-              </>
-            )}
-            {renderHeader(
-              "Điểm",
-              "points",
-              rankingTableStyles.headerCell_points
-            )}
-            {variant === "full" &&
-              renderHeader(
-                "Tỉ lệ",
-                "winRate",
-                rankingTableStyles.headerCell_winRate
+          {/* Table Header - Scrollable Horizontal */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            bounces={false}
+            style={rankingTableStyles.headerScrollView}
+          >
+            <View style={rankingTableStyles.headerRow}>
+              {renderHeader(
+                "Hạng",
+                "position",
+                rankingTableStyles.headerCell_rank
               )}
-          </View>
+              <View
+                style={[
+                  rankingTableStyles.headerCell,
+                  rankingTableStyles.headerCell_player,
+                ]}
+              >
+                <Text style={rankingTableStyles.headerText}>Vận động viên</Text>
+              </View>
+              {variant === "full" && (
+                <>
+                  {renderHeader(
+                    "Thắng",
+                    "wins",
+                    rankingTableStyles.headerCell_wins
+                  )}
+                  {renderHeader(
+                    "Thua",
+                    "losses",
+                    rankingTableStyles.headerCell_losses
+                  )}
+                </>
+              )}
+              {renderHeader(
+                "Điểm",
+                "points",
+                rankingTableStyles.headerCell_points
+              )}
+              {variant === "full" &&
+                renderHeader(
+                  "Tỉ lệ",
+                  "winRate",
+                  rankingTableStyles.headerCell_winRate
+                )}
+            </View>
+          </ScrollView>
 
-          {/* Table Rows */}
-          {groupRankings.map(renderRow)}
+          {/* Table Rows - Scrollable Vertical with Horizontal Scroll */}
+          <ScrollView
+            style={rankingTableStyles.rowsScrollView}
+            showsVerticalScrollIndicator={false}
+          >
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              bounces={false}
+            >
+              <View>{groupRankings.map(renderRow)}</View>
+            </ScrollView>
+          </ScrollView>
         </View>
       ))}
-    </ScrollView>
+    </View>
   );
 };

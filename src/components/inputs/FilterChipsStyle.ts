@@ -5,26 +5,31 @@ export const filterChipsStyles = StyleSheet.create({
   // Container
   container: {
     flexDirection: "row",
-    alignItems: "center",
+    height: 56,
+    backgroundColor: colors.background,
   },
   scrollContent: {
-    paddingHorizontal: 16,
+    height: 56,
+    alignItems: "center",
   },
   wrapContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     paddingHorizontal: 16,
+    height: 56,
+    alignItems: "center",
   },
 
   // Chip
   chip: {
+    height: 40,
     paddingHorizontal: 16,
-    paddingVertical: 8,
     borderRadius: 9999,
     borderWidth: 1,
     marginRight: 8,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
   },
   chip_selected: {
     backgroundColor: colors.primary[500],
@@ -74,13 +79,14 @@ export const filterChipsStyles = StyleSheet.create({
 
   // Clear All Button
   clearAllButton: {
+    height: 40,
     paddingHorizontal: 12,
-    paddingVertical: 8,
     borderRadius: 9999,
     backgroundColor: colors.secondary.DEFAULT,
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 8,
+    justifyContent: "center",
+    marginLeft: 0,
   },
   clearAllButtonWrap: {
     paddingHorizontal: 12,

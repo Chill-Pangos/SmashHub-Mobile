@@ -1,6 +1,7 @@
 ﻿import React, { useState } from "react";
 import { navigationComponentsScreenStyles } from "./NavigationComponentsScreenStyle";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScreenHeader, TabBar } from "../../../components";
 import { Bell, Settings } from "lucide-react-native";
@@ -19,48 +20,12 @@ const NavigationComponentsScreen: React.FC = () => {
   ];
 
   return (
-    <View style={navigationComponentsScreenStyles.container}>
-      {/* Header Examples */}
-      <View style={{ marginBottom: 24 }}>
-        <ScreenHeader
-          title="Default Header"
-          showBackButton
-          onBackPress={() => console.log("Back")}
-          actions={[
-            {
-              id: "notifications",
-              icon: <Bell size={20} color="#fff" />,
-              label: "Notifications",
-              onPress: () => console.log("Notifications"),
-            },
-            {
-              id: "settings",
-              icon: <Settings size={20} color="#fff" />,
-              label: "Settings",
-              onPress: () => console.log("Settings"),
-            },
-          ]}
-        />
-
-        <View style={{ marginTop: 16 }}>
+    <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
+      <View style={navigationComponentsScreenStyles.container}>
+        {/* Header Examples */}
+        <View style={{ marginBottom: 24 }}>
           <ScreenHeader
-            variant="gradient"
-            title="Gradient Header"
-            subtitle="With beautiful gradient background"
-            showBackButton
-            onBackPress={() => console.log("Back")}
-          />
-        </View>
-
-        <LinearGradient
-          colors={["#e89b3c", "#d88320"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{ marginTop: 16, paddingTop: 16 }}
-        >
-          <ScreenHeader
-            variant="transparent"
-            title="Transparent Header"
+            title="Default Header"
             showBackButton
             onBackPress={() => console.log("Back")}
             actions={[
@@ -70,72 +35,116 @@ const NavigationComponentsScreen: React.FC = () => {
                 label: "Notifications",
                 onPress: () => console.log("Notifications"),
               },
+              {
+                id: "settings",
+                icon: <Settings size={20} color="#fff" />,
+                label: "Settings",
+                onPress: () => console.log("Settings"),
+              },
             ]}
           />
-        </LinearGradient>
-      </View>
 
-      <ScrollView>
-        <View style={navigationComponentsScreenStyles.content}>
-          {/* ScreenHeader Info */}
-          <View style={navigationComponentsScreenStyles.section}>
-            <Text style={navigationComponentsScreenStyles.sectionTitle}>
-              ScreenHeader
-            </Text>
-            <Text style={{ fontSize: 14, color: "#6b7280" }}>
-              4 variants: default, gradient, sticky, transparent
-            </Text>
+          <View style={{ marginTop: 16 }}>
+            <ScreenHeader
+              variant="gradient"
+              title="Gradient Header"
+              subtitle="With beautiful gradient background"
+              showBackButton
+              onBackPress={() => console.log("Back")}
+            />
           </View>
 
-          {/* TabBar */}
-          <View style={navigationComponentsScreenStyles.section}>
-            <Text style={navigationComponentsScreenStyles.sectionTitle}>
-              TabBar
-            </Text>
+          <LinearGradient
+            colors={["#e89b3c", "#d88320"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{ marginTop: 16, paddingTop: 16 }}
+          >
+            <ScreenHeader
+              variant="transparent"
+              title="Transparent Header"
+              showBackButton
+              onBackPress={() => console.log("Back")}
+              actions={[
+                {
+                  id: "notifications",
+                  icon: <Bell size={20} color="#fff" />,
+                  label: "Notifications",
+                  onPress: () => console.log("Notifications"),
+                },
+              ]}
+            />
+          </LinearGradient>
+        </View>
 
-            <View style={navigationComponentsScreenStyles.spacer}>
-              <View>
-                <Text style={navigationComponentsScreenStyles.subsectionTitle}>
-                  Segmented:
-                </Text>
-                <TabBar
-                  tabs={tabs}
-                  activeTab={activeTab}
-                  onTabChange={setActiveTab}
-                  variant="segmented"
-                />
-              </View>
+        <ScrollView>
+          <View style={navigationComponentsScreenStyles.content}>
+            {/* ScreenHeader Info */}
+            <View style={navigationComponentsScreenStyles.section}>
+              <Text style={navigationComponentsScreenStyles.sectionTitle}>
+                ScreenHeader
+              </Text>
+              <Text style={{ fontSize: 14, color: "#6b7280" }}>
+                4 variants: default, gradient, sticky, transparent
+              </Text>
+            </View>
 
-              <View>
-                <Text style={navigationComponentsScreenStyles.subsectionTitle}>
-                  Pills:
-                </Text>
-                <TabBar
-                  tabs={tabs}
-                  activeTab={activeTab}
-                  onTabChange={setActiveTab}
-                  variant="pills"
-                />
-              </View>
+            {/* TabBar */}
+            <View style={navigationComponentsScreenStyles.section}>
+              <Text style={navigationComponentsScreenStyles.sectionTitle}>
+                TabBar
+              </Text>
 
-              <View>
-                <Text style={navigationComponentsScreenStyles.subsectionTitle}>
-                  Underline:
-                </Text>
-                <TabBar
-                  tabs={tabs}
-                  activeTab={activeTab}
-                  onTabChange={setActiveTab}
-                  variant="underline"
-                />
+              <View style={navigationComponentsScreenStyles.spacer}>
+                <View>
+                  <Text
+                    style={navigationComponentsScreenStyles.subsectionTitle}
+                  >
+                    Segmented:
+                  </Text>
+                  <TabBar
+                    tabs={tabs}
+                    activeTab={activeTab}
+                    onTabChange={setActiveTab}
+                    variant="segmented"
+                  />
+                </View>
+
+                <View>
+                  <Text
+                    style={navigationComponentsScreenStyles.subsectionTitle}
+                  >
+                    Pills:
+                  </Text>
+                  <TabBar
+                    tabs={tabs}
+                    activeTab={activeTab}
+                    onTabChange={setActiveTab}
+                    variant="pills"
+                  />
+                </View>
+
+                <View>
+                  <Text
+                    style={navigationComponentsScreenStyles.subsectionTitle}
+                  >
+                    Underline:
+                  </Text>
+                  <TabBar
+                    tabs={tabs}
+                    activeTab={activeTab}
+                    onTabChange={setActiveTab}
+                    variant="underline"
+                  />
+                </View>
               </View>
             </View>
-          </View>
 
-          <View style={navigationComponentsScreenStyles.largeSpacer} />
-        </View>
-      </ScrollView>
-    </View>
+            <View style={navigationComponentsScreenStyles.largeSpacer} />
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 

@@ -188,10 +188,27 @@ export const FilterChips: React.FC<FilterChipsProps> = ({
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={filterChipsStyles.scrollContent}
-        style={{ flexGrow: 0 }}
+        bounces={false}
+        contentContainerStyle={[
+          filterChipsStyles.scrollContent,
+          { paddingHorizontal: 16 },
+        ]}
+        style={[style, { flexGrow: 0, flexShrink: 0 }]}
       >
-        {containerContent}
+        {/* Filter Chips */}
+        {filters.map(renderChip)}
+
+        {/* Clear All Button */}
+        {showClearAll && selectedFilters.length > 0 && (
+          <TouchableOpacity
+            onPress={handleClearAll}
+            style={filterChipsStyles.clearAllButton}
+            activeOpacity={0.7}
+          >
+            <X size={iconSizes.xs} color={iconColors.muted} />
+            <Text style={filterChipsStyles.clearAllText}>Xóa bộ lọc</Text>
+          </TouchableOpacity>
+        )}
       </ScrollView>
     );
   }

@@ -8,6 +8,15 @@ export const rankingTableStyles = StyleSheet.create({
     overflow: "hidden",
   },
 
+  // ScrollViews
+  headerScrollView: {
+    flexGrow: 0,
+    flexShrink: 0,
+  },
+  rowsScrollView: {
+    maxHeight: 400,
+  },
+
   // Header
   headerRow: {
     flexDirection: "row",
@@ -22,23 +31,23 @@ export const rankingTableStyles = StyleSheet.create({
     justifyContent: "center",
   },
   headerCell_rank: {
-    width: 64,
+    width: 60,
   },
   headerCell_player: {
-    flex: 1,
+    width: 200,
     paddingHorizontal: 8,
   },
   headerCell_wins: {
-    width: 48,
+    width: 50,
   },
   headerCell_losses: {
-    width: 48,
+    width: 50,
   },
   headerCell_points: {
-    width: 64,
+    width: 70,
   },
   headerCell_winRate: {
-    width: 64,
+    width: 70,
   },
   headerText: {
     fontSize: 12,
@@ -81,7 +90,7 @@ export const rankingTableStyles = StyleSheet.create({
 
   // Rank Cell
   rankCell: {
-    width: 64,
+    width: 60,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
@@ -103,7 +112,7 @@ export const rankingTableStyles = StyleSheet.create({
 
   // Player Cell
   playerCell: {
-    flex: 1,
+    width: 200,
     paddingHorizontal: 8,
   },
   playerName: {
@@ -122,15 +131,15 @@ export const rankingTableStyles = StyleSheet.create({
 
   // Stats Cells
   statsCell: {
-    width: 48,
+    width: 50,
     alignItems: "center",
   },
   statsCell_points: {
-    width: 64,
+    width: 70,
     alignItems: "center",
   },
   statsCell_winRate: {
-    width: 64,
+    width: 70,
     alignItems: "center",
   },
   statsText: {

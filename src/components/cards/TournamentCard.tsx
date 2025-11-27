@@ -30,6 +30,8 @@ export interface TournamentCardProps {
   showRegistration?: boolean;
   /** Callback when register button is pressed */
   onRegister?: () => void;
+  /** Custom gradient colors for featured variant (when no banner) */
+  gradientColors?: readonly [string, string, ...string[]];
   /** Custom style */
   style?: ViewStyle;
 }
@@ -62,6 +64,7 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
   onShare,
   showRegistration = false,
   onRegister,
+  gradientColors,
   style,
 }) => {
   const canRegister =
@@ -127,7 +130,7 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
             />
           ) : (
             <LinearGradient
-              colors={["#e89b3c", "#b56b18"]}
+              colors={gradientColors || ["#e89b3c", "#d88320", "#b56b18"]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={{ width: "100%", height: "100%" }}

@@ -43,10 +43,71 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await authService.login(email, password);
-      await AsyncStorage.setItem("authToken", response.token);
-      await AsyncStorage.setItem("user", JSON.stringify(response.user));
-      setUser(response.user);
+      // Mock login for development
+      // Map test emails to mock users with roles
+      const mockUserMap: { [key: string]: User } = {
+        "athlete@test.com": {
+          id: "1",
+          name: "Nguyễn Văn An",
+          email: "athlete@test.com",
+          role: "athlete",
+          avatar: "https://i.pravatar.cc/150?img=11",
+          phone: "0901234567",
+          organization: "Đội Hà Nội",
+          dateOfBirth: "2000-05-15",
+          gender: "male" as any,
+          isOnline: true,
+          createdAt: new Date().toISOString(),
+        },
+        "coach@test.com": {
+          id: "101",
+          name: "HLV Trần Quốc Tuấn",
+          email: "coach@test.com",
+          role: "coach",
+          avatar: "https://i.pravatar.cc/150?img=33",
+          phone: "0912345678",
+          organization: "Đội Hà Nội",
+          createdAt: new Date().toISOString(),
+        },
+        "leader@test.com": {
+          id: "201",
+          name: "Trưởng đoàn Lê Văn Phúc",
+          email: "leader@test.com",
+          role: "team_leader",
+          avatar: "https://i.pravatar.cc/150?img=60",
+          phone: "0923456789",
+          organization: "Đội Hà Nội",
+          createdAt: new Date().toISOString(),
+        },
+        "spectator@test.com": {
+          id: "301",
+          name: "Khán giả Nguyễn Văn Khoa",
+          email: "spectator@test.com",
+          role: "spectator",
+          avatar: "https://i.pravatar.cc/150?img=15",
+          phone: "0934567890",
+          createdAt: new Date().toISOString(),
+        },
+      };
+
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      const mockUser = mockUserMap[email];
+      if (mockUser && password === "123456") {
+        const mockToken = `mock_token_${mockUser.id}_${Date.now()}`;
+        await AsyncStorage.setItem("authToken", mockToken);
+        await AsyncStorage.setItem("user", JSON.stringify(mockUser));
+        setUser(mockUser);
+      } else {
+        throw new Error("Invalid credentials");
+      }
+
+      // Real API call (commented out for now)
+      // const response = await authService.login(email, password);
+      // await AsyncStorage.setItem("authToken", response.token);
+      // await AsyncStorage.setItem("user", JSON.stringify(response.user));
+      // setUser(response.user);
     } catch (error) {
       throw error;
     }
