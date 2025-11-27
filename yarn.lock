@@ -3608,6 +3608,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-splash-screen@npm:^31.0.11":
+  version: 31.0.11
+  resolution: "expo-splash-screen@npm:31.0.11"
+  dependencies:
+    "@expo/prebuild-config": "npm:^54.0.6"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/1d522dedf3b22f3184a68ced0d24f52f255632a8831f1ad3620805d285aba2a66eccf973e3021d88f12978feb4942b67f844f491074430872a34faaebb2ee4b5
+  languageName: node
+  linkType: hard
+
 "expo-status-bar@npm:~3.0.8":
   version: 3.0.8
   resolution: "expo-status-bar@npm:3.0.8"
@@ -6576,6 +6587,7 @@ __metadata:
     date-fns: "npm:^4.1.0"
     expo: "npm:^54.0.23"
     expo-linear-gradient: "npm:^15.0.7"
+    expo-splash-screen: "npm:^31.0.11"
     expo-status-bar: "npm:~3.0.8"
     lucide-react-native: "npm:^0.552.0"
     metro-minify-terser: "npm:^0.83.3"
