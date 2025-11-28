@@ -13,6 +13,7 @@ import {
   Users,
   BarChart3,
   Search,
+  Heart,
 } from "lucide-react-native";
 
 // Auth Screens
@@ -154,11 +155,19 @@ const SpectatorTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="TournamentList"
-        component={TournamentListScreen}
+        name="SearchMatch"
+        component={SearchMatchScreen}
         options={{
-          tabBarLabel: "Giải đấu",
-          tabBarIcon: ({ color, size }) => <Trophy size={size} color={color} />,
+          tabBarLabel: "Tìm kiếm",
+          tabBarIcon: ({ color, size }) => <Search size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="FavoriteMatches"
+        component={FavoriteMatchesScreen}
+        options={{
+          tabBarLabel: "Yêu thích",
+          tabBarIcon: ({ color, size }) => <Heart size={size} color={color} />,
         }}
       />
       <Tab.Screen
