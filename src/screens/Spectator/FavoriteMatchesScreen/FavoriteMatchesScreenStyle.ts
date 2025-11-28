@@ -7,21 +7,28 @@ export const favoriteMatchesScreenStyles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   header: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-    backgroundColor: colors.card,
+    paddingTop: 24,
+    paddingBottom: 24,
+    paddingHorizontal: 24,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
-  headerTitleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+  headerContent: {
     gap: 8,
   },
+  headerTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: colors.foreground,
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.9)",
   },
   selectionActions: {
     flexDirection: "row",

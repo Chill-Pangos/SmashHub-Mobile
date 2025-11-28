@@ -112,6 +112,8 @@ export const scheduleScreenStyles = StyleSheet.create({
   timeline: {
     padding: 16,
     paddingBottom: 32,
+    backgroundColor: colors.background,
+    flex:1,
   },
   timeSlot: {
     marginBottom: 24,

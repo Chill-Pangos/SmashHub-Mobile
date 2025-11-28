@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../../constants/design-tokens";
+import { colors } from "../../theme/colors";
 
 export const filterChipsStyles = StyleSheet.create({
   // Container
@@ -32,8 +32,8 @@ export const filterChipsStyles = StyleSheet.create({
     justifyContent: "center",
   },
   chip_selected: {
-    backgroundColor: colors.primary[500],
-    borderColor: colors.primary[500],
+    backgroundColor: colors.primary.DEFAULT,
+    borderColor: colors.primary.DEFAULT,
   },
   chip_unselected: {
     backgroundColor: colors.card,

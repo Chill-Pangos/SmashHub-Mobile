@@ -8,8 +8,16 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
-import { Calendar, MapPin, Filter, X, Clock } from "lucide-react-native";
+import {
+  Calendar,
+  MapPin,
+  Filter,
+  X,
+  Clock,
+  Search,
+} from "lucide-react-native";
 
 import { SearchBar } from "../../../components/inputs/SearchBar";
 import {
@@ -28,6 +36,7 @@ import {
 import { mockMatches, mockTournaments } from "../../../mockdata/mockData";
 import { Match } from "../../../types";
 import { colors } from "../../../theme/colors";
+import { colors as themeColors } from "../../../theme/colors";
 import { iconSizes } from "../../../constants/design-tokens";
 import { searchMatchScreenStyles as styles } from "./SearchMatchScreenStyle";
 
@@ -219,23 +228,42 @@ const SearchMatchScreen: React.FC = () => {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Tìm kiếm trận đấu</Text>
-        </View>
+        <LinearGradient
+          colors={[
+            themeColors.primary[400],
+            themeColors.primary[500],
+            themeColors.primary[600],
+          ]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.header}
+        >
+          <View style={styles.headerContent}>
+            <View style={styles.headerTitleRow}>
+              <Search size={32} color="#fff" />
+              <Text style={styles.headerTitle}>Tìm kiếm trận đấu</Text>
+            </View>
+            <Text style={styles.headerSubtitle}>
+              {filteredMatches.length} kết quả
+            </Text>
+          </View>
+        </LinearGradient>
 
         {/* Search Bar */}
         <View style={styles.searchSection}>
-          <SearchBar
-            value={searchQuery}
-            onChangeText={handleSearch}
-            placeholder="Tìm VĐV, giải đấu, sân..."
-            loading={isSearching}
-            onClear={() => {
-              setSearchQuery("");
-              setSearchResults([]);
-            }}
-            autoFocus={false}
-          />
+          <View style={styles.searchBarWrapper}>
+            <SearchBar
+              value={searchQuery}
+              onChangeText={handleSearch}
+              placeholder="Tìm VĐV, giải đấu, sân..."
+              loading={isSearching}
+              onClear={() => {
+                setSearchQuery("");
+                setSearchResults([]);
+              }}
+              autoFocus={false}
+            />
+          </View>
 
           {/* Advanced Filter Button */}
           <TouchableOpacity
@@ -270,7 +298,7 @@ const SearchMatchScreen: React.FC = () => {
         </View>
 
         {/* Quick Suggestions (when no search) */}
-        {!searchQuery && searchResults.length === 0 && (
+        {/* {!searchQuery && searchResults.length === 0 && (
           <View style={styles.suggestionsContainer}>
             <Text style={styles.sectionTitle}>Tìm kiếm nhanh</Text>
             <View style={styles.suggestionsList}>
@@ -290,7 +318,7 @@ const SearchMatchScreen: React.FC = () => {
               ))}
             </View>
           </View>
-        )}
+        )} */}
 
         {/* Search History */}
         {!searchQuery &&

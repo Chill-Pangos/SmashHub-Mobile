@@ -10,16 +10,28 @@ export const searchMatchScreenStyles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: colors.card,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    paddingTop: 24,
+    paddingBottom: 24,
+    paddingHorizontal: 24,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+  },
+  headerContent: {
+    gap: 8,
+  },
+  headerTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: colors.foreground,
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  headerSubtitle: {
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.9)",
   },
   searchSection: {
     flexDirection: "row",
@@ -29,6 +41,9 @@ export const searchMatchScreenStyles = StyleSheet.create({
     backgroundColor: colors.card,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
+  },
+  searchBarWrapper: {
+    flex: 1,
   },
   filterButton: {
     width: 48,

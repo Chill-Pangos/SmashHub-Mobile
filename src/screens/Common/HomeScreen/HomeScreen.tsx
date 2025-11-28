@@ -244,7 +244,7 @@ const HomeScreen: React.FC = () => {
                 source={{ uri: user?.avatar || "https://i.pravatar.cc/150" }}
                 style={homeScreenStyles.avatar}
               />
-              <View>
+              <View style={homeScreenStyles.textContainer}>
                 <Text style={homeScreenStyles.welcomeText}>Xin chào!</Text>
                 <Text style={homeScreenStyles.userName}>
                   {user?.name || "Người dùng"}

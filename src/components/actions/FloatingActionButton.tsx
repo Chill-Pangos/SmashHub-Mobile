@@ -2,7 +2,8 @@ import React from "react";
 import { TouchableOpacity, Text, View, ViewStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Plus } from "lucide-react-native";
-import { colors, iconSizes, shadows } from "../../constants/design-tokens";
+import { colors } from "../../theme/colors";
+import { iconSizes, shadows } from "../../constants/design-tokens";
 import { floatingActionButtonStyles } from "./FloatingActionButtonStyle";
 
 /**
@@ -49,7 +50,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   onPress,
   position = "bottom-right",
   size = "medium",
-  color = colors.primary[500],
+  color = colors.primary.DEFAULT,
   disabled = false,
   style,
 }) => {

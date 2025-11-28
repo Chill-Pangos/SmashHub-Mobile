@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import {
   Heart,
@@ -26,6 +27,7 @@ import { FloatingActionButton } from "../../../components/actions/FloatingAction
 import { mockMatches } from "../../../mockdata/mockData";
 import { Match } from "../../../types";
 import { colors } from "../../../theme/colors";
+import { colors as themeColors } from "../../../theme/colors";
 import { iconSizes } from "../../../constants/design-tokens";
 import { favoriteMatchesScreenStyles as styles } from "./FavoriteMatchesScreenStyle";
 
@@ -215,14 +217,24 @@ const FavoriteMatchesScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerTitleContainer}>
-          <Heart
-            size={24}
-            color={colors.primary.DEFAULT}
-            fill={colors.primary.DEFAULT}
-          />
-          <Text style={styles.headerTitle}>Trận yêu thích</Text>
+      <LinearGradient
+        colors={[
+          themeColors.primary[400],
+          themeColors.primary[500],
+          themeColors.primary[600],
+        ]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.header}
+      >
+        <View style={styles.headerContent}>
+          <View style={styles.headerTitleRow}>
+            <Heart size={32} color="#fff" fill="#fff" />
+            <Text style={styles.headerTitle}>Trận yêu thích</Text>
+          </View>
+          <Text style={styles.headerSubtitle}>
+            {filteredMatches.length} trận đấu
+          </Text>
         </View>
 
         {isSelectionMode && (
@@ -259,7 +271,7 @@ const FavoriteMatchesScreen: React.FC = () => {
             </TouchableOpacity>
           </View>
         )}
-      </View>
+      </LinearGradient>
 
       {/* Search */}
       <View style={styles.searchContainer}>

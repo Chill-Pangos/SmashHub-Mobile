@@ -22,10 +22,13 @@ export const homeScreenStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    flexWrap: "nowrap",
   },
   headerLeft: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
+    marginRight: spacing.md,
   },
   avatar: {
     width: 50,
@@ -34,6 +37,9 @@ export const homeScreenStyles = StyleSheet.create({
     marginRight: spacing.md,
     borderWidth: 2,
     borderColor: "rgba(255,255,255,0.3)",
+  },
+  textContainer: {
+    flex: 1,
   },
   welcomeText: {
     fontSize: 14,
@@ -51,6 +57,7 @@ export const homeScreenStyles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.2)",
     alignItems: "center",
     justifyContent: "center",
+    flexShrink: 0,
   },
   notificationBadge: {
     position: "absolute",
@@ -107,8 +114,6 @@ export const homeScreenStyles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.foreground,
     marginBottom: spacing.md,
-    
-    
   },
   sectionHeader: {
     flexDirection: "row",

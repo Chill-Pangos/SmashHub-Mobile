@@ -17,6 +17,7 @@ import { globalStyles } from "../../../styles/global.styles";
 import { scheduleScreenStyles } from "./ScheduleScreenStyle";
 import { Match } from "../../../types";
 import { colors } from "../../../constants/design-tokens";
+import { mockMatches } from "../../../mockdata/mockData";
 
 const ScheduleScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -44,75 +45,6 @@ const ScheduleScreen: React.FC = () => {
     { id: "court2", name: "Sân 2" },
     { id: "court3", name: "Sân 3" },
     { id: "court4", name: "Sân 4" },
-  ];
-
-  // Mock matches
-  const mockMatches: Match[] = [
-    {
-      id: "1",
-      tournamentId: "1",
-      tournamentName: "Giải Cầu Lông Mở Rộng TP.HCM 2024",
-      roundName: "Bảng A",
-      scheduledTime: "2024-03-20T09:00:00.000Z",
-      courtNumber: "Sân 1",
-      status: "scheduled",
-      homePlayer: "Nguyễn Văn A",
-      awayPlayer: "Trần Văn B",
-      homePlayerId: "1",
-      awayPlayerId: "2",
-    },
-    {
-      id: "2",
-      tournamentId: "1",
-      tournamentName: "Giải Cầu Lông Mở Rộng TP.HCM 2024",
-      roundName: "Bảng B",
-      scheduledTime: "2024-03-20T10:30:00.000Z",
-      courtNumber: "Sân 2",
-      status: "scheduled",
-      homePlayer: "Lê Thị C",
-      awayPlayer: "Phạm Thị D",
-      homePlayerId: "3",
-      awayPlayerId: "4",
-    },
-    {
-      id: "3",
-      tournamentId: "1",
-      tournamentName: "Giải Cầu Lông Mở Rộng TP.HCM 2024",
-      roundName: "Vòng 1/8",
-      scheduledTime: "2024-03-20T13:00:00.000Z",
-      courtNumber: "Sân 1",
-      status: "scheduled",
-      homePlayer: "A/B",
-      awayPlayer: "C/D",
-      homePlayerId: "5",
-      awayPlayerId: "6",
-    },
-    {
-      id: "4",
-      tournamentId: "1",
-      tournamentName: "Giải Cầu Lông Mở Rộng TP.HCM 2024",
-      roundName: "Bảng A",
-      scheduledTime: "2024-03-20T14:30:00.000Z",
-      courtNumber: "Sân 3",
-      status: "scheduled",
-      homePlayer: "Đặng Văn G",
-      awayPlayer: "Bùi Văn H",
-      homePlayerId: "7",
-      awayPlayerId: "8",
-    },
-    {
-      id: "5",
-      tournamentId: "1",
-      tournamentName: "Giải Cầu Lông Mở Rộng TP.HCM 2024",
-      roundName: "Bảng C",
-      scheduledTime: "2024-03-20T16:00:00.000Z",
-      courtNumber: "Sân 2",
-      status: "scheduled",
-      homePlayer: "C/I",
-      awayPlayer: "D/J",
-      homePlayerId: "9",
-      awayPlayerId: "10",
-    },
   ];
 
   // Filter matches by date and court
@@ -164,28 +96,28 @@ const ScheduleScreen: React.FC = () => {
   return (
     <SafeAreaView style={globalStyles.flex1} edges={["top"]}>
       {/* Header */}
-       <View style={{ backgroundColor: colors.background }}>
-      <LinearGradient
-        colors={[
-          themeColors.primary[400],
-          themeColors.primary[500],
-          themeColors.primary[600],
-        ]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={scheduleScreenStyles.header}
-      >
-        <View style={scheduleScreenStyles.headerContent}>
-          <View style={scheduleScreenStyles.headerTitleRow}>
-            <Calendar size={32} color="#fff" />
-            <Text style={scheduleScreenStyles.headerTitle}>Lịch thi đấu</Text>
+      <View style={{ backgroundColor: colors.background }}>
+        <LinearGradient
+          colors={[
+            themeColors.primary[400],
+            themeColors.primary[500],
+            themeColors.primary[600],
+          ]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={scheduleScreenStyles.header}
+        >
+          <View style={scheduleScreenStyles.headerContent}>
+            <View style={scheduleScreenStyles.headerTitleRow}>
+              <Calendar size={32} color="#fff" />
+              <Text style={scheduleScreenStyles.headerTitle}>Lịch thi đấu</Text>
+            </View>
+            <Text style={scheduleScreenStyles.headerSubtitle}>
+              {filteredMatches.length} trận đấu
+            </Text>
           </View>
-          <Text style={scheduleScreenStyles.headerSubtitle}>
-            {filteredMatches.length} trận đấu
-          </Text>
-        </View>
-      </LinearGradient>
-</View>
+        </LinearGradient>
+      </View>
       {/* Date Selector */}
       <View style={scheduleScreenStyles.dateSelector}>
         <ScrollView
@@ -302,13 +234,16 @@ const ScheduleScreen: React.FC = () => {
           ))}
         </ScrollView>
       ) : (
-        <EmptyState
+          <View style={scheduleScreenStyles.timeline}>
+<EmptyState
           icon={CalendarX}
           title="Chưa có trận đấu"
           description={`Không có trận đấu nào vào ${selectedDate.getDate()}/${
             selectedDate.getMonth() + 1
-          }`}
+            }`}
         />
+          </View>
+        
       )}
     </SafeAreaView>
   );
