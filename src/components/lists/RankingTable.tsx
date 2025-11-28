@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   ViewStyle,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
 } from "react-native";
 import {
   Trophy,
@@ -13,6 +15,7 @@ import {
   Minus,
   ChevronUp,
   ChevronDown,
+  CircleStar,
 } from "lucide-react-native";
 import { Ranking } from "../../types";
 import { formatNumber, formatPercentage } from "../../utils/format";
@@ -21,6 +24,9 @@ import { LoadingSpinner } from "../states/LoadingSpinner";
 import { iconSizes } from "../../constants/design-tokens";
 import { iconColors } from "../../styles/iconColors";
 import { rankingTableStyles } from "./RankingTableStyle";
+import { Circle } from "react-native-svg";
+import { red } from "react-native-reanimated/lib/typescript/Colors";
+import { colors } from "../../theme";
 
 /**
  * RankingTable Props
@@ -78,6 +84,25 @@ export const RankingTable: React.FC<RankingTableProps> = ({
 }) => {
   const [sortColumn, setSortColumn] = useState<SortColumn>("position");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  // Refs for synchronized scrolling
+  const headerScrollRef = useRef<ScrollView>(null);
+  const rowsScrollRef = useRef<ScrollView>(null);
+
+  /**
+   * Handle horizontal scroll synchronization
+   */
+/*   const handleHeaderScroll = (
+    event: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
+    const offsetX = event.nativeEvent.contentOffset.x;
+    rowsScrollRef.current?.scrollTo({ x: offsetX, animated: false });
+  }; */
+
+  const handleRowsScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offsetX = event.nativeEvent.contentOffset.x;
+    headerScrollRef.current?.scrollTo({ x: offsetX, animated: false });
+  };
 
   /**
    * Handle column header press for sorting
@@ -139,9 +164,9 @@ export const RankingTable: React.FC<RankingTableProps> = ({
    * Get medal for top 3
    */
   const getMedal = (position: number) => {
-    if (position === 1) return "🥇";
-    if (position === 2) return "🥈";
-    if (position === 3) return "🥉";
+    if (position === 1) return (<><CircleStar color={"#FFD700"} /></>);
+    if (position === 2) return (<><CircleStar color={"#C0C0C0"} /></>);
+    if (position === 3) return (<><CircleStar color={"#CD7F32"} /></>);
     return null;
   };
 
@@ -316,9 +341,12 @@ export const RankingTable: React.FC<RankingTableProps> = ({
 
           {/* Table Header - Scrollable Horizontal */}
           <ScrollView
+            ref={headerScrollRef}
             horizontal
             showsHorizontalScrollIndicator={false}
             bounces={false}
+            scrollEventThrottle={16}/* 
+            onScroll={handleHeaderScroll} */
             style={rankingTableStyles.headerScrollView}
           >
             <View style={rankingTableStyles.headerRow}>
@@ -369,9 +397,12 @@ export const RankingTable: React.FC<RankingTableProps> = ({
             showsVerticalScrollIndicator={false}
           >
             <ScrollView
+              ref={rowsScrollRef}
               horizontal
               showsHorizontalScrollIndicator={false}
               bounces={false}
+              scrollEventThrottle={16}
+              onScroll={handleRowsScroll}
             >
               <View>{groupRankings.map(renderRow)}</View>
             </ScrollView>
