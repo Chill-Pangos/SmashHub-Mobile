@@ -8,11 +8,10 @@ import {
   Platform,
   Alert,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Trophy, ArrowLeft, Check } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FormField } from "../../../components";
+import { SafeAreaView, FormField } from "../../../components";
 import { colors as themeColors } from "../../../theme/colors";
 import { globalStyles } from "../../../styles/global.styles";
 import { registerScreenStyles } from "./RegisterScreenStyle";
@@ -384,7 +383,6 @@ const RegisterScreen: React.FC = () => {
   return (
     <SafeAreaView
       style={[globalStyles.flex1, { backgroundColor: themeColors.background }]}
-      edges={["top"]}
     >
       <KeyboardAvoidingView
         style={globalStyles.flex1}

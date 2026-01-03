@@ -9,11 +9,10 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { Trophy } from "lucide-react-native";
 import { useAuth } from "../../../contexts/AuthContext";
-import { FormField } from "../../../components";
+import { SafeAreaView, FormField } from "../../../components";
 import { colors as themeColors } from "../../../theme/colors";
 import { globalStyles } from "../../../styles/global.styles";
 import { loginScreenStyles } from "./LoginScreenStyle";
@@ -62,10 +61,7 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView
-      style={[globalStyles.container, globalStyles.flex1]}
-      edges={["top","bottom"]}
-    >
+    <SafeAreaView style={[globalStyles.container, globalStyles.flex1]}>
       <KeyboardAvoidingView
         style={globalStyles.flex1}
         behavior={Platform.OS === "ios" ? "padding" : "height"}

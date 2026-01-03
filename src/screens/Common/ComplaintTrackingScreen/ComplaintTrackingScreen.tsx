@@ -135,7 +135,7 @@ const ComplaintTrackingScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={globalStyles.flex1} edges={["top"]}>
+    <SafeAreaView style={globalStyles.flex1} >
       <LinearGradient
         colors={[
           themeColors.primary[400],

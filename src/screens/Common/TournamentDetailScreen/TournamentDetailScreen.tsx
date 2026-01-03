@@ -279,7 +279,7 @@ const TournamentDetailScreen: React.FC = () => {
 
   return (
     <SafeAreaView
-      style={globalStyles.flex1} edges={["top"]}
+      style={globalStyles.flex1} 
     >
       {/* Header */}
       <LinearGradient
