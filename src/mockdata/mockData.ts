@@ -83,6 +83,32 @@ export const mockUsers: User[] = [
     isOnline: false,
     createdAt: "2024-01-01T00:00:00Z",
   },
+  {
+    id: "6",
+    name: "Vũ Thị Lan",
+    email: "vtl@example.com",
+    role: "athlete",
+    avatar: "https://i.pravatar.cc/150?img=10",
+    phone: "0901234572",
+    organization: "Đội Hà Nội",
+    dateOfBirth: "2001-01-12",
+    gender: Gender.FEMALE,
+    isOnline: true,
+    createdAt: "2024-01-01T00:00:00Z",
+  },
+  {
+    id: "7",
+    name: "Đặng Thị Mai",
+    email: "dtm@example.com",
+    role: "athlete",
+    avatar: "https://i.pravatar.cc/150?img=16",
+    phone: "0901234573",
+    organization: "Đội Hà Nội",
+    dateOfBirth: "2002-06-18",
+    gender: Gender.FEMALE,
+    isOnline: true,
+    createdAt: "2024-01-01T00:00:00Z",
+  },
 
   // Coaches
   {
@@ -732,6 +758,22 @@ export const mockTeams: Team[] = [
     athletes: ["2", "4"],
     type: "doubles",
   },
+  {
+    id: "team3",
+    name: "Đội Hà Nội - Đơn Nam",
+    delegationId: "del1",
+    coachId: "101",
+    athletes: ["1"],
+    type: "singles",
+  },
+  {
+    id: "team4",
+    name: "Đội Hà Nội - Đơn Nữ",
+    delegationId: "del1",
+    coachId: "101",
+    athletes: ["6", "7"],
+    type: "singles",
+  },
 ];
 
 // ==================== DELEGATIONS ====================
@@ -743,8 +785,8 @@ export const mockDelegations: Delegation[] = [
     leaderId: "201",
     tournamentId: "t1",
     coaches: ["101"],
-    athletes: ["1", "5"],
-    teams: ["team1"],
+    athletes: ["1", "5", "6", "7"],
+    teams: ["team1", "team3", "team4"],
   },
   {
     id: "del2",
@@ -752,12 +794,17 @@ export const mockDelegations: Delegation[] = [
     leaderId: "202",
     tournamentId: "t1",
     coaches: ["102"],
-    athletes: ["2"],
+    athletes: ["2", "4"],
     teams: ["team2"],
   },
 ];
 
 // ==================== HELPER FUNCTIONS ====================
+
+// Filter helpers
+export const mockAthletes = mockUsers.filter(user => user.role === "athlete");
+export const mockCoaches = mockUsers.filter(user => user.role === "coach");
+export const mockTeamLeaders = mockUsers.filter(user => user.role === "team_leader");
 
 export const getUserById = (id: string): User | undefined => {
   return mockUsers.find((user) => user.id === id);
