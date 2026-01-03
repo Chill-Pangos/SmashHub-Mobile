@@ -1,6 +1,10 @@
+/**
+ * FavoriteMatchesScreen - Spectator's Favorite Matches
+ * UC-26: Manage and view favorite matches
+ */
+
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -13,6 +17,7 @@ import {
   Square,
 } from "lucide-react-native";
 
+import { SafeAreaView } from "../../../components";
 import { SearchBar } from "../../../components/inputs/SearchBar";
 import { TabBar, TabItem } from "../../../components/navigation/TabBar";
 import { MatchList } from "../../../components/lists/MatchList";
@@ -23,12 +28,10 @@ import {
   ActionSheetItem,
 } from "../../../components/actions/ActionSheet";
 import { FloatingActionButton } from "../../../components/actions/FloatingActionButton";
-
 import { mockMatches } from "../../../mockdata/mockData";
 import { Match } from "../../../types";
 import { colors } from "../../../theme/colors";
-import { colors as themeColors } from "../../../theme/colors";
-import { iconSizes } from "../../../constants/design-tokens";
+import { globalStyles } from "../../../styles/global.styles";
 import { favoriteMatchesScreenStyles as styles } from "./FavoriteMatchesScreenStyle";
 
 const FavoriteMatchesScreen: React.FC = () => {
@@ -215,13 +218,13 @@ const FavoriteMatchesScreen: React.FC = () => {
   ];
 
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
+    <SafeAreaView style={globalStyles.flex1}>
       {/* Header */}
       <LinearGradient
         colors={[
-          themeColors.primary[400],
-          themeColors.primary[500],
-          themeColors.primary[600],
+          colors.primary[400],
+          colors.primary[500],
+          colors.primary[600],
         ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
