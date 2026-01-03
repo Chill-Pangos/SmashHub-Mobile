@@ -64,7 +64,7 @@ const LoginScreen: React.FC = () => {
   return (
     <SafeAreaView
       style={[globalStyles.container, globalStyles.flex1]}
-      edges={["top"]}
+      edges={["top","bottom"]}
     >
       <KeyboardAvoidingView
         style={globalStyles.flex1}

@@ -335,6 +335,48 @@ const AppNavigator = () => {
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
+
+            {/* Debug Screen - Always accessible for development */}
+            <Stack.Screen
+              name="DebugNavigator"
+              component={DebugNavigatorScreen}
+              options={{ title: "🛠️ Debug Navigator" }}
+            />
+            <Stack.Screen
+              name="StateComponents"
+              component={StateComponentsScreen}
+              options={{ title: "State Components" }}
+            />
+            <Stack.Screen
+              name="InputComponents"
+              component={InputComponentsScreen}
+              options={{ title: "Input Components" }}
+            />
+            <Stack.Screen
+              name="BadgeComponents"
+              component={BadgeComponentsScreen}
+              options={{ title: "Badge Components" }}
+            />
+            <Stack.Screen
+              name="CardComponents"
+              component={CardComponentsScreen}
+              options={{ title: "Card Components" }}
+            />
+            <Stack.Screen
+              name="ListComponents"
+              component={ListComponentsScreen}
+              options={{ title: "List Components" }}
+            />
+            <Stack.Screen
+              name="NavigationComponents"
+              component={NavigationComponentsScreen}
+              options={{ title: "Navigation Components" }}
+            />
+            <Stack.Screen
+              name="ActionComponents"
+              component={ActionComponentsScreen}
+              options={{ title: "Action Components" }}
+            />
           </>
         ) : (
           <>
@@ -455,8 +497,8 @@ const AppNavigator = () => {
         )}
       </Stack.Navigator>
 
-      {/* Floating Debug Button - Only visible when authenticated */}
-      {isAuthenticated && <DebugButton />}
+      {/* Floating Debug Button */}
+      {<DebugButton />}
     </NavigationContainer>
   );
 };
