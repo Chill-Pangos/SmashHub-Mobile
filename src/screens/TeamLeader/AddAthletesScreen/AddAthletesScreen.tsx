@@ -16,12 +16,11 @@ import {
   ChevronLeft,
 } from "lucide-react-native";
 import styles from "./AddAthletesScreenStyle";
-import { SafeAreaView } from "../../../components";
+import { SafeAreaView, EmptyState } from "../../../components";
 import { colors } from "../../../theme";
 import { mockUsers } from "../../../mockdata";
 import { User } from "../../../types";
 import SearchBar from "../../../components/inputs/SearchBar";
-import EmptyState from "../../../components/common/EmptyState";
 
 type Step = "search" | "confirm";
 type UserType = "all" | "athlete" | "coach";

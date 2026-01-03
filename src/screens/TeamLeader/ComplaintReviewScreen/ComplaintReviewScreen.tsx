@@ -25,7 +25,7 @@ import { mockComplaints } from "../../../mockdata";
 import { Complaint } from "../../../types";
 import SearchBar from "../../../components/inputs/SearchBar";
 import { TabBar } from "../../../components/navigation/TabBar";
-import EmptyState from "../../../components/common/EmptyState";
+import { EmptyState } from "../../../components";
 
 type TabType = "pending" | "under_review" | "approved" | "rejected";
 type ActionType = "approve" | "reject" | null;
