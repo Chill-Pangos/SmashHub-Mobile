@@ -382,9 +382,14 @@ const AppNavigator = () => {
           <>
             <Stack.Screen name="Main" component={getMainNavigator} />
             <Stack.Screen
+              name="TournamentList"
+              component={TournamentListScreen}
+            />
+            <Stack.Screen
               name="TournamentDetail"
               component={TournamentDetailScreen}
             />
+            <Stack.Screen name="Schedule" component={ScheduleScreen} />
             <Stack.Screen name="MatchDetail" component={MatchDetailScreen} />
             <Stack.Screen name="Ranking" component={RankingScreen} />
             <Stack.Screen name="News" component={NewsScreen} />

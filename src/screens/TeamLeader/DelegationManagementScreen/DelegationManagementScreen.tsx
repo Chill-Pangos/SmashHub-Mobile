@@ -13,6 +13,8 @@ import {
   RefreshControl,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
+import type { RootStackNavigationProp } from "../../../navigation/types";
 import {
   Users,
   Trophy,
@@ -57,6 +59,7 @@ type FilterOption = {
 };
 
 const DelegationManagementScreen: React.FC = () => {
+  const navigation = useNavigation<RootStackNavigationProp>();
   // Mock data - In real app, fetch from API based on logged-in team leader
   const currentLeaderId = "201"; // Trưởng đoàn Lê Văn Phúc - Đội Hà Nội
   const delegation = mockDelegations.find(
@@ -157,7 +160,7 @@ const DelegationManagementScreen: React.FC = () => {
   };
 
   const handleAddMember = () => {
-    console.log("Navigate to AddAthletesScreen");
+    navigation.navigate("AddAthletes");
   };
 
   const handleSendNotification = () => {
