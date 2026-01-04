@@ -165,9 +165,16 @@ const HomeScreen: React.FC = () => {
     endDate: new Date(2024, 11, 20).toISOString(),
     location: "TP. Hồ Chí Minh",
     venue: "Nhà thi đấu Phú Thọ",
+    logoUrl:
+      "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=400&h=400&fit=crop",
+    bannerUrl:
+      "https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=1200&h=600&fit=crop",
     status: "ongoing",
     currentParticipants: 128,
     maxParticipants: 128,
+    registrationDeadline: new Date(2024, 11, 1).toISOString(),
+    rules: "Thi đấu theo luật BWF quốc tế",
+    prizes: "Tổng giải thưởng: 500.000.000 VNĐ",
     createdAt: new Date(2024, 9, 1).toISOString(),
     updatedAt: new Date(2024, 11, 15).toISOString(),
   };

@@ -139,7 +139,7 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
 
           {/* Gradient Overlay */}
           <LinearGradient
-            colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.8)"]}
+            colors={["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.2)", "rgba(0,0,0,0.4)"]}
             start={{ x: 0.5, y: 0 }}
             end={{ x: 0.5, y: 1 }}
             style={tournamentCardStyles.featured_gradientOverlay}

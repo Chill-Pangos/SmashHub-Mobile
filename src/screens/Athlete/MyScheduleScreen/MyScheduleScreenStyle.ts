@@ -168,9 +168,9 @@ export const myScheduleScreenStyles = StyleSheet.create({
 
   // Checklist
   checklistCard: {
-    backgroundColor: colors.status.warning + "10",
+    backgroundColor: colors.card,
     borderWidth: 1,
-    borderColor: colors.status.warning + "30",
+    borderColor: colors.border,
   },
   checklistTitle: {
     fontSize: fontSize.base,
@@ -183,13 +183,14 @@ export const myScheduleScreenStyles = StyleSheet.create({
     paddingVertical: spacing[3],
     borderTopWidth: 1,
     borderTopColor: colors.border,
+    marginTop: spacing[1],
   },
   checkbox: {
     width: 20,
     height: 20,
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: colors.muted.foreground,
+    borderColor: colors.primary.DEFAULT,
     marginRight: spacing[3],
   },
   checklistText: {
