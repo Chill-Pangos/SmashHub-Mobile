@@ -35,3 +35,84 @@ export const lineHeight = {
 export type FontSizeKey = keyof typeof fontSize;
 export type FontWeightKey = keyof typeof fontWeight;
 export type LineHeightKey = keyof typeof lineHeight;
+
+/**
+ * Typography Presets
+ * Common text styles used throughout the app
+ */
+export const typography = {
+  // Headings
+  h1: {
+    fontSize: fontSize["3xl"],
+    fontWeight: fontWeight.bold,
+    lineHeight: fontSize["3xl"] * lineHeight.tight,
+  },
+  h2: {
+    fontSize: fontSize["2xl"],
+    fontWeight: fontWeight.bold,
+    lineHeight: fontSize["2xl"] * lineHeight.tight,
+  },
+  h3: {
+    fontSize: fontSize.xl,
+    fontWeight: fontWeight.semibold,
+    lineHeight: fontSize.xl * lineHeight.snug,
+  },
+  h4: {
+    fontSize: fontSize.lg,
+    fontWeight: fontWeight.semibold,
+    lineHeight: fontSize.lg * lineHeight.snug,
+  },
+
+  // Body text
+  body: {
+    fontSize: fontSize.base,
+    fontWeight: fontWeight.normal,
+    lineHeight: fontSize.base * lineHeight.normal,
+  },
+  bodyMedium: {
+    fontSize: fontSize.base,
+    fontWeight: fontWeight.medium,
+    lineHeight: fontSize.base * lineHeight.normal,
+  },
+  bodySemibold: {
+    fontSize: fontSize.base,
+    fontWeight: fontWeight.semibold,
+    lineHeight: fontSize.base * lineHeight.normal,
+  },
+
+  // Small text
+  small: {
+    fontSize: fontSize.sm,
+    fontWeight: fontWeight.normal,
+    lineHeight: fontSize.sm * lineHeight.normal,
+  },
+  smallMedium: {
+    fontSize: fontSize.sm,
+    fontWeight: fontWeight.medium,
+    lineHeight: fontSize.sm * lineHeight.normal,
+  },
+
+  // Tiny text
+  tiny: {
+    fontSize: fontSize.xs,
+    fontWeight: fontWeight.normal,
+    lineHeight: fontSize.xs * lineHeight.normal,
+  },
+  tinyMedium: {
+    fontSize: fontSize.xs,
+    fontWeight: fontWeight.medium,
+    lineHeight: fontSize.xs * lineHeight.normal,
+  },
+
+  // Large text
+  large: {
+    fontSize: fontSize.xl,
+    fontWeight: fontWeight.normal,
+    lineHeight: fontSize.xl * lineHeight.normal,
+  },
+  largeMedium: {
+    fontSize: fontSize.xl,
+    fontWeight: fontWeight.medium,
+    lineHeight: fontSize.xl * lineHeight.normal,
+  },
+} as const;

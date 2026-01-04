@@ -1,22 +1,208 @@
-﻿import { StyleSheet } from 'react-native';
-import { colors } from '../../../constants/design-tokens';
+﻿import { StyleSheet } from "react-native";
+import { colors } from "../../../theme/colors";
+import { spacing } from "../../../theme/spacing";
+import { typography } from "../../../theme/typography";
 
 export const tacticalReportScreenStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  container: { flex: 1, backgroundColor: colors.background },
+  header: {
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.xl,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  headerTitle: {
+    ...typography.h1,
+    color: "#ffffff",
+    marginBottom: spacing.xs,
+  },
+  headerSubtitle: { ...typography.body, color: "#ffffff", opacity: 0.9 },
+  filterContainer: {
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    backgroundColor: colors.card,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    flexGrow: 0,
+  },
+  filterChip: {
     backgroundColor: colors.background,
+    borderRadius: 20,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    marginRight: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  filterChipActive: {
+    backgroundColor: colors.primary.DEFAULT,
+    borderColor: colors.primary.DEFAULT,
+  },
+  filterChipText: { ...typography.body, color: colors.muted.foreground },
+  filterChipTextActive: {
+    ...typography.body,
+    color: "#fff",
+    fontWeight: "700",
+  },
+  content: { flex: 1, paddingHorizontal: spacing.lg },
+  reportCard: {
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: spacing.md,
+    marginTop: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  reportHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: spacing.sm,
+  },
+  reportTypeBadge: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  reportTypeText: {
+    ...typography.tiny,
+    fontWeight: "700",
+    textTransform: "uppercase",
+  },
+  reportDate: { flexDirection: "row", alignItems: "center", gap: spacing.xs },
+  reportDateText: { ...typography.small, color: colors.muted.foreground },
+  reportTitle: {
+    ...typography.h3,
     color: colors.foreground,
+    marginBottom: spacing.sm,
   },
-  subtitle: {
-    fontSize: 14,
-    color: "#4b5563",
-    marginTop: 8,
+  reportMeta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xs,
+    marginBottom: spacing.xs,
   },
+  reportMetaText: { ...typography.small, color: colors.muted.foreground },
+  reportMatchInfo: {
+    ...typography.small,
+    color: colors.muted.foreground,
+    fontStyle: "italic",
+    marginBottom: spacing.sm,
+  },
+  reportFooter: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginTop: spacing.xs,
+    paddingTop: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+  reportFooterText: {
+    ...typography.body,
+    color: colors.primary.DEFAULT,
+    fontWeight: "600",
+    marginRight: spacing.xs,
+  },
+  detailContainer: { flex: 1, padding: spacing.lg },
+  detailHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: spacing.lg,
+  },
+  backButton: { padding: spacing.sm },
+  backButtonText: {
+    ...typography.body,
+    color: colors.primary.DEFAULT,
+    fontWeight: "600",
+  },
+  detailTypeBadge: {
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+    borderRadius: 8,
+  },
+  detailTypeText: {
+    ...typography.body,
+    fontWeight: "700",
+    textTransform: "uppercase",
+  },
+  detailTitle: {
+    ...typography.h2,
+    color: colors.foreground,
+    marginBottom: spacing.md,
+  },
+  detailMeta: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: spacing.md,
+    marginBottom: spacing.lg,
+    paddingBottom: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  detailMetaItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xs,
+  },
+  detailMetaText: { ...typography.small, color: colors.muted.foreground },
+  detailSection: { marginBottom: spacing.lg },
+  detailSectionTitle: {
+    ...typography.h3,
+    color: colors.foreground,
+    marginBottom: spacing.md,
+  },
+  detailText: { ...typography.body, color: colors.foreground, lineHeight: 24 },
+  detailListItem: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: spacing.sm,
+  },
+  detailListDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginTop: 7,
+    marginRight: spacing.sm,
+  },
+  detailListText: {
+    ...typography.body,
+    color: colors.foreground,
+    flex: 1,
+    lineHeight: 20,
+  },
+  detailStepNumber: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: colors.primary[100],
+    color: colors.primary.DEFAULT,
+    ...typography.body,
+    fontWeight: "700",
+    textAlign: "center",
+    lineHeight: 24,
+    marginRight: spacing.sm,
+  },
+  opponentCard: {
+    backgroundColor: colors.background,
+    borderRadius: 8,
+    padding: spacing.md,
+    marginBottom: spacing.sm,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.status.info,
+  },
+  opponentName: {
+    ...typography.body,
+    color: colors.foreground,
+    fontWeight: "700",
+    marginBottom: spacing.xs,
+  },
+  opponentAnalysis: {
+    ...typography.body,
+    color: colors.muted.foreground,
+    lineHeight: 20,
+  },
+  bottomSpacer: { height: spacing.xl },
 });
-

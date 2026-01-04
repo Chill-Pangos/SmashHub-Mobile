@@ -1,22 +1,180 @@
-﻿import { StyleSheet } from 'react-native';
-import { colors } from '../../../constants/design-tokens';
+﻿import { StyleSheet } from "react-native";
+import { colors } from "../../../theme/colors";
+import { spacing } from "../../../theme/spacing";
+import { typography } from "../../../theme/typography";
 
 export const complaintManagementScreenStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  container: { flex: 1, backgroundColor: colors.background },
+  header: {
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.xl,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  headerTitle: {
+    ...typography.h1,
+    color: "#ffffff",
+    marginBottom: spacing.xs,
+  },
+  headerSubtitle: { ...typography.body, color: "#ffffff", opacity: 0.9 },
+  filterContainer: {
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    backgroundColor: colors.card,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    flexGrow: 0,
+  },
+  filterChip: {
     backgroundColor: colors.background,
+    borderRadius: 20,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    marginRight: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  filterChipActive: {
+    backgroundColor: colors.primary.DEFAULT,
+    borderColor: colors.primary.DEFAULT,
+  },
+  filterChipText: { ...typography.body, color: colors.muted.foreground },
+  filterChipTextActive: {
+    ...typography.body,
+    color: "#fff",
+    fontWeight: "700",
+  },
+  content: { flex: 1, paddingHorizontal: spacing.lg },
+  complaintCard: {
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: spacing.md,
+    marginTop: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderLeftWidth: 4,
+  },
+  complaintHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: spacing.sm,
+  },
+  priorityBadge: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  priorityText: {
+    ...typography.tiny,
+    fontWeight: "700",
+    textTransform: "uppercase",
+  },
+  statusBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  statusText: { ...typography.tiny, fontWeight: "600" },
+  complaintTopic: {
+    ...typography.h3,
     color: colors.foreground,
+    marginBottom: spacing.xs,
   },
-  subtitle: {
-    fontSize: 14,
-    color: "#4b5563",
-    marginTop: 8,
+  complaintDescription: {
+    ...typography.body,
+    color: colors.muted.foreground,
+    lineHeight: 20,
+    marginBottom: spacing.sm,
   },
+  complaintMeta: {
+    marginBottom: spacing.xs,
+    paddingTop: spacing.xs,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+  },
+  complaintMetaText: {
+    ...typography.small,
+    color: colors.muted.foreground,
+    marginBottom: 2,
+  },
+  complaintMetaLabel: { fontWeight: "600", color: colors.foreground },
+  complaintDate: {
+    ...typography.tiny,
+    color: colors.muted.foreground,
+    fontStyle: "italic",
+  },
+  modalContainer: { flex: 1, backgroundColor: colors.background },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: spacing.lg,
+    backgroundColor: colors.card,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  modalCloseButton: { padding: spacing.xs },
+  modalCloseText: {
+    ...typography.body,
+    color: colors.primary.DEFAULT,
+    fontWeight: "600",
+  },
+  modalTitle: { ...typography.h3, color: colors.foreground, fontWeight: "700" },
+  modalContent: { flex: 1, padding: spacing.lg },
+  modalSection: { marginBottom: spacing.lg },
+  modalBadgeRow: {
+    flexDirection: "row",
+    gap: spacing.sm,
+    marginBottom: spacing.md,
+  },
+  modalTopic: {
+    ...typography.h2,
+    color: colors.foreground,
+    marginBottom: spacing.md,
+  },
+  modalInfoRow: { flexDirection: "row", marginBottom: spacing.sm },
+  modalInfoLabel: {
+    ...typography.body,
+    color: colors.muted.foreground,
+    width: 100,
+  },
+  modalInfoValue: {
+    ...typography.body,
+    color: colors.foreground,
+    flex: 1,
+    fontWeight: "500",
+  },
+  modalSectionTitle: {
+    ...typography.h3,
+    color: colors.foreground,
+    marginBottom: spacing.sm,
+  },
+  modalDescription: {
+    ...typography.body,
+    color: colors.foreground,
+    lineHeight: 24,
+    backgroundColor: colors.card,
+    padding: spacing.md,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  responseInput: {
+    ...typography.body,
+    color: colors.foreground,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 8,
+    padding: spacing.md,
+    minHeight: 120,
+    marginBottom: spacing.md,
+  },
+  sendButton: { marginTop: spacing.sm },
+  bottomSpacer: { height: spacing.xl },
 });
-

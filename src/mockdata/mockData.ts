@@ -12,6 +12,8 @@ import {
   News,
   MatchFormat,
   Gender,
+  TacticalReport,
+  AthletePerformance,
 } from "../types";
 
 // ==================== USERS ====================
@@ -683,61 +685,7 @@ export const mockNews: News[] = [
   },
 ];
 
-// ==================== TRAINING PLANS ====================
-
-export const mockTrainingPlans: TrainingPlan[] = [
-  {
-    id: "tp1",
-    title: "Kế hoạch cải thiện kỹ thuật cơ bản",
-    description: "Tập trung vào việc hoàn thiện các kỹ thuật đánh cầu cơ bản",
-    coachId: "101",
-    athleteId: "1",
-    scheduledDate: "2025-01-17T08:00:00Z",
-    duration: 120,
-    objectives: [
-      "Cải thiện kỹ thuật smash",
-      "Tăng độ chính xác drop shot",
-      "Luyện tập di chuyển sân",
-    ],
-    exercises: [
-      "Tập smash 50 lần",
-      "Tập drop shot 30 lần",
-      "Chạy bước chân 15 phút",
-    ],
-    status: "planned",
-  },
-];
-
-// ==================== EVALUATIONS ====================
-
-export const mockEvaluations: AthleteEvaluation[] = [
-  {
-    id: "ev1",
-    coachId: "101",
-    coachName: "HLV Trần Quốc Tuấn",
-    athleteId: "1",
-    athleteName: "Nguyễn Văn An",
-    date: "2025-01-15T17:00:00Z",
-    matchId: "m3",
-    rating: 8.5,
-    ratings: {
-      technique: 9,
-      physical: 8,
-      mental: 8,
-      tactical: 9,
-      overall: 8.5,
-    },
-    strengths: ["Smash mạnh", "Di chuyển nhanh", "Tinh thần thi đấu tốt"],
-    weaknesses: ["Drop shot chưa ổn định", "Phòng thủ còn yếu"],
-    recommendations: [
-      "Tập luyện thêm drop shot",
-      "Tăng cường luyện tập phòng thủ",
-    ],
-    comments:
-      "Trận đấu rất hay, tiếp tục phát huy điểm mạnh và khắc phục điểm yếu",
-    createdAt: "2025-01-15T17:30:00Z",
-  },
-];
+// ==================== OLD TRAINING PLANS (DEPRECATED - use mockTrainingPlans below) ====================
 
 // ==================== TEAMS ====================
 
@@ -799,12 +747,766 @@ export const mockDelegations: Delegation[] = [
   },
 ];
 
+// ==================== TRAINING PLANS ====================
+
+export const mockTrainingPlans: TrainingPlan[] = [
+  {
+    id: "tp1",
+    coachId: "101",
+    athleteId: "1",
+    title: "Kế hoạch luyện tập tuần 1 - Tháng 1",
+    description: "Tập trung vào kỹ thuật và tốc độ phản xạ",
+    scheduledDate: "2025-01-06T08:00:00Z",
+    duration: 120,
+    objectives: [
+      "Cải thiện kỹ thuật forehand",
+      "Tăng tốc độ di chuyển",
+      "Rèn luyện sức bền",
+    ],
+    exercises: [
+      "Khởi động 15 phút",
+      "Luyện forehand 30 phút",
+      "Di chuyển chéo sân 20 phút",
+      "Thể lực 30 phút",
+      "Thư giãn 25 phút",
+    ],
+    status: "planned",
+  },
+  {
+    id: "tp2",
+    coachId: "101",
+    athleteId: "1",
+    title: "Luyện tập chiến thuật",
+    description: "Phát triển chiến thuật thi đấu đơn",
+    scheduledDate: "2025-01-08T14:00:00Z",
+    duration: 90,
+    objectives: [
+      "Chiến thuật tấn công",
+      "Phòng thủ phản công",
+      "Xử lý tình huống",
+    ],
+    exercises: [
+      "Khởi động 10 phút",
+      "Luyện tập chiến thuật 40 phút",
+      "Thực hành tình huống 30 phút",
+      "Tổng kết 10 phút",
+    ],
+    status: "planned",
+  },
+  {
+    id: "tp3",
+    coachId: "101",
+    athleteId: "3",
+    title: "Phục hồi sau chấn thương",
+    description: "Tập nhẹ nhàng để phục hồi thể lực",
+    scheduledDate: "2024-12-28T09:00:00Z",
+    duration: 60,
+    objectives: [
+      "Khôi phục sức mạnh",
+      "Tăng độ linh hoạt",
+      "Phòng tránh chấn thương",
+    ],
+    exercises: [
+      "Khởi động kỹ 20 phút",
+      "Bài tập phục hồi 30 phút",
+      "Massage thư giãn 10 phút",
+    ],
+    status: "completed",
+  },
+  {
+    id: "tp4",
+    coachId: "101",
+    athleteId: "5",
+    title: "Tập luyện sức mạnh",
+    description: "Tăng cường thể lực và sức mạnh cơ bắp",
+    scheduledDate: "2025-01-07T16:00:00Z",
+    duration: 90,
+    objectives: [
+      "Tăng sức mạnh tay",
+      "Phát triển cơ chân",
+      "Cải thiện thể lực tổng hợp",
+    ],
+    exercises: [
+      "Khởi động 10 phút",
+      "Tập tạ 30 phút",
+      "Bài tập core 20 phút",
+      "Cardio 20 phút",
+      "Thư giãn 10 phút",
+    ],
+    status: "planned",
+  },
+  {
+    id: "tp5",
+    coachId: "101",
+    athleteId: "6",
+    title: "Luyện kỹ thuật serve",
+    description: "Hoàn thiện kỹ thuật giao bóng",
+    scheduledDate: "2025-01-05T10:00:00Z",
+    duration: 75,
+    objectives: [
+      "Cải thiện độ chính xác serve",
+      "Tăng tốc độ bóng",
+      "Đa dạng hóa kiểu serve",
+    ],
+    exercises: [
+      "Khởi động 10 phút",
+      "Luyện serve cơ bản 25 phút",
+      "Serve nâng cao 25 phút",
+      "Thực hành tình huống 15 phút",
+    ],
+    status: "completed",
+  },
+];
+
+// ==================== ATHLETE EVALUATIONS ====================
+
+export const mockAthleteEvaluations: AthleteEvaluation[] = [
+  {
+    id: "eval1",
+    coachId: "101",
+    coachName: "HLV Trần Quốc Tuấn",
+    athleteId: "1",
+    athleteName: "Nguyễn Văn An",
+    matchId: "m1",
+    tournamentId: "t1",
+    evaluationDate: "2024-12-30T00:00:00Z",
+    technicalSkills: {
+      forehand: 8,
+      backhand: 7,
+      serve: 8,
+      return: 7,
+      volley: 6,
+    },
+    physicalAttributes: {
+      speed: 8,
+      strength: 7,
+      endurance: 9,
+      agility: 8,
+      flexibility: 7,
+    },
+    mentalStrength: {
+      focus: 8,
+      confidence: 7,
+      composure: 8,
+      determination: 9,
+    },
+    tacticalAwareness: {
+      gameReading: 7,
+      decisionMaking: 8,
+      adaptability: 7,
+      strategyExecution: 8,
+    },
+    overallRating: 7.5,
+    strengths: [
+      "Sức bền tốt",
+      "Tinh thần thi đấu cao",
+      "Kỹ thuật forehand xuất sắc",
+    ],
+    weaknesses: ["Cần cải thiện volley", "Tăng cường sức mạnh"],
+    recommendations: [
+      "Tập trung luyện volley trong 2 tuần tới",
+      "Tăng cường bài tập thể lực",
+      "Thực hành nhiều tình huống thi đấu",
+    ],
+    notes: "VĐV có tiến bộ rõ rệt, giữ vững phong độ trong giải đấu vừa qua.",
+  },
+  {
+    id: "eval2",
+    coachId: "101",
+    coachName: "HLV Trần Quốc Tuấn",
+    athleteId: "3",
+    athleteName: "Lê Minh Châu",
+    evaluationDate: "2024-12-28T00:00:00Z",
+    technicalSkills: {
+      forehand: 7,
+      backhand: 8,
+      serve: 7,
+      return: 8,
+      volley: 7,
+    },
+    physicalAttributes: {
+      speed: 9,
+      strength: 6,
+      endurance: 7,
+      agility: 9,
+      flexibility: 8,
+    },
+    mentalStrength: {
+      focus: 7,
+      confidence: 6,
+      composure: 7,
+      determination: 8,
+    },
+    tacticalAwareness: {
+      gameReading: 8,
+      decisionMaking: 7,
+      adaptability: 8,
+      strategyExecution: 7,
+    },
+    overallRating: 7.3,
+    strengths: [
+      "Tốc độ di chuyển xuất sắc",
+      "Khả năng đọc trận đấu tốt",
+      "Backhand mạnh",
+    ],
+    weaknesses: ["Cần tăng sức mạnh", "Tự tin hơn trong thi đấu"],
+    recommendations: [
+      "Tập luyện sức mạnh thường xuyên",
+      "Tham gia nhiều giải đấu để tăng tự tin",
+      "Luyện kỹ thuật serve nặng hơn",
+    ],
+    notes: "VĐV có tiềm năng lớn, cần thời gian để phát triển.",
+  },
+  {
+    id: "eval3",
+    coachId: "101",
+    coachName: "HLV Trần Quốc Tuấn",
+    athleteId: "5",
+    athleteName: "Hoàng Văn Dũng",
+    evaluationDate: "2024-12-25T00:00:00Z",
+    technicalSkills: {
+      forehand: 9,
+      backhand: 8,
+      serve: 9,
+      return: 8,
+      volley: 8,
+    },
+    physicalAttributes: {
+      speed: 7,
+      strength: 9,
+      endurance: 8,
+      agility: 7,
+      flexibility: 6,
+    },
+    mentalStrength: {
+      focus: 9,
+      confidence: 9,
+      composure: 8,
+      determination: 9,
+    },
+    tacticalAwareness: {
+      gameReading: 9,
+      decisionMaking: 9,
+      adaptability: 8,
+      strategyExecution: 9,
+    },
+    overallRating: 8.4,
+    strengths: [
+      "Kỹ thuật toàn diện",
+      "Sức mạnh tốt",
+      "Tinh thần chiến đấu cao",
+    ],
+    weaknesses: ["Cần cải thiện độ linh hoạt", "Tăng tốc độ di chuyển"],
+    recommendations: [
+      "Bài tập kéo giãn hàng ngày",
+      "Luyện tập di chuyển nhanh",
+      "Duy trì phong độ hiện tại",
+    ],
+    notes: "VĐV xuất sắc, có thể tham gia các giải đấu quốc tế.",
+  },
+  {
+    id: "eval4",
+    coachId: "101",
+    coachName: "HLV Trần Quốc Tuấn",
+    athleteId: "6",
+    athleteName: "Vũ Thị Lan",
+    evaluationDate: "2025-01-02T00:00:00Z",
+    technicalSkills: {
+      forehand: 7,
+      backhand: 7,
+      serve: 6,
+      return: 7,
+      volley: 6,
+    },
+    physicalAttributes: {
+      speed: 8,
+      strength: 6,
+      endurance: 8,
+      agility: 8,
+      flexibility: 9,
+    },
+    mentalStrength: {
+      focus: 7,
+      confidence: 7,
+      composure: 7,
+      determination: 8,
+    },
+    tacticalAwareness: {
+      gameReading: 7,
+      decisionMaking: 7,
+      adaptability: 7,
+      strategyExecution: 6,
+    },
+    overallRating: 7.0,
+    strengths: ["Độ linh hoạt cao", "Sức bền tốt", "Thái độ tích cực"],
+    weaknesses: ["Kỹ thuật serve cần cải thiện", "Tăng sức mạnh tay"],
+    recommendations: [
+      "Tập trung luyện serve 3 buổi/tuần",
+      "Bổ sung bài tập sức mạnh",
+      "Học thêm chiến thuật thi đấu",
+    ],
+    notes:
+      "VĐV có tinh thần học hỏi tốt, cần thời gian để phát triển kỹ thuật.",
+  },
+];
+
+// ==================== TACTICAL REPORTS ====================
+
+export const mockTacticalReports: TacticalReport[] = [
+  {
+    id: "tr1",
+    coachId: "101",
+    coachName: "HLV Trần Quốc Tuấn",
+    athleteId: "1",
+    athleteName: "Nguyễn Văn An",
+    matchId: "m1",
+    matchInfo: "Vòng 16 đội - Giải vô địch quốc gia 2025 vs Phạm Minh Tuấn",
+    reportDate: "2025-01-05T00:00:00Z",
+    reportType: "match",
+    title: "Phân tích trận đấu vòng 16 đội",
+    strengths: [
+      "Forehand mạnh mẽ và chính xác",
+      "Di chuyển tốt trên sân",
+      "Phòng thủ chắc chắn",
+      "Xử lý tình huống tốt dưới áp lực",
+    ],
+    weaknesses: [
+      "Backhand còn yếu khi đối thủ tấn công liên tục",
+      "Thiếu kiên nhẫn trong những pha bóng dài",
+      "Chưa tận dụng tốt cơ hội ghi điểm",
+    ],
+    opponents: [
+      {
+        name: "Phạm Minh Tuấn",
+        analysis:
+          "Đối thủ có serve mạnh, thích tấn công nhanh. Cần phòng thủ tốt và phản công hiệu quả.",
+      },
+    ],
+    recommendations: [
+      "Luyện thêm backhand để cải thiện độ ổn định",
+      "Tập trung vào việc xây dựng điểm thông qua pha bóng dài",
+      "Luyện tập kết thúc điểm hiệu quả hơn",
+    ],
+    tacticalNotes:
+      "VĐV đã chơi tốt trong hiệp 1 với tỷ lệ ghi điểm cao từ forehand. Tuy nhiên, hiệp 2 và 3 gặp khó khăn khi đối thủ tập trung tấn công vào backhand. Cần cải thiện khả năng chuyển đổi giữa phòng thủ và tấn công.",
+    nextSteps: [
+      "Luyện backhand 3 buổi/tuần trong 2 tuần tới",
+      "Thực hành chiến thuật phòng thủ phản công",
+      "Chuẩn bị cho vòng 8 đội",
+    ],
+  },
+  {
+    id: "tr2",
+    coachId: "101",
+    coachName: "HLV Trần Quốc Tuấn",
+    athleteId: "1",
+    athleteName: "Nguyễn Văn An",
+    reportDate: "2025-01-03T00:00:00Z",
+    reportType: "training",
+    title: "Đánh giá buổi tập tuần 1/2025",
+    strengths: [
+      "Tinh thần luyện tập tích cực",
+      "Thực hiện đúng kỹ thuật được hướng dẫn",
+      "Thể lực tốt, hoàn thành tốt bài tập sức bền",
+    ],
+    weaknesses: [
+      "Độ tập trung giảm sau 60 phút tập",
+      "Chưa thích nghi tốt với bài tập tốc độ mới",
+    ],
+    recommendations: [
+      "Tăng cường bài tập tập trung và tinh thần",
+      "Luyện tập tốc độ với cường độ thấp để làm quen dần",
+      "Bổ sung dinh dưỡng để duy trì năng lượng",
+    ],
+    tacticalNotes:
+      "Buổi tập tổng thể đạt 85% mục tiêu. VĐV cần cải thiện khả năng duy trì hiệu suất trong thời gian dài.",
+    nextSteps: [
+      "Áp dụng bài tập meditation 10 phút/ngày",
+      "Tăng dần cường độ bài tập tốc độ",
+      "Tư vấn dinh dưỡng với chuyên gia",
+    ],
+  },
+  {
+    id: "tr3",
+    coachId: "101",
+    coachName: "HLV Trần Quốc Tuấn",
+    athleteId: "5",
+    athleteName: "Hoàng Văn Dũng",
+    matchId: "m3",
+    matchInfo: "Vòng bán kết - Giải vô địch quốc gia 2025 vs Lê Minh Châu",
+    reportDate: "2025-01-04T00:00:00Z",
+    reportType: "match",
+    title: "Phân tích trận bán kết",
+    strengths: [
+      "Kinh nghiệm thi đấu dày dặn",
+      "Serve chính xác và đa dạng",
+      "Chiến thuật linh hoạt",
+      "Khả năng đọc trận đấu tốt",
+    ],
+    weaknesses: [
+      "Thể lực giảm ở hiệp 3",
+      "Tốc độ di chuyển chậm hơn đối thủ trẻ",
+      "Áp lực tâm lý trong những điểm quan trọng",
+    ],
+    opponents: [
+      {
+        name: "Lê Minh Châu",
+        analysis:
+          "Đối thủ trẻ, năng động, thích chơi tấn công. Cần sử dụng kinh nghiệm để kiểm soát nhịp độ trận đấu.",
+      },
+    ],
+    recommendations: [
+      "Tăng cường luyện tập thể lực và sức bền",
+      "Luyện tập tình huống xử lý áp lực",
+      "Cải thiện tốc độ di chuyển qua bài tập chuyên biệt",
+    ],
+    tacticalNotes:
+      "VĐV đã chơi thông minh, sử dụng kinh nghiệm để kiểm soát trận đấu. Tuy nhiên, độ tuổi và thể lực là điểm yếu cần khắc phục để cạnh tranh với các VĐV trẻ.",
+    nextSteps: [
+      "Tập trung vào phục hồi và thể lực",
+      "Phát triển lối chơi phù hợp với độ tuổi",
+      "Tư vấn tâm lý thể thao",
+    ],
+  },
+  {
+    id: "tr4",
+    coachId: "101",
+    coachName: "HLV Trần Quốc Tuấn",
+    athleteId: "6",
+    athleteName: "Vũ Thị Lan",
+    reportDate: "2024-12-28T00:00:00Z",
+    reportType: "general",
+    title: "Đánh giá tổng quan tháng 12/2024",
+    strengths: [
+      "Tiến bộ vượt bậc trong tháng qua",
+      "Thái độ học hỏi tốt",
+      "Kỹ thuật cơ bản vững chắc",
+      "Tiềm năng phát triển cao",
+    ],
+    weaknesses: [
+      "Thiếu kinh nghiệm thi đấu",
+      "Tâm lý chưa ổn định trong trận đấu quan trọng",
+      "Cần cải thiện sức mạnh",
+    ],
+    recommendations: [
+      "Tham gia nhiều giải đấu để tích lũy kinh nghiệm",
+      "Luyện tập mental training",
+      "Tăng cường bài tập sức mạnh",
+      "Duy trì phong độ tập luyện hiện tại",
+    ],
+    tacticalNotes:
+      "VĐV trẻ đầy tiềm năng, có thể phát triển thành tay vợt hàng đầu nếu được đầu tư đúng cách. Cần tập trung vào phát triển toàn diện cả kỹ thuật, thể lực và tinh thần.",
+    nextSteps: [
+      "Lên kế hoạch thi đấu cho quý 1/2025",
+      "Bắt đầu chương trình mental training",
+      "Điều chỉnh chương trình tập với bài tập sức mạnh",
+      "Theo dõi sát tiến độ hàng tuần",
+    ],
+  },
+];
+
+// ==================== ATHLETE PERFORMANCE DATA ====================
+
+export const mockAthletePerformances: AthletePerformance[] = [
+  {
+    athleteId: "1",
+    athleteName: "Nguyễn Văn An",
+    avatar: "https://i.pravatar.cc/150?img=11",
+    coachId: "101",
+    stats: {
+      matchesPlayed: 15,
+      wins: 11,
+      losses: 4,
+      winRate: 73.3,
+      currentRank: 3,
+      previousRank: 5,
+      trainingAttendance: 95,
+      lastTrainingDate: "2025-01-03T00:00:00Z",
+      nextMatchDate: "2025-01-10T00:00:00Z",
+    },
+    recentMatches: [
+      {
+        id: "m1",
+        date: "2024-12-29T00:00:00Z",
+        opponent: "Trần Thị Bình",
+        result: "win",
+        score: "2-1",
+        tournament: "Giải Quốc gia 2024",
+      },
+      {
+        id: "m2",
+        date: "2024-12-25T00:00:00Z",
+        opponent: "Lê Minh Châu",
+        result: "win",
+        score: "2-0",
+        tournament: "Giải Quốc gia 2024",
+      },
+      {
+        id: "m3",
+        date: "2024-12-20T00:00:00Z",
+        opponent: "Hoàng Văn Dũng",
+        result: "loss",
+        score: "1-2",
+        tournament: "Giải Vô địch Hà Nội",
+      },
+    ],
+    evaluationHistory: [
+      {
+        date: "2024-12-30T00:00:00Z",
+        overallRating: 7.5,
+        notes: "Tiến bộ rõ rệt",
+      },
+      {
+        date: "2024-11-30T00:00:00Z",
+        overallRating: 7.0,
+        notes: "Ổn định",
+      },
+      {
+        date: "2024-10-30T00:00:00Z",
+        overallRating: 6.5,
+        notes: "Cần cải thiện",
+      },
+    ],
+    performanceTrend: [
+      {
+        month: "T10",
+        winRate: 65,
+        ranking: 7,
+        trainingHours: 48,
+      },
+      {
+        month: "T11",
+        winRate: 70,
+        ranking: 5,
+        trainingHours: 52,
+      },
+      {
+        month: "T12",
+        winRate: 73,
+        ranking: 3,
+        trainingHours: 55,
+      },
+    ],
+  },
+  {
+    athleteId: "3",
+    athleteName: "Lê Minh Châu",
+    avatar: "https://i.pravatar.cc/150?img=12",
+    coachId: "101",
+    stats: {
+      matchesPlayed: 12,
+      wins: 7,
+      losses: 5,
+      winRate: 58.3,
+      currentRank: 8,
+      previousRank: 9,
+      trainingAttendance: 88,
+      lastTrainingDate: "2025-01-02T00:00:00Z",
+      nextMatchDate: "2025-01-12T00:00:00Z",
+    },
+    recentMatches: [
+      {
+        id: "m4",
+        date: "2024-12-27T00:00:00Z",
+        opponent: "Phạm Thu Hà",
+        result: "win",
+        score: "2-1",
+        tournament: "Giải Vô địch Đà Nẵng",
+      },
+      {
+        id: "m5",
+        date: "2024-12-25T00:00:00Z",
+        opponent: "Nguyễn Văn An",
+        result: "loss",
+        score: "0-2",
+        tournament: "Giải Quốc gia 2024",
+      },
+    ],
+    evaluationHistory: [
+      {
+        date: "2024-12-28T00:00:00Z",
+        overallRating: 7.3,
+        notes: "Có tiến bộ",
+      },
+      {
+        date: "2024-11-28T00:00:00Z",
+        overallRating: 7.0,
+        notes: "Ổn định",
+      },
+    ],
+    performanceTrend: [
+      {
+        month: "T10",
+        winRate: 55,
+        ranking: 10,
+        trainingHours: 42,
+      },
+      {
+        month: "T11",
+        winRate: 57,
+        ranking: 9,
+        trainingHours: 45,
+      },
+      {
+        month: "T12",
+        winRate: 58,
+        ranking: 8,
+        trainingHours: 48,
+      },
+    ],
+  },
+  {
+    athleteId: "5",
+    athleteName: "Hoàng Văn Dũng",
+    avatar: "https://i.pravatar.cc/150?img=13",
+    coachId: "101",
+    stats: {
+      matchesPlayed: 18,
+      wins: 15,
+      losses: 3,
+      winRate: 83.3,
+      currentRank: 1,
+      previousRank: 1,
+      trainingAttendance: 98,
+      lastTrainingDate: "2025-01-03T00:00:00Z",
+      nextMatchDate: "2025-01-08T00:00:00Z",
+    },
+    recentMatches: [
+      {
+        id: "m6",
+        date: "2024-12-28T00:00:00Z",
+        opponent: "Lê Minh Châu",
+        result: "win",
+        score: "2-0",
+        tournament: "Giải Quốc gia 2024",
+      },
+      {
+        id: "m7",
+        date: "2024-12-26T00:00:00Z",
+        opponent: "Trần Thị Bình",
+        result: "win",
+        score: "2-1",
+        tournament: "Giải Quốc gia 2024",
+      },
+      {
+        id: "m8",
+        date: "2024-12-20T00:00:00Z",
+        opponent: "Nguyễn Văn An",
+        result: "win",
+        score: "2-1",
+        tournament: "Giải Vô địch Hà Nội",
+      },
+    ],
+    evaluationHistory: [
+      {
+        date: "2024-12-25T00:00:00Z",
+        overallRating: 8.4,
+        notes: "Xuất sắc",
+      },
+      {
+        date: "2024-11-25T00:00:00Z",
+        overallRating: 8.2,
+        notes: "Rất tốt",
+      },
+    ],
+    performanceTrend: [
+      {
+        month: "T10",
+        winRate: 80,
+        ranking: 1,
+        trainingHours: 60,
+      },
+      {
+        month: "T11",
+        winRate: 82,
+        ranking: 1,
+        trainingHours: 62,
+      },
+      {
+        month: "T12",
+        winRate: 83,
+        ranking: 1,
+        trainingHours: 65,
+      },
+    ],
+  },
+  {
+    athleteId: "6",
+    athleteName: "Vũ Thị Lan",
+    avatar: "https://i.pravatar.cc/150?img=10",
+    coachId: "101",
+    stats: {
+      matchesPlayed: 10,
+      wins: 6,
+      losses: 4,
+      winRate: 60,
+      currentRank: 12,
+      previousRank: 15,
+      trainingAttendance: 92,
+      lastTrainingDate: "2025-01-03T00:00:00Z",
+      nextMatchDate: "2025-01-15T00:00:00Z",
+    },
+    recentMatches: [
+      {
+        id: "m9",
+        date: "2024-12-30T00:00:00Z",
+        opponent: "Đặng Thị Mai",
+        result: "win",
+        score: "2-0",
+        tournament: "Giải Vô địch Hà Nội",
+      },
+      {
+        id: "m10",
+        date: "2024-12-22T00:00:00Z",
+        opponent: "Phạm Thu Hà",
+        result: "loss",
+        score: "1-2",
+        tournament: "Giải Vô địch Hà Nội",
+      },
+    ],
+    evaluationHistory: [
+      {
+        date: "2025-01-02T00:00:00Z",
+        overallRating: 7.0,
+        notes: "Đang phát triển tốt",
+      },
+      {
+        date: "2024-12-02T00:00:00Z",
+        overallRating: 6.5,
+        notes: "Cần cải thiện",
+      },
+    ],
+    performanceTrend: [
+      {
+        month: "T10",
+        winRate: 50,
+        ranking: 18,
+        trainingHours: 40,
+      },
+      {
+        month: "T11",
+        winRate: 55,
+        ranking: 15,
+        trainingHours: 44,
+      },
+      {
+        month: "T12",
+        winRate: 60,
+        ranking: 12,
+        trainingHours: 48,
+      },
+    ],
+  },
+];
+
 // ==================== HELPER FUNCTIONS ====================
 
 // Filter helpers
-export const mockAthletes = mockUsers.filter(user => user.role === "athlete");
-export const mockCoaches = mockUsers.filter(user => user.role === "coach");
-export const mockTeamLeaders = mockUsers.filter(user => user.role === "team_leader");
+export const mockAthletes = mockUsers.filter((user) => user.role === "athlete");
+export const mockCoaches = mockUsers.filter((user) => user.role === "coach");
+export const mockTeamLeaders = mockUsers.filter(
+  (user) => user.role === "team_leader"
+);
 
 export const getUserById = (id: string): User | undefined => {
   return mockUsers.find((user) => user.id === id);
@@ -830,4 +1532,69 @@ export const getUnreadNotificationsCount = (userId: string): number => {
   return mockNotifications.filter(
     (notif) => notif.userId === userId && !notif.isRead
   ).length;
+};
+
+// Coach-specific helpers
+export const getTrainingPlansByCoach = (coachId: string): TrainingPlan[] => {
+  return mockTrainingPlans.filter((plan) => plan.coachId === coachId);
+};
+
+export const getTrainingPlansByAthlete = (
+  athleteId: string
+): TrainingPlan[] => {
+  return mockTrainingPlans.filter((plan) => plan.athleteId === athleteId);
+};
+
+export const getAthletesByCoach = (coachId: string): User[] => {
+  // Get all athlete IDs from training plans
+  const athleteIds = mockTrainingPlans
+    .filter((plan) => plan.coachId === coachId)
+    .map((plan) => plan.athleteId);
+
+  // Return unique athletes
+  return mockAthletes.filter((athlete) => athleteIds.includes(athlete.id));
+};
+
+export const getEvaluationsByCoach = (coachId: string): AthleteEvaluation[] => {
+  return mockAthleteEvaluations.filter(
+    (evaluation) => evaluation.coachId === coachId
+  );
+};
+
+export const getEvaluationsByAthlete = (
+  athleteId: string
+): AthleteEvaluation[] => {
+  return mockAthleteEvaluations.filter(
+    (evaluation) => evaluation.athleteId === athleteId
+  );
+};
+
+export const getAthletePerformance = (
+  athleteId: string
+): AthletePerformance | undefined => {
+  return mockAthletePerformances.find((perf) => perf.athleteId === athleteId);
+};
+
+export const getAthletePerformancesByCoach = (
+  coachId: string
+): AthletePerformance[] => {
+  return mockAthletePerformances.filter((perf) => perf.coachId === coachId);
+};
+
+export const getTacticalReportsByCoach = (
+  coachId: string
+): TacticalReport[] => {
+  return mockTacticalReports.filter((report) => report.coachId === coachId);
+};
+
+export const getTacticalReportsByAthlete = (
+  athleteId: string
+): TacticalReport[] => {
+  return mockTacticalReports.filter((report) => report.athleteId === athleteId);
+};
+
+export const getTacticalReportById = (
+  reportId: string
+): TacticalReport | undefined => {
+  return mockTacticalReports.find((report) => report.id === reportId);
 };

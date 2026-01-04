@@ -4,6 +4,7 @@
  */
 
 export const spacing = {
+  // Numeric scale
   0: 0,
   1: 4, // 0.25rem
   2: 8, // 0.5rem
@@ -17,6 +18,15 @@ export const spacing = {
   16: 64, // 4rem
   20: 80, // 5rem
   24: 96, // 6rem
+
+  // Named scale (aliases for common use)
+  xs: 8, // 0.5rem (spacing[2])
+  sm: 12, // 0.75rem (spacing[3])
+  md: 16, // 1rem (spacing[4])
+  lg: 24, // 1.5rem (spacing[6])
+  xl: 32, // 2rem (spacing[8])
+  "2xl": 40, // 2.5rem (spacing[10])
+  "3xl": 48, // 3rem (spacing[12])
 } as const;
 
 export const borderRadius = {

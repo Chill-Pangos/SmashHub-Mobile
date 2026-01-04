@@ -249,32 +249,43 @@ export interface TrainingPlan {
 export interface AthleteEvaluation {
   id: string;
   coachId: string;
-  coachName?: string;
+  coachName: string;
   athleteId: string;
-  athleteName?: string;
-  trainingPlanId?: string;
+  athleteName: string;
   matchId?: string;
-  date: string;
-  rating: number;
-  ratings?: {
-    technique: number;
-    physical: number;
-    mental: number;
-    tactical: number;
-    overall: number;
+  tournamentId?: string;
+  evaluationDate: string;
+  technicalSkills: {
+    forehand: number;
+    backhand: number;
+    serve: number;
+    return: number;
+    volley: number;
   };
-  strengths?: string[];
-  weaknesses?: string[];
-  recommendations?: string[];
-  comments: string;
-  videos?: Array<{
-    id: string;
-    type: "video";
-    url: string;
-    thumbnail?: string;
-    description?: string;
-  }>;
-  createdAt: string;
+  physicalAttributes: {
+    speed: number;
+    strength: number;
+    endurance: number;
+    agility: number;
+    flexibility: number;
+  };
+  mentalStrength: {
+    focus: number;
+    confidence: number;
+    composure: number;
+    determination: number;
+  };
+  tacticalAwareness: {
+    gameReading: number;
+    decisionMaking: number;
+    adaptability: number;
+    strategyExecution: number;
+  };
+  overallRating: number;
+  strengths: string[];
+  weaknesses: string[];
+  recommendations: string[];
+  notes: string;
 }
 
 export interface News {
@@ -290,6 +301,65 @@ export interface News {
   views: number;
   likes: number;
   tags?: string[];
+}
+
+export interface TacticalReport {
+  id: string;
+  coachId: string;
+  coachName: string;
+  athleteId: string;
+  athleteName: string;
+  matchId?: string;
+  matchInfo?: string;
+  reportDate: string;
+  reportType: "match" | "training" | "general";
+  title: string;
+  strengths: string[];
+  weaknesses: string[];
+  opponents?: {
+    name: string;
+    analysis: string;
+  }[];
+  recommendations: string[];
+  tacticalNotes: string;
+  nextSteps: string[];
+}
+
+export interface AthletePerformance {
+  athleteId: string;
+  athleteName: string;
+  avatar?: string;
+  coachId: string;
+  stats: {
+    matchesPlayed: number;
+    wins: number;
+    losses: number;
+    winRate: number;
+    currentRank: number;
+    previousRank: number;
+    trainingAttendance: number;
+    lastTrainingDate: string;
+    nextMatchDate?: string;
+  };
+  recentMatches: Array<{
+    id: string;
+    date: string;
+    opponent: string;
+    result: "win" | "loss";
+    score: string;
+    tournament: string;
+  }>;
+  evaluationHistory: Array<{
+    date: string;
+    overallRating: number;
+    notes: string;
+  }>;
+  performanceTrend: Array<{
+    month: string;
+    winRate: number;
+    ranking: number;
+    trainingHours: number;
+  }>;
 }
 
 // ==================== UTILITY TYPES ====================

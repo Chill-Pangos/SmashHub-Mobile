@@ -83,9 +83,9 @@ const HomeScreen: React.FC = () => {
           {
             id: 4,
             icon: Bell,
-            label: "Thông báo",
-            route: "NotificationCenter",
-            bgColor: themeColors.status.error,
+            label: "Khiếu nại",
+            route: "CoachComplaintManagement",
+            bgColor: themeColors.status.warning,
           },
         ];
       case "team_leader":
