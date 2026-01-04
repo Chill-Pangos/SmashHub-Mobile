@@ -9,7 +9,8 @@ import {
   Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Trophy, ArrowLeft, Check } from "lucide-react-native";
+import { Trophy, ArrowLeft, Check, Activity, Eye, ClipboardCheck, Shield } from "lucide-react-native";
+import type { LucideIcon } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView, FormField } from "../../../components";
 import { colors as themeColors } from "../../../theme/colors";
@@ -22,7 +23,7 @@ interface RoleOption {
   id: UserRole;
   label: string;
   description: string;
-  icon: string;
+  Icon: LucideIcon;
 }
 
 const RegisterScreen: React.FC = () => {
@@ -44,25 +45,25 @@ const RegisterScreen: React.FC = () => {
       id: "athlete",
       label: "Vận động viên",
       description: "Tham gia thi đấu và theo dõi lịch thi",
-      icon: "🏃",
+      Icon: Activity,
     },
     {
       id: "spectator",
       label: "Khán giả",
       description: "Theo dõi và cổ vũ các trận đấu",
-      icon: "👀",
+      Icon: Eye,
     },
     {
       id: "coach",
       label: "Huấn luyện viên",
       description: "Quản lý và hướng dẫn vận động viên",
-      icon: "👨‍🏫",
+      Icon: ClipboardCheck,
     },
     {
       id: "team_leader",
       label: "Trưởng đoàn",
       description: "Quản lý đoàn và đội thi đấu",
-      icon: "👔",
+      Icon: Shield,
     },
   ];
 
@@ -145,41 +146,50 @@ const RegisterScreen: React.FC = () => {
       </Text>
 
       <View style={registerScreenStyles.rolesGrid}>
-        {roleOptions.map((role) => (
-          <TouchableOpacity
-            key={role.id}
-            style={[
-              registerScreenStyles.roleCard,
-              selectedRole === role.id && registerScreenStyles.roleCardSelected,
-            ]}
-            onPress={() => setSelectedRole(role.id)}
-          >
-            {selectedRole === role.id && (
-              <View style={registerScreenStyles.roleCheckmark}>
-                <Check size={16} color="#fff" />
+        {roleOptions.map((role) => {
+          const IconComponent = role.Icon;
+          return (
+            <TouchableOpacity
+              key={role.id}
+              style={[
+                registerScreenStyles.roleCard,
+                selectedRole === role.id && registerScreenStyles.roleCardSelected,
+              ]}
+              onPress={() => setSelectedRole(role.id)}
+            >
+              {selectedRole === role.id && (
+                <View style={registerScreenStyles.roleCheckmark}>
+                  <Check size={16} color="#fff" />
+                </View>
+              )}
+              <View style={registerScreenStyles.roleIconContainer}>
+                <IconComponent
+                  size={48}
+                  color={selectedRole === role.id ? themeColors.primary.DEFAULT : themeColors.muted.foreground}
+                  strokeWidth={1.5}
+                />
               </View>
-            )}
-            <Text style={registerScreenStyles.roleIcon}>{role.icon}</Text>
-            <Text
-              style={[
-                registerScreenStyles.roleLabel,
-                selectedRole === role.id &&
-                  registerScreenStyles.roleLabelSelected,
-              ]}
-            >
-              {role.label}
-            </Text>
-            <Text
-              style={[
-                registerScreenStyles.roleDescription,
-                selectedRole === role.id &&
-                  registerScreenStyles.roleDescriptionSelected,
-              ]}
-            >
-              {role.description}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                style={[
+                  registerScreenStyles.roleLabel,
+                  selectedRole === role.id &&
+                    registerScreenStyles.roleLabelSelected,
+                ]}
+              >
+                {role.label}
+              </Text>
+              <Text
+                style={[
+                  registerScreenStyles.roleDescription,
+                  selectedRole === role.id &&
+                    registerScreenStyles.roleDescriptionSelected,
+                ]}
+              >
+                {role.description}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
 
       <TouchableOpacity

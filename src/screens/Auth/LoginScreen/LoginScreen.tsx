@@ -11,13 +11,24 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Trophy } from "lucide-react-native";
+import { useNavigation } from "@react-navigation/native";
+import type { StackNavigationProp } from "@react-navigation/stack";
 import { useAuth } from "../../../contexts/AuthContext";
 import { SafeAreaView, FormField } from "../../../components";
 import { colors as themeColors } from "../../../theme/colors";
 import { globalStyles } from "../../../styles/global.styles";
 import { loginScreenStyles } from "./LoginScreenStyle";
 
+type RootStackParamList = {
+  Login: undefined;
+  Register: undefined;
+  [key: string]: any;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList>;
+
 const LoginScreen: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -186,7 +197,7 @@ const LoginScreen: React.FC = () => {
               <Text style={loginScreenStyles.registerText}>
                 Chưa có tài khoản?{" "}
               </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("Register")}>
                 <Text style={loginScreenStyles.registerLink}>Đăng ký ngay</Text>
               </TouchableOpacity>
             </View>

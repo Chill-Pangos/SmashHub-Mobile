@@ -101,6 +101,14 @@ const AthleteTabNavigator = () => {
         }}
       />
       <Tab.Screen
+        name="TournamentList"
+        component={TournamentListScreen}
+        options={{
+          tabBarLabel: "Giải đấu",
+          tabBarIcon: ({ color, size }) => <Trophy size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
         name="MySchedule"
         component={MyScheduleScreen}
         options={{
@@ -152,6 +160,14 @@ const SpectatorTabNavigator = () => {
         options={{
           tabBarLabel: "Trang chủ",
           tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="TournamentList"
+        component={TournamentListScreen}
+        options={{
+          tabBarLabel: "Giải đấu",
+          tabBarIcon: ({ color, size }) => <Trophy size={size} color={color} />,
         }}
       />
       <Tab.Screen
@@ -503,7 +519,7 @@ const AppNavigator = () => {
       </Stack.Navigator>
 
       {/* Floating Debug Button */}
-      {<DebugButton />}
+      {/* {<DebugButton />} */}
     </NavigationContainer>
   );
 };

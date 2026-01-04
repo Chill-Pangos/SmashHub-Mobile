@@ -111,8 +111,7 @@ export const registerScreenStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  roleIcon: {
-    fontSize: 48,
+  roleIconContainer: {
     marginBottom: 12,
   },
   roleLabel: {

@@ -30,6 +30,13 @@ const HomeScreen: React.FC = () => {
         return [
           {
             id: 1,
+            icon: Trophy,
+            label: "Giải đấu",
+            route: "TournamentList",
+            bgColor: themeColors.status.info,
+          },
+          {
+            id: 2,
             icon: Calendar,
             label: "Lịch thi đấu",
             route: "MySchedule",
@@ -61,27 +68,34 @@ const HomeScreen: React.FC = () => {
         return [
           {
             id: 1,
-            icon: Users,
-            label: "VĐV của tôi",
-            route: "MyAthletes",
+            icon: Trophy,
+            label: "Giải đấu",
+            route: "TournamentList",
             bgColor: themeColors.status.info,
           },
           {
             id: 2,
+            icon: Users,
+            label: "VĐV của tôi",
+            route: "MyAthletes",
+            bgColor: themeColors.accent.DEFAULT,
+          },
+          {
+            id: 3,
             icon: Calendar,
             label: "Kế hoạch",
             route: "TrainingPlans",
             bgColor: themeColors.status.success,
           },
           {
-            id: 3,
+            id: 4,
             icon: TrendingUp,
             label: "Phân tích",
             route: "PerformanceAnalytics",
             bgColor: themeColors.accent.DEFAULT,
           },
           {
-            id: 4,
+            id: 5,
             icon: Bell,
             label: "Khiếu nại",
             route: "CoachComplaintManagement",
@@ -92,27 +106,34 @@ const HomeScreen: React.FC = () => {
         return [
           {
             id: 1,
-            icon: Users,
-            label: "Quản lý đoàn",
-            route: "DelegationManagement",
+            icon: Trophy,
+            label: "Giải đấu",
+            route: "TournamentList",
             bgColor: themeColors.status.info,
           },
           {
             id: 2,
+            icon: Users,
+            label: "Quản lý đoàn",
+            route: "DelegationManagement",
+            bgColor: themeColors.accent.DEFAULT,
+          },
+          {
+            id: 3,
             icon: Calendar,
             label: "Lịch đoàn",
             route: "DelegationSchedule",
             bgColor: themeColors.status.success,
           },
           {
-            id: 3,
+            id: 4,
             icon: Trophy,
             label: "Đội",
             route: "TeamManagement",
             bgColor: themeColors.accent.DEFAULT,
           },
           {
-            id: 4,
+            id: 5,
             icon: Bell,
             label: "Khiếu nại",
             route: "ComplaintReview",
