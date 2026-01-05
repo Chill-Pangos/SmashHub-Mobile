@@ -386,6 +386,7 @@ const RankingScreen: React.FC = () => {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
+        style={rankingScreenStyles.categoryTabsContainer}
         contentContainerStyle={rankingScreenStyles.categoryTabs}
       >
         {categories.map((category) => (

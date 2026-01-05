@@ -57,10 +57,15 @@ export const rankingScreenStyles = StyleSheet.create({
   },
 
   // Category Tabs
+  categoryTabsContainer: {
+    flexGrow: 0,
+    flexShrink: 0,
+  },
   categoryTabs: {
     paddingHorizontal: 16,
     paddingBottom: 16,
     gap: 8,
+    flexGrow: 0,
   },
   categoryTab: {
     paddingHorizontal: 20,
@@ -69,10 +74,12 @@ export const rankingScreenStyles = StyleSheet.create({
     backgroundColor: colors.muted.DEFAULT,
     borderWidth: 1,
     borderColor: "transparent",
+    flexGrow:0,
   },
   categoryTabActive: {
     backgroundColor: themeColors.primary.DEFAULT,
     borderColor: themeColors.primary.DEFAULT,
+    flexGrow:0,
   },
   categoryTabText: {
     fontSize: 14,

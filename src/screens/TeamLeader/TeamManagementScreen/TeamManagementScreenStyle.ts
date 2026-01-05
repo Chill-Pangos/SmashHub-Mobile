@@ -427,6 +427,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary.DEFAULT,
     borderColor: colors.primary.DEFAULT,
   },
+
+  // Floating Action Button
+  fabContainer: {
+    marginBottom: spacing[8],
+  },
 });
 
 export default styles;

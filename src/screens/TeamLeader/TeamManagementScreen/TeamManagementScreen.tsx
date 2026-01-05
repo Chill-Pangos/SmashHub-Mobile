@@ -799,6 +799,7 @@ const TeamManagementScreen: React.FC = () => {
         icon={<Plus size={24} color="#ffffff" />}
         onPress={handleCreateTeam}
         label="Tạo đội mới"
+        style={styles.fabContainer}
       />
 
       {/* Create Team Modal */}

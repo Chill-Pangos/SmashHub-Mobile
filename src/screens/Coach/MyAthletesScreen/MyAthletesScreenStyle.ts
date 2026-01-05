@@ -54,7 +54,6 @@ export const myAthletesScreenStyles = StyleSheet.create({
     backgroundColor: colors.primary[50],
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: spacing.xs,
   },
   statContent: {
     alignItems: "center",
@@ -76,8 +75,7 @@ export const myAthletesScreenStyles = StyleSheet.create({
 
   // Search
   searchContainer: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.md,
     backgroundColor: colors.card,
   },
   searchInputContainer: {
@@ -85,8 +83,8 @@ export const myAthletesScreenStyles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.input,
     borderRadius: 12,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
     borderWidth: 1,
     borderColor: colors.border,
   },
