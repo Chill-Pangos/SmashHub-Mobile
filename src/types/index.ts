@@ -11,6 +11,10 @@ export enum UserRole {
 // Re-export all auth types
 export * from "./auth.types";
 
+// ==================== ROLE TYPES ====================
+// Re-export all role types
+export * from "./role.types";
+
 // ==================== TOURNAMENT & MATCH ENUMS ====================
 
 export enum TournamentStatus {

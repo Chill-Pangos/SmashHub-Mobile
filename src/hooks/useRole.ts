@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { RoleContext, type RoleContextType } from "./roleContext";
+import { RoleContext, type RoleContextType } from "@/contexts/roleContext";
 
 export const useRole = (): RoleContextType => {
   const context = useContext(RoleContext);

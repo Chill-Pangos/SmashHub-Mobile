@@ -5,7 +5,7 @@ import {
   RoleContext,
   type RoleState,
   type RoleContextType,
-} from "./roleContext";
+} from "@/contexts/roleContext";
 
 interface RoleProviderProps {
   children: ReactNode;
