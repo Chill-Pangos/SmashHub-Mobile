@@ -13,7 +13,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Trophy } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "@/hooks";
+import { authService } from "@/services";
 import { SafeAreaView, FormField } from "../../../components";
 import { colors as themeColors } from "../../../theme/colors";
 import { globalStyles } from "../../../styles/global.styles";
@@ -29,12 +30,12 @@ type NavigationProp = StackNavigationProp<RootStackParamList>;
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
-  const { login } = useAuth();
+  const { login: saveAuth } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Mock users for quick testing
+  // Mock users for quick testing (for development only)
   const mockUsers = [
     { email: "athlete@test.com", password: "123456", role: "Vận động viên" },
     { email: "coach@test.com", password: "123456", role: "Huấn luyện viên" },
@@ -50,9 +51,26 @@ const LoginScreen: React.FC = () => {
 
     setIsLoading(true);
     try {
-      await login(email, password);
-    } catch (error) {
-      Alert.alert("Đăng nhập thất bại", "Email hoặc mật khẩu không đúng");
+      // Call real API
+      const response = await authService.login({ email, password });
+
+      if (response.success) {
+        // Save auth data to context and AsyncStorage
+        await saveAuth(response.data);
+        // Navigation will be handled automatically by AppNavigator based on auth state
+      } else {
+        Alert.alert(
+          "Đăng nhập thất bại",
+          response.error?.message || "Email hoặc mật khẩu không đúng"
+        );
+      }
+    } catch (error: any) {
+      console.error("Login error:", error);
+      Alert.alert(
+        "Đăng nhập thất bại",
+        error.response?.data?.error?.message ||
+          "Có lỗi xảy ra. Vui lòng thử lại sau."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -63,9 +81,25 @@ const LoginScreen: React.FC = () => {
     setPassword(testPassword);
     setIsLoading(true);
     try {
-      await login(testEmail, testPassword);
-    } catch (error) {
-      Alert.alert("Đăng nhập thất bại", "Có lỗi xảy ra");
+      const response = await authService.login({
+        email: testEmail,
+        password: testPassword,
+      });
+
+      if (response.success) {
+        await saveAuth(response.data);
+      } else {
+        Alert.alert(
+          "Đăng nhập thất bại",
+          response.error?.message || "Email hoặc mật khẩu không đúng"
+        );
+      }
+    } catch (error: any) {
+      console.error("Quick login error:", error);
+      Alert.alert(
+        "Đăng nhập thất bại",
+        error.response?.data?.error?.message || "Có lỗi xảy ra"
+      );
     } finally {
       setIsLoading(false);
     }

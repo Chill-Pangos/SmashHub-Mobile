@@ -12,7 +12,8 @@ import {
   TrendingUp,
 } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useAuth } from "../../../contexts/AuthContext";
+import { useAuth } from "@/hooks";
+import { useRole } from "@/hooks";
 import { MatchCard, TournamentCard } from "../../../components";
 import { Match, Tournament } from "../../../types";
 import { colors as themeColors } from "../../../theme/colors";
@@ -22,10 +23,22 @@ import { homeScreenStyles } from "./HomeScreenStyle";
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
+  const { getRoleById, getHighestPriorityRole } = useRole();
+
+  // Get user's highest priority role
+  const getUserRole = () => {
+    if (!user || !user.roles || user.roles.length === 0) return null;
+    const highestRoleId = getHighestPriorityRole(user.roles);
+    if (!highestRoleId) return null;
+    const role = getRoleById(highestRoleId);
+    return role?.name || null;
+  };
+
+  const userRole = getUserRole();
 
   // Role-specific quick actions
   const getQuickActions = () => {
-    switch (user?.role) {
+    switch (userRole) {
       case "athlete":
         return [
           {
@@ -269,13 +282,13 @@ const HomeScreen: React.FC = () => {
           <View style={homeScreenStyles.headerRow}>
             <View style={homeScreenStyles.headerLeft}>
               <Image
-                source={{ uri: user?.avatar || "https://i.pravatar.cc/150" }}
+                source={{ uri: "https://i.pravatar.cc/150" }}
                 style={homeScreenStyles.avatar}
               />
               <View style={homeScreenStyles.textContainer}>
                 <Text style={homeScreenStyles.welcomeText}>Xin chào!</Text>
                 <Text style={homeScreenStyles.userName}>
-                  {user?.name || "Người dùng"}
+                  {user?.username || user?.email || "Người dùng"}
                 </Text>
               </View>
             </View>

@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { setNavigationRef } from "@/config/axiosConfig";
 import {
   Home,
   Calendar,
@@ -71,7 +72,8 @@ import NavigationComponentsScreen from "../screens/Debug/NavigationComponentsScr
 import ActionComponentsScreen from "../screens/Debug/ActionComponentsScreen/ActionComponentsScreen";
 import DebugButton from "../components/DebugButton";
 
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "@/hooks";
+import { useRole } from "@/hooks";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -318,16 +320,33 @@ const TeamLeaderTabNavigator = () => {
 
 const AppNavigator = () => {
   const { isAuthenticated, isLoading, user } = useAuth();
+  const { getDefaultRouteForRoles, getRoleById, getHighestPriorityRole } = useRole();
+
+  const navigationRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (navigationRef.current) {
+      setNavigationRef(navigationRef.current);
+    }
+  }, []);
 
   const getMainNavigator = () => {
-    if (!user) return null;
+    if (!user || !user.roles || user.roles.length === 0) return null;
 
-    switch (user.role) {
+    // Get highest priority role to determine navigator
+    const highestRoleId = getHighestPriorityRole(user.roles);
+    if (!highestRoleId) return <SpectatorTabNavigator />;
+
+    const highestRole = getRoleById(highestRoleId);
+    if (!highestRole) return <SpectatorTabNavigator />;
+
+    // Map role name to navigator
+    switch (highestRole.name) {
       case "athlete":
         return <AthleteTabNavigator />;
       case "coach":
         return <CoachTabNavigator />;
-      case "team_leader":
+      case "organizer":
         return <TeamLeaderTabNavigator />;
       case "spectator":
       default:
@@ -345,7 +364,7 @@ const AppNavigator = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!isAuthenticated ? (
           <>
