@@ -7,6 +7,12 @@ export enum UserRole {
   SPECTATOR = "spectator",
 }
 
+// ==================== AUTH TYPES ====================
+// Re-export all auth types
+export * from "./auth.types";
+
+// ==================== TOURNAMENT & MATCH ENUMS ====================
+
 export enum TournamentStatus {
   DRAFT = "draft",
   REGISTRATION_OPEN = "registration_open",
@@ -58,11 +64,18 @@ export enum Gender {
 
 // ==================== INTERFACES ====================
 
+/**
+ * User Interface for Application Use
+ * This extends the AuthUser from backend with additional app-specific fields
+ * AuthUser from auth.types.ts is the base user from authentication endpoints
+ */
 export interface User {
   id: string;
   email: string;
+  username?: string; // From backend auth
   name: string;
   role: "athlete" | "coach" | "team_leader" | "spectator";
+  roles?: number[]; // From backend auth (role IDs)
   avatar?: string;
   phone?: string;
   teamId?: string;
@@ -72,6 +85,7 @@ export interface User {
   organization?: string;
   bio?: string;
   isOnline?: boolean;
+  isEmailVerified?: boolean; // From backend auth
   createdAt?: string;
   updatedAt?: string;
 }
